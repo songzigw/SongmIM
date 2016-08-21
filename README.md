@@ -21,12 +21,12 @@
 + [WebIM客户端开发SDK](https://github.com/songzigw/songm.webim)
 + [WebIM客户端UI组件集成](https://github.com/songzigw/songm.webim.ui)
 + [Java语言客户端开发SDK](https://github.com/songzigw/songm.im.java)
-+ [Android客户端开发SDK]()
++ Android客户端开发SDK (缺)
 
 
 ## 开发者
 
-作者: 张松[zhangsong](mailto:songzigw@163.com) 
+作者: 张松 ([zhangsong](mailto:songzigw@163.com)) 
 
 版本: 0.1 (2016/8/21)
 
