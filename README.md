@@ -17,10 +17,12 @@
 
 ## 开发指南
 
-+ [Java后台服务开发API](songm.sso.backstage.java)
++ [Java后台服务开发API](https://github.com/songzigw/songm.im.backstage.java)
 + [WebIM客户端开发SDK](https://github.com/songzigw/songm.webim)
-+ [Android客户端开发SDK]()
 + [WebIM客户端UI组件集成](https://github.com/songzigw/songm.webim.ui)
++ [Java语言客户端开发SDK](https://github.com/songzigw/songm.im.java)
++ [Android客户端开发SDK]()
+
 
 ## 开发者
 
