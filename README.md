@@ -42,7 +42,7 @@ SM-Signature | String | 数据签名
 
 SM-Signature(数据签名)计算方法：将消息服务器的KEY、Nonce(随机数)、Timestamp(时间戳)三个字符串按先后顺序拼接成一个字符串并进行 SHA1 哈希计算。
 
-**1. 获取通信令牌**
++ **1.获取通信令牌**
 
 请求URL
 ```
