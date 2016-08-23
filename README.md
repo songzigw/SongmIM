@@ -23,7 +23,9 @@ JDK8
 + [Java语言客户端开发SDK](https://github.com/songzigw/songm.im.java)
 + Android客户端开发SDK (缺)
 
-**后台开发接口设计**
+**后台开发API设计**
+
+API接口如下：
 
 名称 | 方法 | URL | 说明
 --- | --- | --- | ---
@@ -40,7 +42,7 @@ SM-Signature | String | 数据签名
 
 SM-Signature(数据签名)计算方法：将消息服务器的KEY、Nonce(随机数)、Timestamp(时间戳)三个字符串按先后顺序拼接成一个字符串并进行 SHA1 哈希计算。
 
-##### 1. 获取通信令牌
+**1. 获取通信令牌**
 
 请求URL
 ```
@@ -48,6 +50,7 @@ SM-Signature(数据签名)计算方法：将消息服务器的KEY、Nonce(随机
 ```
 
 请求参数
+
 名称 | 类型 | 是否必须 | 描述
 --- | --- | --- | ---
 uid | string | true | 用户Uid
