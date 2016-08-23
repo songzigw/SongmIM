@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import songm.im.entity.Protocol;
 import songm.im.entity.Session;
 import songm.im.service.AuthService;
-import songm.im.utils.JsonUtils;
 
 public class DisconnectOperation extends AbstractOperation {
 
@@ -42,20 +41,15 @@ public class DisconnectOperation extends AbstractOperation {
 
     @Override
     public void action(Channel ch, Protocol pro) {
-        Session session = JsonUtils.fromJson(pro.getBody(), Session.class);
-
-        Session newSes = authService.offline(session.getId());
-        String json = JsonUtils.toJson(newSes);
-        if (json != null) {
-            pro.setBody(json.getBytes());
-        } else {
-            pro.setBody(null);
-        }
-        ch.writeAndFlush(pro);
-
         // 关闭连接
         ch.close().syncUninterruptibly();
 
+        Session session = this.getSession(ch);
+        if (session == null) {
+            return;
+        }
+
+        authService.offline(session.getId());
         LOG.debug("Disconnect succeed for tokenId={}, sessionId={}",
                 session.getTokenId(), session.getId());
     }

@@ -19,41 +19,15 @@ package songm.im.entity;
 import java.io.Serializable;
 
 /**
- * Entity
+ * 基础消息描述类
  * 
  * @author zhangsong
  * @since 0.1, 2016-8-23
  * @version 0.1
  *
  */
-public class Entity implements Serializable {
+public class Message extends Entity implements Serializable {
 
-    private static final long serialVersionUID = -3895996346260053766L;
+    private static final long serialVersionUID = 3649240217021961002L;
 
-    private Boolean succeed;
-    
-    private String errorCode;
-
-    public Entity() {
-        succeed = true;
-    }
-
-    public Boolean getSucceed() {
-        return succeed;
-    }
-
-    public void setSucceed(Boolean succeed) {
-        this.succeed = succeed;
-    }
-
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(String errorCode) {
-        if (errorCode != null) {
-            succeed = false;
-        }
-        this.errorCode = errorCode;
-    }
 }

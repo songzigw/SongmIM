@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class TokenController {
+public class PollingController {
 
-    @RequestMapping(value = "/token", method = RequestMethod.POST)
-    public String getToken(String uid, String nick, String avatar) {
+    @RequestMapping(value = "/polling", method = RequestMethod.GET)
+    public String getToken(String token, String session, String callback) {
         
         return "data";
     }

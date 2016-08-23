@@ -22,7 +22,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import songm.im.IMException;
+import songm.im.entity.Entity;
+import songm.im.entity.Message;
 import songm.im.entity.Protocol;
+import songm.im.utils.JsonUtils;
 
 public class MessageOperation extends AbstractOperation {
 
@@ -30,7 +33,7 @@ public class MessageOperation extends AbstractOperation {
 
     @Override
     public int operation() {
-        return Type.MESSAGE.getValue();
+        return Type.MSG_SEND.getValue();
     }
 
     @Override
@@ -38,13 +41,14 @@ public class MessageOperation extends AbstractOperation {
         try {
             checkSession(ch);
         } catch (IMException e) {
-            pro.setBody(e.getErrorCode().name().getBytes());
-            ch.writeAndFlush(pro);
+            ch.close().syncUninterruptibly();
             return;
         }
+        Message msg = JsonUtils.fromJson(pro.getBody(), Message.class);
 
         LOG.debug("Message send succeed", pro.toString());
-        pro.setBody("ok".getBytes());
+        Entity ent = new Entity();
+        pro.setBody(JsonUtils.toJson(ent).getBytes());
         ch.writeAndFlush(pro);
     }
 

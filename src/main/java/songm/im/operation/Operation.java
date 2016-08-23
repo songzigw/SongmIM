@@ -26,14 +26,15 @@ public interface Operation {
     void action(Channel ch, Protocol pro);
 
     public static enum Type {
-        // 连接
+        /** 连接请求 */
         CONN_REQUEST(1),
-        CONN_SUCCEED(2),
-        CONN_FAILURE(3),
-        CONN_CLOSE(4),
+        /** 连接关闭 */
+        CONN_CLOSE(2),
         
-        // 消息
-        MESSAGE(5);
+        /** 消息发生 */
+        MESSAGE(3),
+        /** 消息从客户端发送过来 */
+        MSG_SEND(4);
         
         private final int value;
         
