@@ -24,12 +24,14 @@
 + Android客户端开发SDK (缺)
 
 ** 后台开发接口设计 **
-名称 | 方法 | URL | 说明
+名称  | 方法  | URL | 说明
+---- | ---- | --- | ---
 获取通信令牌 | POST | /api/token | 为用户分配一个通信令牌，客户端通过令牌可以直接与消息服务器建立连接（Tcp、WebSocket、Long polling）
 
 ** 后台接口签名规则 **
 每次请求接口时，均需要提供 4个 HTTP Request Header，具体如下：
 名称  | 类型 | 说明
+---  | --- | ---
 SM-Server-Key  |  String | 消息服务器的KEY
 SM-Nonce | String | 随机数，无长度限制
 SM-Timestamp  |  String | 时间戳，从1970年1月1日0点0分0秒开始到现在的毫秒数
