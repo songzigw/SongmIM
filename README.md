@@ -40,7 +40,7 @@ SM-Nonce | String | 随机数，无长度限制
 SM-Timestamp | String | 时间戳，以毫秒为单位
 SM-Signature | String | 数据签名，算法见下一行
 
-SM-Signature(数据签名)算法：将消息服务器的KEY、secret、Nonce(随机数)、Timestamp(时间戳)三个字符串按先后顺序拼接成一个字符串并进行 SHA1 哈希计算。
+SM-Signature(数据签名)算法：将消息服务器的Secret、Nonce(随机数)、Timestamp(时间戳)三个字符串按先后顺序拼接成一个字符串并进行 SHA1 哈希计算。
 
 + **获取通信令牌** /api/token
 
