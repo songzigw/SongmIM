@@ -1,9 +1,9 @@
 # SongmIM
-松美即时聊天通信服务器
+松美即时聊天消息服务器
 
 ## 概述
 
-**松美IM**(SongmIM)为即时聊天通信服务器，可以为第三方应用提供立即可用的聊天服务，与第三方应用用户体系无缝集成。
+**松美IM**(SongmIM)为即时聊天消息服务器，可以为第三方应用提供立即可用的聊天服务，与第三方应用用户体系无缝集成。
 
 可快速为社区微博、电子商务、企业应用集成即时消息服务。独立的消息服务器负责稳定的连接管理、消息路由和消息推送。
 
@@ -37,10 +37,10 @@ API接口如下：
 --- | --- | ---
 SM-Server-Key | String | 消息服务器的KEY
 SM-Nonce | String | 随机数，无长度限制
-SM-Timestamp | String | 时间戳，从1970年1月1日0点0分0秒开始到现在的毫秒数
-SM-Signature | String | 数据签名
+SM-Timestamp | String | 时间戳，以毫秒为单位
+SM-Signature | String | 数据签名，算法见下一行
 
-SM-Signature(数据签名)计算方法：将消息服务器的KEY、Nonce(随机数)、Timestamp(时间戳)三个字符串按先后顺序拼接成一个字符串并进行 SHA1 哈希计算。
+SM-Signature(数据签名)算法：将消息服务器的KEY、secret、Nonce(随机数)、Timestamp(时间戳)三个字符串按先后顺序拼接成一个字符串并进行 SHA1 哈希计算。
 
 + **获取通信令牌** /api/token
 
