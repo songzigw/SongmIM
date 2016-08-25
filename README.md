@@ -45,7 +45,7 @@ SM-Signature(数据签名)算法：将消息服务器的Secret、Nonce(随机数
 
 **API接口详解**
 
-1、*获取通信令牌* /api/token
+1、*获取通信令牌* `/api/token`
 
 请求参数
 
@@ -60,7 +60,7 @@ avatar | string | false | 用户头像
 略
 ```
 
-2、*获取历史聊天记录* /api/history
+2、*获取历史聊天记录* `/api/history`
 
 请求参数
 
