@@ -22,7 +22,7 @@ import songm.im.IMException.ErrorCode;
 import songm.im.IMServer;
 
 /**
- * Tcp连接服务，实现单点登入
+ * Tcp连接服务
  *
  * @author zhangsong
  * @since 0.1, 2016-8-9

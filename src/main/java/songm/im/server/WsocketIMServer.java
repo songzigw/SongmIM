@@ -22,7 +22,7 @@ import songm.im.IMServer;
 import songm.im.IMException.ErrorCode;
 
 /**
- * WebSocket连接服务，实现单点登入
+ * WebSocket连接服务
  *
  * @author zhangsong
  * @since 0.1, 2016-8-9

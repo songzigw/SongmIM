@@ -14,11 +14,10 @@
  * limitations under the License.
  * 
  */
-
 package songm.im;
 
 /**
- * 单点登入服务接口
+ * 聊天即时消息服务接口
  *
  * @author  zhangsong
  * @since   0.1, 2016-8-2
