@@ -42,7 +42,8 @@ SM-Signature | String | 数据签名，算法见下一行
 
 SM-Signature(数据签名)算法：将消息服务器的Secret、Nonce(随机数)、Timestamp(时间戳)三个字符串按先后顺序拼接成一个字符串并进行 SHA1 哈希计算。
 
-***API接口详解***
+
+**API接口详解**
 
 1、*获取通信令牌* /api/token
 
@@ -100,6 +101,7 @@ avatar | string | false | 用户头像
 
 - Body
 占用字节，以实际字节长度为准，以Json格式封装了实际数据
+
 
 **请求操作项详解**
 
