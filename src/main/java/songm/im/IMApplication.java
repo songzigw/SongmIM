@@ -30,31 +30,31 @@ public class IMApplication implements IMServer {
 
     @Override
     public void start() throws IMException {
-        LOG.info("SongMI Server starting");
+        LOG.info("SongIM Server starting");
 
         tcpIMServer.start();
         wsocketIMServer.start();
 
-        LOG.info("SongMI Server start finish");
+        LOG.info("SongIM Server start finish");
     }
 
     @Override
     public void restart() throws IMException {
-        LOG.info("SongMI Server restart...");
+        LOG.info("SongIM Server restart...");
 
         tcpIMServer.restart();
         wsocketIMServer.restart();
 
-        LOG.info("SongMI Server restart finish");
+        LOG.info("SongIM Server restart finish");
     }
 
     @Override
     public void shutdown() {
-        LOG.info("SongMI Server shutdown...");
+        LOG.info("SongIM Server shutdown...");
 
         tcpIMServer.shutdown();
         wsocketIMServer.shutdown();
 
-        LOG.info("SongMI Server shutdown finish");
+        LOG.info("SongIM Server shutdown finish");
     }
 }
