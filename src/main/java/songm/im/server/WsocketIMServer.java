@@ -2,7 +2,6 @@
  * Copyright (c) 2016, zhangsong <songm.cn>.
  *
  */
-
 package songm.im.server;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -29,7 +28,7 @@ import songm.im.IMException.ErrorCode;
  * @version 0.1
  * 
  */
-@Component
+@Component("wsocketIMServer")
 public class WsocketIMServer implements IMServer {
 
     private static final Logger LOG = LoggerFactory

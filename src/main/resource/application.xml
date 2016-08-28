@@ -19,6 +19,17 @@
 
 	<context:component-scan base-package="songm.im" />
 
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
 	<mvc:interceptors>
 		<bean class="songm.im.web.MustInterceptor" />
 		<mvc:interceptor>
@@ -31,20 +42,9 @@
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-				<prop key="songm.im.IMException">redirect:/login</prop>
+				<prop key="songm.im.IMException">redirect:/data.jsp</prop>
 			</props>
 		</property>
-	</bean>
-
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
-
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/views"></property>
-		<property name="suffix" value=".jsp"></property>
 	</bean>
 
 </beans>

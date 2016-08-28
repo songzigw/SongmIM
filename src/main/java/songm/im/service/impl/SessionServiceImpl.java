@@ -19,14 +19,14 @@ package songm.im.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import songm.im.entity.Session;
 import songm.im.entity.Token;
 import songm.im.service.SessionService;
 import songm.im.utils.Sequence;
 
-@Component
+@Service
 public class SessionServiceImpl implements SessionService {
 
     private Map<String, Session> sesItems = new HashMap<String, Session>();

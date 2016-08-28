@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import songm.im.Config;
 import songm.im.IMException;
@@ -33,7 +33,7 @@ import songm.im.service.SessionService;
 import songm.im.utils.CodeUtils;
 import songm.im.utils.Sequence;
 
-@Component
+@Service
 public class AuthServiceImpl implements AuthService {
 
     // tokenItems可以做到持久化，目前先这样

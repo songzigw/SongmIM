@@ -4,9 +4,11 @@
  */
 package songm.im;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 聊天即时消息应用
@@ -16,13 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version 0.1
  * 
  */
+@Component
 public class IMApplication implements IMServer {
 
     private static Logger LOG = LoggerFactory.getLogger(IMApplication.class);
 
-    @Autowired
+    @Resource(name = "tcpIMServer")
     private IMServer tcpIMServer;
-    @Autowired
+    @Resource(name = "wsocketIMServer")
     private IMServer wsocketIMServer;
 
     @Override
