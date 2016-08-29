@@ -52,18 +52,15 @@ public class Session extends Entity implements Serializable {
 
     private String tokenId;
 
-    private Token token;
-
     public Session() {
         createdTime = new Date();
         accessTime = createdTime;
     }
 
-    public Session(String sessionId, Token token) {
+    public Session(String sessionId, String tokenId) {
         this();
         this.id = sessionId;
-        this.token = token;
-        this.tokenId = token.getId();
+        this.tokenId = tokenId;
     }
 
     public String getId() {
@@ -106,10 +103,6 @@ public class Session extends Entity implements Serializable {
 
     public void updateAccessTime() {
         accessTime = new Date();
-    }
-
-    public Token getToken() {
-        return token;
     }
 
     public String getTokenId() {

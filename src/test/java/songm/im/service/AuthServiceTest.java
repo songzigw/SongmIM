@@ -58,11 +58,11 @@ public class AuthServiceTest {
     }
 
     @Test
-    public void testGetToken() {
+    public void testCreateToken() {
         String uid = "100";
         String nick = "zhangsong";
         String avatar = null;
-        Token t = authService.getToken(uid, nick, avatar);
+        Token t = authService.createToken(uid, nick, avatar);
         assertThat(t.getUid(), is(uid));
         assertThat(t.getNick(), is(nick));
         assertThat(t.getAvatar(), is(avatar));

@@ -62,7 +62,7 @@ public class ConnectionOperation extends AbstractOperation {
         } catch (IMException e) {
             // 连接失败
             LOG.debug("Connection success for tokenId={}, sessionId={}",
-                    session.getToken(), session.getId());
+                    session.getTokenId(), session.getId());
 
             session.setErrorCode(e.getErrorCode().name());
             pro.setBody(JsonUtils.toJson(session).getBytes());

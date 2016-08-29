@@ -45,7 +45,6 @@ public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
     @Override
     protected void messageReceived(ChannelHandlerContext ctx, Protocol pro)
             throws Exception {
-        LOG.debug("MessaageReceived", pro.toString());
         Operation op = imOperation.find(pro.getOperation());
         if (op != null) {
             op.action(ctx.channel(), pro);

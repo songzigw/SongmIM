@@ -39,7 +39,7 @@ public class SessionServiceImpl implements SessionService {
         }
 
         sessionId = Sequence.getInstance().getSequence(28);
-        ses = new Session(sessionId, token);
+        ses = new Session(sessionId, token.getId());
         sesItems.put(sessionId, ses);
 
         return ses;

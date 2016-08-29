@@ -35,6 +35,7 @@ public interface AuthService {
 
     /**
      * 第三方应用后台访问授权
+     * 
      * @param key
      * @param nonce
      * @param signature
@@ -43,7 +44,7 @@ public interface AuthService {
      */
     public boolean auth(String key, String nonce, String signature,
             long timestamp);
-    
+
     /**
      * 第三方应用后台服务发起请求，给用户分配一个通信令牌
      * 
@@ -52,7 +53,7 @@ public interface AuthService {
      * @param avatar
      * @return
      */
-    public Token getToken(String uid, String nick, String avatar);
+    public Token createToken(String uid, String nick, String avatar);
 
     /**
      * 用户凭借通信令牌上线，并获取当前用户的会话信息
@@ -70,5 +71,21 @@ public interface AuthService {
      * @return
      */
     public Session offline(String sessionId);
+
+    /**
+     * 获取Token
+     * 
+     * @param uid
+     * @return
+     */
+    public Token getTokenByUid(String uid);
+
+    /**
+     * 获取Token
+     * 
+     * @param tokenId
+     * @return
+     */
+    public Token getTokenByTokenId(String tokenId);
 
 }

@@ -67,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Token getToken(String uid, String nick, String avatar) {
+    public Token createToken(String uid, String nick, String avatar) {
         Token token = new Token();
         token.setId(Sequence.getInstance().getSequence(16));
         token.setUid(uid);
@@ -83,13 +83,23 @@ public class AuthServiceImpl implements AuthService {
         if (token == null) {
             throw new IMException(ErrorCode.TOKEN_INVALID, "Token invalid");
         }
-
         return sessionService.create(token, sessionId);
     }
 
     @Override
     public Session offline(String sessionId) {
         return sessionService.remove(sessionId);
+    }
+
+    @Override
+    public Token getTokenByUid(String uid) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Token getTokenByTokenId(String tokenId) {
+        return tokenItems.get(tokenId);
     }
 
 }
