@@ -1,6 +1,6 @@
 package songm.im.service;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import javax.annotation.Resource;
@@ -13,6 +13,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import songm.im.entity.Token;
+import songm.im.utils.CodeUtils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:application.xml" })
@@ -43,10 +46,25 @@ public class AuthServiceTest {
 
     @Test
     public void testAuth() {
+        String key = "zhangsong";
+        String secret = "123456";
+        String nonce = String.valueOf(Math.random() * 1000000);
+        long timestamp = System.currentTimeMillis();
+        StringBuilder toSign = new StringBuilder(secret).append(nonce).append(
+                timestamp);
+        String signature = CodeUtils.sha1(toSign.toString());
+        boolean b = authService.auth(key, nonce, signature, timestamp);
+        assertThat(b, is(true));
+    }
 
-        // authService.auth(key, nonce, signature, timestamp);
-        // 测试变量不等于指定值
-        assertThat(4, is(4));
-
+    @Test
+    public void testGetToken() {
+        String uid = "100";
+        String nick = "zhangsong";
+        String avatar = null;
+        Token t = authService.getToken(uid, nick, avatar);
+        assertThat(t.getUid(), is(uid));
+        assertThat(t.getNick(), is(nick));
+        assertThat(t.getAvatar(), is(avatar));
     }
 }

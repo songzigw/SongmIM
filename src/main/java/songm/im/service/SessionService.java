@@ -22,20 +22,53 @@ import songm.im.entity.Token;
 /**
  * 用户会话管理
  * 
- * @author  zhangsong
- * @since   0.1, 2016-8-23
+ * @author zhangsong
+ * @since 0.1, 2016-8-23
  * @version 0.1
  *
  */
 public interface SessionService {
 
+    /**
+     * 获取会话信息
+     * 
+     * @param sessionId
+     * @return
+     */
     public Session getSession(String sessionId);
 
-    public Session create( Token token, String sessionId);
+    /**
+     * 创建会话
+     * 
+     * @param token
+     * @param sessionId
+     * @return
+     */
+    public Session create(Token token, String sessionId);
 
+    /**
+     * 移除会话
+     * 
+     * @param sessionId
+     * @return
+     */
     public Session remove(String sessionId);
 
+    /**
+     * 在会话中设置属性
+     * 
+     * @param sessionId
+     * @param name
+     * @param obj
+     */
     public void setAttribute(String sessionId, String name, Object obj);
 
+    /**
+     * 获取会话中的属性
+     * 
+     * @param sessionId
+     * @param name
+     * @return
+     */
     public Object getAttribute(String sessionId, String name);
 }
