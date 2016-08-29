@@ -48,7 +48,7 @@ public class MessageOperation extends AbstractOperation {
 
         LOG.debug("Message send succeed", pro.toString());
         Entity ent = new Entity();
-        pro.setBody(JsonUtils.toJson(ent).getBytes());
+        pro.setBody(JsonUtils.toJson(ent, Entity.class).getBytes());
         ch.writeAndFlush(pro);
     }
 

@@ -55,7 +55,7 @@ public class ConnectionOperation extends AbstractOperation {
             LOG.debug("Connection success for tokenId={}, sessionId={}",
                     newSes.getTokenId(), newSes.getId());
 
-            pro.setBody(JsonUtils.toJson(newSes).getBytes());
+            pro.setBody(JsonUtils.toJson(newSes, Session.class).getBytes());
             ch.writeAndFlush(pro);
 
             addListener(ch);
@@ -65,7 +65,7 @@ public class ConnectionOperation extends AbstractOperation {
                     session.getTokenId(), session.getId());
 
             session.setErrorCode(e.getErrorCode().name());
-            pro.setBody(JsonUtils.toJson(session).getBytes());
+            pro.setBody(JsonUtils.toJson(session, Session.class).getBytes());
             ch.writeAndFlush(pro);
 
             // 关闭连接

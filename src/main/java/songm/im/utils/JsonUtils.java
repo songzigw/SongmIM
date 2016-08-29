@@ -1,37 +1,21 @@
 package songm.im.utils;
 
-import java.io.IOException;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 public class JsonUtils {
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static Gson gson = new Gson();
 
-    public static String toJson(Object obj) {
-        if (obj == null) {
-            return null;
-        }
-        try {
-            return MAPPER.writeValueAsString(obj);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+    public static <T> String toJson(Object obj, Class<T> clazz) {
+        return gson.toJson(obj, clazz);
+    }
+
+    public static <T> T fromJson(String str, Class<T> clazz) {
+        return gson.fromJson(str, clazz);
     }
 
     public static <T> T fromJson(byte[] json, Class<T> clazz) {
-        try {
-            return MAPPER.readValue(json, clazz);
-        } catch (JsonParseException e) {
-            throw new RuntimeException(e);
-        } catch (JsonMappingException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return fromJson(new String(json), clazz);
     }
 
 }
