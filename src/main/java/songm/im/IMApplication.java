@@ -27,6 +27,8 @@ public class IMApplication implements IMServer {
     private IMServer tcpIMServer;
     @Resource(name = "wsocketIMServer")
     private IMServer wsocketIMServer;
+    
+    private boolean running;
 
     @Override
     public void start() throws IMException {
@@ -34,6 +36,7 @@ public class IMApplication implements IMServer {
 
         tcpIMServer.start();
         wsocketIMServer.start();
+        running = true;
 
         LOG.info("SongIM Server start finish");
     }
@@ -44,6 +47,7 @@ public class IMApplication implements IMServer {
 
         tcpIMServer.restart();
         wsocketIMServer.restart();
+        running = true;
 
         LOG.info("SongIM Server restart finish");
     }
@@ -54,7 +58,13 @@ public class IMApplication implements IMServer {
 
         tcpIMServer.shutdown();
         wsocketIMServer.shutdown();
+        running = false;
 
         LOG.info("SongIM Server shutdown finish");
+    }
+
+    @Override
+    public boolean isRunning() {
+        return running;
     }
 }

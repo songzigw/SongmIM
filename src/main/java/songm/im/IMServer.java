@@ -26,9 +26,26 @@ package songm.im;
  */
 public interface IMServer {
 
+    /**
+     * 开启服务
+     * @throws IMException
+     */
     void start() throws IMException;
 
+    /**
+     * 重启服务
+     * @throws IMException
+     */
     void restart() throws IMException;
 
+    /**
+     * 关闭服务
+     */
     void shutdown();
+    
+    /**
+     * 服务是否正在运行
+     * @return
+     */
+    public boolean isRunning();
 }

@@ -16,8 +16,34 @@
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<context:property-placeholder location="classpath:config.properties" />
-	<context:component-scan base-package="songm.im" />
-	<import resource="application-mvc.xml"/>
-	<!-- <import resource="application-datasource.xml"/> -->
+	<context:component-scan base-package="songm.im.web" />
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+	<mvc:interceptors>
+		<bean class="songm.im.web.MustInterceptor" />
+		<mvc:interceptor>
+			<mvc:mapping path="/api/*" />
+			<bean class="songm.im.web.AuthInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<bean id="handlerExceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="songm.im.IMException">redirect:/data.jsp</prop>
+			</props>
+		</property>
+	</bean>
 
 </beans>

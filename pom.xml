@@ -13,6 +13,12 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+		    <groupId>org.hamcrest</groupId>
+		    <artifactId>hamcrest-junit</artifactId>
+		    <version>2.0.0.0</version>
+		</dependency>
+		
 		
 		<dependency>
             <groupId>ch.qos.logback</groupId>
@@ -29,6 +35,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+            <version>4.3.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
             <version>4.3.2.RELEASE</version>
         </dependency>
         <dependency>
@@ -64,6 +75,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.10</version>
 		</dependency>
+		<dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+		
 
 	</dependencies>
 

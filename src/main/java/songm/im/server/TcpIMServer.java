@@ -42,6 +42,8 @@ public class TcpIMServer implements IMServer {
     private final EventLoopGroup workGroup;
     private ChannelFuture channelFuture;
 
+    private boolean running;
+    
     public TcpIMServer() {
         bossGroup = new NioEventLoopGroup();
         workGroup = new NioEventLoopGroup();
@@ -57,6 +59,7 @@ public class TcpIMServer implements IMServer {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(serverInitializer);
             channelFuture = b.bind(port).sync();
+            running = true;
         } catch (InterruptedException e) {
             String message = "Start TcpIMServer failure";
             LOG.error(message, e);
@@ -88,5 +91,11 @@ public class TcpIMServer implements IMServer {
         if (workGroup != null) {
             workGroup.shutdownGracefully();
         }
+        running = false;
+    }
+
+    @Override
+    public boolean isRunning() {
+        return running;
     }
 }

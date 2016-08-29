@@ -42,6 +42,8 @@ public class WsocketIMServer implements IMServer {
     private final EventLoopGroup bossGroup;
     private final EventLoopGroup workGroup;
     private ChannelFuture channelFuture;
+    
+    private boolean running;
 
     public WsocketIMServer() {
         bossGroup = new NioEventLoopGroup();
@@ -58,6 +60,7 @@ public class WsocketIMServer implements IMServer {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(serverInitializer);
             channelFuture = b.bind(port).sync();
+            running = true;
         } catch (InterruptedException e) {
             String message = "Start WebSocketIMServer failure";
             LOG.error(message, e);
@@ -89,6 +92,12 @@ public class WsocketIMServer implements IMServer {
         if (workGroup != null) {
             workGroup.shutdownGracefully();
         }
+        running = false;
+    }
+
+    @Override
+    public boolean isRunning() {
+        return running;
     }
 
 }
