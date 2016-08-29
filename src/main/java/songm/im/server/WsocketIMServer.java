@@ -52,8 +52,6 @@ public class WsocketIMServer implements IMServer {
 
     @Override
     public void start() throws IMException {
-        LOG.info("Starting WebSocketIMServer... Port:{}", port);
-
         try {
             ServerBootstrap b = new ServerBootstrap()
                     .group(bossGroup, workGroup)
@@ -73,6 +71,7 @@ public class WsocketIMServer implements IMServer {
                 }
             });
         }
+        LOG.info("Start WebSocketIMServer Port:{}", port);
     }
 
     @Override

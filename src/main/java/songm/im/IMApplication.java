@@ -4,11 +4,8 @@
  */
 package songm.im;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * 聊天即时消息应用
@@ -18,17 +15,30 @@ import org.springframework.stereotype.Component;
  * @version 0.1
  * 
  */
-@Component
 public class IMApplication implements IMServer {
 
     private static Logger LOG = LoggerFactory.getLogger(IMApplication.class);
 
-    @Resource(name = "tcpIMServer")
     private IMServer tcpIMServer;
-    @Resource(name = "wsocketIMServer")
     private IMServer wsocketIMServer;
     
     private boolean running;
+
+    public void setTcpIMServer(IMServer tcpIMServer) {
+        this.tcpIMServer = tcpIMServer;
+    }
+
+    public void setWsocketIMServer(IMServer wsocketIMServer) {
+        this.wsocketIMServer = wsocketIMServer;
+    }
+    
+    public void init() {
+        try {
+            this.start();
+        } catch (IMException e) {
+            LOG.error("SongmIMServer start error", e);
+        }
+    }
 
     @Override
     public void start() throws IMException {

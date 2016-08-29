@@ -51,8 +51,6 @@ public class TcpIMServer implements IMServer {
 
     @Override
     public void start() throws IMException {
-        LOG.info("Starting TcpIMServer... Port:{}", port);
-
         try {
             ServerBootstrap b = new ServerBootstrap()
                     .group(bossGroup, workGroup)
@@ -72,6 +70,7 @@ public class TcpIMServer implements IMServer {
                 }
             });
         }
+        LOG.info("Start TcpIMServer Port:{}", port);
     }
 
     @Override

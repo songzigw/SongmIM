@@ -17,7 +17,14 @@
 
 	<context:property-placeholder location="classpath:config.properties" />
 	<context:component-scan base-package="songm.im" />
-	<import resource="application-mvc.xml"/>
+
+	<import resource="application-mvc.xml" />
 	<!-- <import resource="application-datasource.xml"/> -->
+
+	<bean id="imApplication" class="songm.im.IMApplication"
+		init-method="init">
+		<property name="tcpIMServer" ref="tcpIMServer"></property>
+		<property name="wsocketIMServer" ref="wsocketIMServer"></property>
+	</bean>
 
 </beans>
