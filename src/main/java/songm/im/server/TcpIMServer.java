@@ -61,7 +61,7 @@ public class TcpIMServer implements IMServer {
         } catch (InterruptedException e) {
             String message = "Start TcpIMServer failure";
             LOG.error(message, e);
-            throw new IMException(ErrorCode.START_ERR , message, e);
+            throw new IMException(ErrorCode.START_ERROR , message, e);
         } finally {
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 @Override

@@ -54,15 +54,14 @@ public class IMException extends Exception {
 
     public static enum ErrorCode {
         // 启动异常---------------
-        START_ERR,
+        /** 启动错误 */
+        START_ERROR,
         
         // Token异常--------------
-
         /** Token无效 */
         TOKEN_INVALID,
         
         // Session异常------------
-        
         /** Session失效 */
         SESSION_DISABLED
     }
