@@ -40,7 +40,7 @@ public class ConnectionOperation extends AbstractOperation {
 
     @Override
     public int operation() {
-        return Type.CONN_REQUEST.getValue();
+        return Type.CONN_AUTH.getValue();
     }
 
     @Override

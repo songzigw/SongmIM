@@ -19,6 +19,11 @@ package songm.im.operation;
 import io.netty.channel.Channel;
 import songm.im.entity.Protocol;
 
+/**
+ * 消息事件操作
+ * @author zhangsong
+ *
+ */
 public interface Operation {
 
     public int operation();
@@ -26,8 +31,8 @@ public interface Operation {
     void action(Channel ch, Protocol pro);
 
     public static enum Type {
-        /** 连接请求 */
-        CONN_REQUEST(1),
+        /** 连接请求（授权） */
+        CONN_AUTH(1),
         /** 连接关闭 */
         CONN_CLOSE(2),
         

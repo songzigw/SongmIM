@@ -26,8 +26,13 @@ import org.springframework.stereotype.Component;
 
 import songm.im.operation.Operation;
 
+/**
+ * 事件操作管理器
+ * @author zhangsong
+ *
+ */
 @Component
-public class IMOperation {
+public class OperationManager {
 
     @Autowired
     private ApplicationContext context;

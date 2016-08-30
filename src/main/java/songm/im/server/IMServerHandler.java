@@ -26,10 +26,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import songm.im.entity.Protocol;
-import songm.im.operation.IMOperation;
+import songm.im.operation.OperationManager;
 import songm.im.operation.Operation;
 import songm.im.service.AuthService;
 
+/**
+ * 服务器消息处理者
+ * @author zhangsong
+ *
+ */
 @Component
 @ChannelHandler.Sharable
 public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
@@ -38,14 +43,14 @@ public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
             .getLogger(IMServerHandler.class);
 
     @Autowired
-    private IMOperation imOperation;
+    private OperationManager operationManager;
     @Autowired
     private AuthService authService;
 
     @Override
     protected void messageReceived(ChannelHandlerContext ctx, Protocol pro)
             throws Exception {
-        Operation op = imOperation.find(pro.getOperation());
+        Operation op = operationManager.find(pro.getOperation());
         if (op != null) {
             op.action(ctx.channel(), pro);
         } else {
