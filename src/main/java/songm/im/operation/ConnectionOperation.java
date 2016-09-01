@@ -50,15 +50,13 @@ public class ConnectionOperation extends AbstractOperation {
         try {
             // 连接成功
             Session newSes = authService.online(session.getTokenId(),
-                    session.getId());
+                    session.getId(), ch);
             saveSessionId(ch, newSes.getId());
             LOG.debug("Connection success for tokenId={}, sessionId={}",
                     newSes.getTokenId(), newSes.getId());
 
             pro.setBody(JsonUtils.toJson(newSes, Session.class).getBytes());
             ch.writeAndFlush(pro);
-
-            addListener(ch);
         } catch (IMException e) {
             // 连接失败
             LOG.debug("Connection success for tokenId={}, sessionId={}",
@@ -71,11 +69,6 @@ public class ConnectionOperation extends AbstractOperation {
             // 关闭连接
             ch.close().syncUninterruptibly();
         }
-    }
-
-    // ???
-    private void addListener(final Channel ch) {
-
     }
 
 }

@@ -16,6 +16,8 @@
  */
 package songm.im.service.impl;
 
+import io.netty.channel.Channel;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +35,7 @@ import songm.im.service.SessionService;
 import songm.im.utils.CodeUtils;
 import songm.im.utils.Sequence;
 
-@Service
+@Service("authService")
 public class AuthServiceImpl implements AuthService {
 
     // tokenItems可以做到持久化，目前先这样
@@ -78,12 +80,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Session online(String tokenId, String sessionId) throws IMException {
+    public Session online(String tokenId, String sessionId, Channel ch) throws IMException {
         Token token = tokenItems.get(tokenId);
         if (token == null) {
             throw new IMException(ErrorCode.TOKEN_INVALID, "Token invalid");
         }
-        return sessionService.create(token, sessionId);
+        return sessionService.create(token, sessionId, ch);
     }
 
     @Override

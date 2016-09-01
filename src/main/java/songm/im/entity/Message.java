@@ -17,6 +17,7 @@
 package songm.im.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 基础消息描述类
@@ -29,5 +30,51 @@ import java.io.Serializable;
 public class Message extends Entity implements Serializable {
 
     private static final long serialVersionUID = 3649240217021961002L;
+
+    private Date created;
+    private Date updated;
+    private String from;
+    private String to;
+    private String body;
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
 
 }

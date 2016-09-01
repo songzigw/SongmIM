@@ -20,16 +20,21 @@ import io.netty.channel.Channel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import songm.im.IMException;
 import songm.im.entity.Entity;
 import songm.im.entity.Message;
 import songm.im.entity.Protocol;
+import songm.im.service.MqttClientService;
 import songm.im.utils.JsonUtils;
 
 public class MessageOperation extends AbstractOperation {
 
     private final Logger LOG = LoggerFactory.getLogger(MessageOperation.class);
+    
+    @Autowired
+    private MqttClientService mqttClientService;
 
     @Override
     public int operation() {
@@ -45,6 +50,8 @@ public class MessageOperation extends AbstractOperation {
             return;
         }
         Message msg = JsonUtils.fromJson(pro.getBody(), Message.class);
+        //String uid = (String) getSession(ch).getAttribute(SessionService.KEY_UID);
+        mqttClientService.publish(msg.getFrom(), msg.getTo(), pro.getBody());
 
         LOG.debug("Message send succeed", pro.toString());
         Entity ent = new Entity();

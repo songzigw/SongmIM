@@ -16,6 +16,7 @@
  */
 package songm.im.service;
 
+import io.netty.channel.Channel;
 import songm.im.IMException;
 import songm.im.entity.Session;
 import songm.im.entity.Token;
@@ -60,9 +61,10 @@ public interface AuthService {
      * 
      * @param tokenId
      * @param sessionId
+     * @param ch
      * @return
      */
-    public Session online(String tokenId, String sessionId) throws IMException;
+    public Session online(String tokenId, String sessionId, Channel ch) throws IMException;
 
     /**
      * 用户下线处理

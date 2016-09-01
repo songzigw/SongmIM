@@ -16,6 +16,7 @@
  */
 package songm.im.service;
 
+import io.netty.channel.Channel;
 import songm.im.entity.Session;
 import songm.im.entity.Token;
 
@@ -28,6 +29,8 @@ import songm.im.entity.Token;
  *
  */
 public interface SessionService {
+    
+    public static final String KEY_UID = "UID";
 
     /**
      * 获取会话信息
@@ -42,9 +45,10 @@ public interface SessionService {
      * 
      * @param token
      * @param sessionId
+     * @param ch
      * @return
      */
-    public Session create(Token token, String sessionId);
+    public Session create(Token token, String sessionId, Channel ch);
 
     /**
      * 移除会话

@@ -16,23 +16,34 @@
  */
 package songm.im.service.impl;
 
+import io.netty.channel.Channel;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
+import songm.im.entity.Protocol;
 import songm.im.entity.Session;
 import songm.im.entity.Token;
+import songm.im.mqtt.MqttMessageListener;
+import songm.im.operation.Operation.Type;
+import songm.im.service.MqttClientService;
 import songm.im.service.SessionService;
 import songm.im.utils.Sequence;
 
-@Service
+@Service("sessionService")
 public class SessionServiceImpl implements SessionService {
 
     private Map<String, Session> sesItems = new HashMap<String, Session>();
 
+    @Resource(name = "mqttClientService")
+    private MqttClientService mqttClientService;
+
     @Override
-    public Session create(Token token, String sessionId) {
+    public Session create(Token token, String sessionId, Channel ch) {
         Session ses = getSession(sessionId);
         if (ses != null) {
             return ses;
@@ -40,7 +51,20 @@ public class SessionServiceImpl implements SessionService {
 
         sessionId = Sequence.getInstance().getSequence(28);
         ses = new Session(sessionId, token.getId());
+        ses.setAttribute(KEY_UID, token.getUid());
         sesItems.put(sessionId, ses);
+        mqttClientService.createClient(token.getUid(),
+                new MqttMessageListener() {
+
+                    @Override
+                    public void onReceived(byte[] payload) {
+                        Protocol pro = new Protocol();
+                        pro.setOperation(Type.MESSAGE.getValue());
+                        pro.setBody(payload);
+
+                        ch.writeAndFlush(pro);
+                    }
+                });
 
         return ses;
     }
