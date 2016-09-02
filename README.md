@@ -131,7 +131,7 @@ number | int | false | 获取记录的条数
 --- | --- | --- | ---
 version | 1 | 2 | 版本号
 headerLen | 20 | 2 | 包头字节大小
-*operation* | 1  | 4 | 请求连接并授权处理
+***operation*** | 1  | 4 | 请求连接并授权处理
 sequence | 当前时间戳 | 8 | 数据包序列
 packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
 body | Json对象 | 实际长度决定 | 举例如下：
@@ -149,7 +149,7 @@ body | Json对象 | 实际长度决定 | 举例如下：
 --- | --- | --- | ---
 version | 1 | 2 | 版本号
 headerLen | 20 | 2 | 包头字节大小
-*operation* | 1  | 4 | 响应连接并授权结果
+***operation*** | 1  | 4 | 响应连接并授权结果
 sequence | 当前时间戳 | 8 | 数据包序列
 packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
 body | Json对象 | 实际长度决定 | 举例如下：
@@ -181,7 +181,7 @@ body | Json对象 | 实际长度决定 | 举例如下：
 --- | --- | --- | ---
 version | 1 | 2 | 版本号
 headerLen | 20 | 2 | 包头字节大小
-*operation* | 2  | 4 | 请求发送聊天消息
+***operation*** | 2  | 4 | 请求发送聊天消息
 sequence | 当前时间戳 | 8 | 数据包序列
 packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
 body | Json对象 | 实际长度决定 | 举例如下：
@@ -199,7 +199,7 @@ body | Json对象 | 实际长度决定 | 举例如下：
 --- | --- | --- | ---
 version | 1 | 2 | 版本号
 headerLen | 20 | 2 | 包头字节大小
-*operation* | 2  | 4 | 响应聊天消息处理结果
+***operation*** | 2  | 4 | 响应聊天消息处理结果
 sequence | 当前时间戳 | 8 | 数据包序列
 packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
 body | Json对象 | 实际长度决定 | 举例如下：
@@ -229,7 +229,7 @@ body | Json对象 | 实际长度决定 | 举例如下：
 --- | --- | --- | ---
 version | 1 | 2 | 版本号
 headerLen | 20 | 2 | 包头字节大小
-*operation* | 3  | 4 | 服务端发送到客户端的消息
+***operation*** | 3  | 4 | 服务端发送到客户端的消息
 sequence | 0 | 8 | 数据包序列
 packetLen | 20 + 包体长度 | 4 | 整个包的字节大小
 body | Json对象 | 实际长度决定 | 举例如下：
