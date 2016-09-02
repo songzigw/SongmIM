@@ -27,7 +27,7 @@ import java.io.Serializable;
  * @version 0.1
  * 
  */
-public class Protocol extends Entity implements Serializable {
+public class Protocol implements Serializable {
 
     private static final long serialVersionUID = 6913303658057671577L;
 

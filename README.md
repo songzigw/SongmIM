@@ -30,6 +30,7 @@ API接口如下：
 名称 | 方法 | URL | 说明
 --- | --- | --- | ---
 获取通信令牌 | POST | /api/token | 为用户分配一个通信令牌，客户端通过令牌可以直接与消息服务器建立连接（Tcp、WebSocket、Long polling）
+获取历史聊天记录 | POST | /api/history | 聊天历史记录
 
 签名规则，每次请求接口时，均需要提供4个 HTTP Request Header，具体如下：
 
@@ -55,9 +56,22 @@ uid | string | true | 用户Uid
 nick | string | true | 用户名称
 avatar | string | false | 用户头像
 
-返回结果
+返回成功：
+
+```json
+{
+    succeed: true,       // 获取Token成功
+    tokenId: <<TokenId>> // 消息服务分的配通信令牌
+}
 ```
-略
+
+返回失败：
+
+```json
+{
+    succeed  : false,     // 获取Token失败
+    errorCode: <<错误码>> // 返回失败的原因
+}
 ```
 
 2、*获取历史聊天记录* `/api/history`
@@ -66,6 +80,10 @@ avatar | string | false | 用户头像
 
 名称 | 类型 | 是否必须 | 描述
 --- | --- | --- | ---
+uid | string | ture | 用户Uid
+oid | string | ture | 聊天对象
+point | long | false | 时间点之前的聊天记录（时间戳）
+number | int | false | 获取记录的条数
 
 返回结果
 ```
@@ -108,29 +126,122 @@ avatar | string | false | 用户头像
 1、*连接并授权*
 
 ----- 请求数据包 -----
-```
-Operation = 1
-Body = {}
+
+数据项 | 数据值 | 所占字节 | 描述
+--- | --- | --- | ---
+version | 1 | 2 | 版本号
+headerLen | 20 | 2 | 包头字节大小
+*operation* | 1  | 4 | 请求连接并授权处理
+sequence | 当前时间戳 | 8 | 数据包序列
+packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
+body | Json对象 | 实际长度决定 | 举例如下：
+
+```json
+{
+    id     : <<SessionID>>, // 当前客户端保存的会话，如果没有，id: null
+    tokenId: <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
+}
 ```
 
 ----- 响应数据包 -----
-```
-Operation = 1
-Body = {}
+
+数据项 | 数据值 | 所占字节 | 描述
+--- | --- | --- | ---
+version | 1 | 2 | 版本号
+headerLen | 20 | 2 | 包头字节大小
+*operation* | 1  | 4 | 响应连接并授权结果
+sequence | 当前时间戳 | 8 | 数据包序列
+packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
+body | Json对象 | 实际长度决定 | 举例如下：
+
+返回成功：
+
+```json
+{
+    succeed: true,          // 连接服务器并且授权访问客户端访问成功
+    id     : <<SessionID>>, // 返回服务器分配的会话ID
+    tokenId: <<TokenId>>    // 返回之前传递通信令牌
+}
 ```
 
-2、*发送消息*
+返回失败：
+
+```json
+{
+    succeed  : false,     // 连接服务器并且授权失败
+    errorCode: <<错误码>> // 返回失败的原因
+}
+```
+
+2、*发送聊天消息*
 
 ----- 请求数据包 -----
-```
-Operation = 2
-Body = {}
+
+数据项 | 数据值 | 所占字节 | 描述
+--- | --- | --- | ---
+version | 1 | 2 | 版本号
+headerLen | 20 | 2 | 包头字节大小
+*operation* | 2  | 4 | 请求发送聊天消息
+sequence | 当前时间戳 | 8 | 数据包序列
+packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
+body | Json对象 | 实际长度决定 | 举例如下：
+
+```json
+{
+    id     : <<SessionID>>, // 当前客户端保存的会话，如果没有，id: null
+    tokenId: <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
+}
 ```
 
 ----- 响应数据包 -----
+
+数据项 | 数据值 | 所占字节 | 描述
+--- | --- | --- | ---
+version | 1 | 2 | 版本号
+headerLen | 20 | 2 | 包头字节大小
+*operation* | 2  | 4 | 响应聊天消息处理结果
+sequence | 当前时间戳 | 8 | 数据包序列
+packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
+body | Json对象 | 实际长度决定 | 举例如下：
+
+返回成功：
+
+```json
+{
+    succeed: true // 聊天消息发送成功
+}
 ```
-Operation = 2
-Body = {}
+
+返回失败：
+
+```json
+{
+    succeed  : false,     // 聊天消息发送失败
+    errorCode: <<错误码>> // 返回失败的原因
+}
+```
+
+3、*接收消息*
+
+----- 接收数据包 -----
+
+数据项 | 数据值 | 所占字节 | 描述
+--- | --- | --- | ---
+version | 1 | 2 | 版本号
+headerLen | 20 | 2 | 包头字节大小
+*operation* | 3  | 4 | 服务端发送到客户端的消息
+sequence | 0 | 8 | 数据包序列
+packetLen | 20 + 包体长度 | 4 | 整个包的字节大小
+body | Json对象 | 实际长度决定 | 举例如下：
+
+```json
+{
+    succeed: true, // 返回成功，接收到的消息都是成功的没有失败
+    created: <<产生的时间戳>>,
+    from   : <<发送者>>,
+    to     : <<接收者>>,
+    body   : <<聊天内容>>
+}
 ```
 
 ## License
