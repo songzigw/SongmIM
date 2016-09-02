@@ -58,7 +58,7 @@ avatar | string | false | 用户头像
 
 返回成功：
 
-```json
+```
 {
     succeed: true,       // 获取Token成功
     tokenId: <<TokenId>> // 消息服务分的配通信令牌
@@ -67,7 +67,7 @@ avatar | string | false | 用户头像
 
 返回失败：
 
-```json
+```
 {
     succeed  : false,     // 获取Token失败
     errorCode: <<错误码>> // 返回失败的原因
@@ -136,7 +136,7 @@ sequence | 当前时间戳 | 8 | 数据包序列
 packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
 body | Json对象 | 实际长度决定 | 举例如下：
 
-```json
+```
 {
     id     : <<SessionID>>, // 当前客户端保存的会话，如果没有，id: null
     tokenId: <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
@@ -156,7 +156,7 @@ body | Json对象 | 实际长度决定 | 举例如下：
 
 返回成功：
 
-```json
+```
 {
     succeed: true,          // 连接服务器并且授权访问客户端访问成功
     id     : <<SessionID>>, // 返回服务器分配的会话ID
@@ -166,7 +166,7 @@ body | Json对象 | 实际长度决定 | 举例如下：
 
 返回失败：
 
-```json
+```
 {
     succeed  : false,     // 连接服务器并且授权失败
     errorCode: <<错误码>> // 返回失败的原因
@@ -186,7 +186,7 @@ sequence | 当前时间戳 | 8 | 数据包序列
 packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
 body | Json对象 | 实际长度决定 | 举例如下：
 
-```json
+```
 {
     id     : <<SessionID>>, // 当前客户端保存的会话，如果没有，id: null
     tokenId: <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
@@ -206,7 +206,7 @@ body | Json对象 | 实际长度决定 | 举例如下：
 
 返回成功：
 
-```json
+```
 {
     succeed: true // 聊天消息发送成功
 }
@@ -214,7 +214,7 @@ body | Json对象 | 实际长度决定 | 举例如下：
 
 返回失败：
 
-```json
+```
 {
     succeed  : false,     // 聊天消息发送失败
     errorCode: <<错误码>> // 返回失败的原因
@@ -234,7 +234,7 @@ sequence | 0 | 8 | 数据包序列
 packetLen | 20 + 包体长度 | 4 | 整个包的字节大小
 body | Json对象 | 实际长度决定 | 举例如下：
 
-```json
+```
 {
     succeed: true, // 返回成功，接收到的消息都是成功的没有失败
     created: <<产生的时间戳>>,
