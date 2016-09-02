@@ -52,6 +52,7 @@ public class SessionServiceImpl implements SessionService {
         sessionId = Sequence.getInstance().getSequence(28);
         ses = new Session(sessionId, token.getId());
         ses.setAttribute(KEY_UID, token.getUid());
+        
         sesItems.put(sessionId, ses);
         mqttClientService.createClient(token.getUid(),
                 new MqttMessageListener() {
@@ -80,24 +81,6 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public Session remove(String sessionId) {
         return sesItems.remove(sessionId);
-    }
-
-    @Override
-    public void setAttribute(String sessionId, String name, Object obj) {
-        Session ses = getSession(sessionId);
-        if (ses == null) {
-            return;
-        }
-        ses.setAttribute(name, obj);
-    }
-
-    @Override
-    public Object getAttribute(String sessionId, String name) {
-        Session ses = getSession(sessionId);
-        if (ses == null) {
-            return null;
-        }
-        return ses.getAttribute(name);
     }
 
 }

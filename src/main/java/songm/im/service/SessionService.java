@@ -58,21 +58,4 @@ public interface SessionService {
      */
     public Session remove(String sessionId);
 
-    /**
-     * 在会话中设置属性
-     * 
-     * @param sessionId
-     * @param name
-     * @param obj
-     */
-    public void setAttribute(String sessionId, String name, Object obj);
-
-    /**
-     * 获取会话中的属性
-     * 
-     * @param sessionId
-     * @param name
-     * @return
-     */
-    public Object getAttribute(String sessionId, String name);
 }
