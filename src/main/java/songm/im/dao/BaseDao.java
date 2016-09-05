@@ -16,7 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import songm.im.dao.keygen.KeyGenerator;
 import songm.im.utils.Sequence;
 
-public abstract class BasicDao<T> {
+public abstract class BaseDao<T> {
 
     @Resource(name = "jdbcTemplate")
     private JdbcTemplate jdbcTemplate;
