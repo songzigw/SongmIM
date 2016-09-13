@@ -16,8 +16,8 @@
  */
 package songm.im.service;
 
-import songm.im.mqtt.MqttClientUser;
-import songm.im.mqtt.MqttMessageListener;
+import songm.im.entity.SessionCh;
+import songm.im.mqtt.ClientUser;
 
 /**
  * MQTT客户端业务逻辑处理
@@ -25,16 +25,14 @@ import songm.im.mqtt.MqttMessageListener;
  * @author zhangsong
  *
  */
-public interface MqttClientService {
+public interface ClientService {
 
     /**
      * 创建MQTT客户端
-     * 
-     * @param uid
-     * @param listener
+     * @param session
      * @return
      */
-    public MqttClientUser createClient(String uid, MqttMessageListener listener);
+    public ClientUser createClient(SessionCh session);
 
     /**
      * 获取MQTT客户端
@@ -42,7 +40,7 @@ public interface MqttClientService {
      * @param uid
      * @return
      */
-    public MqttClientUser getClient(String uid);
+    public ClientUser getClient(String uid);
 
     /**
      * 断开连接

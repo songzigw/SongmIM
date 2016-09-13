@@ -50,6 +50,9 @@ public class Session extends Entity implements Serializable {
 
     /** 会话TokenID */
     private String tokenId;
+    
+    /** 用户UID */
+    private String uid;
 
     private Map<String, Object> attribute;
 
@@ -58,10 +61,11 @@ public class Session extends Entity implements Serializable {
         accessTime = createdTime;
     }
 
-    public Session(String sessionId, String tokenId) {
+    public Session(String sessionId, String tokenId, String uid) {
         this();
         this.sessionId = sessionId;
         this.tokenId = tokenId;
+        this.uid = uid;
     }
 
     public String getSessionId() {
@@ -114,10 +118,44 @@ public class Session extends Entity implements Serializable {
         this.tokenId = tokenId;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public boolean isTimeout() {
         if (new Date().getTime() - accessTime.getTime() > TIME_OUT) {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((sessionId == null) ? 0 : sessionId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Session other = (Session) obj;
+        if (sessionId == null) {
+            if (other.sessionId != null)
+                return false;
+        } else if (!sessionId.equals(other.sessionId))
+            return false;
+        return true;
     }
 }

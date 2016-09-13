@@ -33,14 +33,6 @@ public interface SessionService {
     public static final String KEY_UID = "UID";
 
     /**
-     * 获取会话信息
-     * 
-     * @param sessionId
-     * @return
-     */
-    public Session getSession(String sessionId);
-
-    /**
      * 创建会话
      * 
      * @param token
@@ -49,6 +41,14 @@ public interface SessionService {
      * @return
      */
     public Session create(Token token, String sessionId, Channel ch);
+
+    /**
+     * 获取会话信息
+     * 
+     * @param sessionId
+     * @return
+     */
+    public Session getSession(String sessionId);
 
     /**
      * 移除会话

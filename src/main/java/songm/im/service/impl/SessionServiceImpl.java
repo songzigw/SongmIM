@@ -25,12 +25,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import songm.im.entity.Protocol;
 import songm.im.entity.Session;
+import songm.im.entity.SessionCh;
 import songm.im.entity.Token;
-import songm.im.mqtt.MqttMessageListener;
-import songm.im.operation.Operation.Type;
-import songm.im.service.MqttClientService;
+import songm.im.mqtt.ClientUser;
+import songm.im.service.ClientService;
 import songm.im.service.SessionService;
 import songm.im.utils.Sequence;
 
@@ -40,33 +39,23 @@ public class SessionServiceImpl implements SessionService {
     private Map<String, Session> sesItems = new HashMap<String, Session>();
 
     @Resource(name = "mqttClientService")
-    private MqttClientService mqttClientService;
+    private ClientService mqttClientService;
 
     @Override
     public Session create(Token token, String sessionId, Channel ch) {
-        Session ses = getSession(sessionId);
+        SessionCh ses = (SessionCh) getSession(sessionId);
         if (ses != null) {
+            ses.addCh(ch);
             return ses;
         }
 
         sessionId = Sequence.getInstance().getSequence(28);
-        ses = new Session(sessionId, token.getTokenId());
+        ses = new SessionCh(sessionId, token.getTokenId(), token.getUid());
         ses.setAttribute(KEY_UID, token.getUid());
-        
+        ses.addCh(ch);
         sesItems.put(sessionId, ses);
-        mqttClientService.createClient(token.getUid(),
-                new MqttMessageListener() {
-
-                    @Override
-                    public void onReceived(byte[] payload) {
-                        Protocol pro = new Protocol();
-                        pro.setOperation(Type.MESSAGE.getValue());
-                        pro.setBody(payload);
-
-                        ch.writeAndFlush(pro);
-                    }
-                });
-
+        
+        mqttClientService.createClient(ses);
         return ses;
     }
 
@@ -80,6 +69,20 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public Session remove(String sessionId) {
+        SessionCh session = (SessionCh) getSession(sessionId);
+        if (session == null) {
+            return null;
+        }
+        // 将Session中所有管道连接清除
+        session.clearCh();
+        
+        // 将客户端用户中对应的Session删除
+        ClientUser cUser = mqttClientService.getClient(session.getUid());
+        if (cUser != null) {
+            cUser.removeSession(session);
+            if (!cUser.isSessions())
+                mqttClientService.disconnect(session.getUid());
+        }
         return sesItems.remove(sessionId);
     }
 

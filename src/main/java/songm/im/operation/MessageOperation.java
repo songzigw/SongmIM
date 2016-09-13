@@ -26,7 +26,7 @@ import songm.im.IMException;
 import songm.im.entity.Entity;
 import songm.im.entity.Message;
 import songm.im.entity.Protocol;
-import songm.im.service.MqttClientService;
+import songm.im.service.ClientService;
 import songm.im.utils.JsonUtils;
 
 public class MessageOperation extends AbstractOperation {
@@ -34,7 +34,7 @@ public class MessageOperation extends AbstractOperation {
     private final Logger LOG = LoggerFactory.getLogger(MessageOperation.class);
     
     @Autowired
-    private MqttClientService mqttClientService;
+    private ClientService mqttClientService;
 
     @Override
     public int operation() {

@@ -25,14 +25,15 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import songm.im.entity.SessionCh;
+import songm.im.mqtt.ClientUser;
 import songm.im.mqtt.MqttClientUser;
-import songm.im.mqtt.MqttMessageListener;
-import songm.im.service.MqttClientService;
+import songm.im.service.ClientService;
 
 @Service("mqttClientService")
-public class MqttClientServiceImpl implements MqttClientService {
+public class ClientServiceImpl implements ClientService {
 
-    private Map<String, MqttClientUser> clientItems = new HashMap<String, MqttClientUser>();
+    private Map<String, ClientUser> clientItems = new HashMap<String, ClientUser>();
 
     @Value("${mqtt.broker}")
     private String broker = "tcp://iot.eclipse.org:1883";
@@ -40,10 +41,10 @@ public class MqttClientServiceImpl implements MqttClientService {
     private int qos = 2;
 
     @Override
-    public MqttClientUser createClient(String uid, MqttMessageListener listener) {
-        MqttClientUser client = getClient(uid);
+    public ClientUser createClient(SessionCh session) {
+        MqttClientUser client = (MqttClientUser) getClient(session.getUid());
         if (client != null) {
-            client.addListener(listener);
+            client.addSession(session);
             return client;
         }
 
@@ -51,37 +52,37 @@ public class MqttClientServiceImpl implements MqttClientService {
         connOpts.setCleanSession(true);
 
         try {
-            client = new MqttClientUser(broker, uid);
-            client.addListener(listener);
+            client = new MqttClientUser(broker, session.getUid());
             client.connect(connOpts);
         } catch (MqttException e) {
             e.printStackTrace();
         }
 
-        clientItems.put(uid, client);
+        clientItems.put(session.getUid(), client);
         return client;
     }
 
     @Override
-    public MqttClientUser getClient(String uid) {
+    public ClientUser getClient(String uid) {
         return clientItems.get(uid);
     }
 
     @Override
     public void disconnect(String uid) {
-        MqttClientUser client = this.getClient(uid);
+        MqttClientUser client = (MqttClientUser) this.getClient(uid);
         if (client != null) {
             try {
                 client.disconnect();
             } catch (MqttException e) {
                 e.printStackTrace();
             }
+            client.clearSessions();
         }
     }
 
     @Override
     public void publish(String uid, String topic, byte[] body) {
-        MqttClientUser client = this.getClient(uid);
+        MqttClientUser client = (MqttClientUser) this.getClient(uid);
         if (client == null) {
             return;
         }

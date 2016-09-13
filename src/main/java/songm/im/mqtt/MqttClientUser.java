@@ -16,9 +16,9 @@
  */
 package songm.im.mqtt;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -26,19 +26,22 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import songm.im.entity.SessionCh;
+
 /**
  * Mqtt客户端用户
  * 
  * @author zhangsong
  *
  */
-public final class MqttClientUser extends MqttClient {
+public final class MqttClientUser extends MqttClient implements ClientUser {
 
-    private final Collection<MqttMessageListener> listeners;
+    private final Set<SessionCh> sessions;
 
     public MqttClientUser(String serverURI, String userId) throws MqttException {
         super(serverURI, userId);
-        listeners = new HashSet<MqttMessageListener>();
+        sessions = new HashSet<SessionCh>();
+
         MqttClientUser client = this;
         super.setCallback(new MqttCallback() {
 
@@ -61,29 +64,32 @@ public final class MqttClientUser extends MqttClient {
         });
     }
 
-    /**
-     * 添加事件监听
-     * 
-     * @param listener
-     */
-    public void addListener(MqttMessageListener listener) {
-        listeners.add(listener);
+    public synchronized void addSession(SessionCh session) {
+        sessions.add(session);
     }
 
-    /**
-     * 移除事件监听
-     * 
-     * @param listener
-     */
-    public void removeListener(MqttMessageListener listener) {
-        listeners.remove(listener);
+    public synchronized void removeSession(SessionCh session) {
+        sessions.remove(session);
     }
 
     private void trigger(byte[] payload) {
-        Iterator<MqttMessageListener> iter = listeners.iterator();
+        Iterator<SessionCh> iter = sessions.iterator();
         while (iter.hasNext()) {
-            MqttMessageListener listener = (MqttMessageListener) iter.next();
-            listener.onReceived(payload);
+            SessionCh session = (SessionCh) iter.next();
+            session.onReceived(payload);
         }
+    }
+    
+    public synchronized boolean isSessions() {
+        return !sessions.isEmpty();
+    }
+    
+    public synchronized void clearSessions() {
+        Iterator<SessionCh> iter = sessions.iterator();
+        while (iter.hasNext()) {
+            SessionCh session = (SessionCh) iter.next();
+            session.clearCh();
+        }
+        sessions.clear();
     }
 }
