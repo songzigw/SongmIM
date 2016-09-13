@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import songm.im.entity.Token;
 import songm.im.service.AuthService;
+import songm.im.utils.JsonUtils;
 
 /**
  * 第三方后台服务API
@@ -28,9 +31,11 @@ public class ApiController {
      * @param avatar
      * @return
      */
-    @RequestMapping(value = "/token", method = RequestMethod.POST)
+    @RequestMapping(value = "/token", method = RequestMethod.GET)
     public String getToken(String uid, String nick, String avatar) {
-
+        Token token = authService.createToken(uid, nick, avatar);
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("data", JsonUtils.toJson(token, Token.class));
         return "/data";
     }
 }

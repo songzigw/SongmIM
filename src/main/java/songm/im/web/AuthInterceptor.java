@@ -3,15 +3,21 @@ package songm.im.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import songm.im.service.AuthService;
+
 public class AuthInterceptor implements HandlerInterceptor {
 
+    @Autowired
+    private AuthService authService;
+    
     @Override
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception {
-        // TODO Auto-generated method stub
+        
         return false;
     }
 
@@ -19,7 +25,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
-        // TODO Auto-generated method stub
+        
         
     }
 
@@ -27,7 +33,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request,
             HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-        // TODO Auto-generated method stub
+        
         
     }
 
