@@ -31,17 +31,17 @@ public class Token extends Entity implements Serializable {
 
     private static final long serialVersionUID = 1356174819334484641L;
 
-    private String id;
+    private String tokenId;
     private String uid;
     private String nick;
     private String avatar;
 
-    public String getId() {
-        return id;
+    public String getTokenId() {
+        return tokenId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
     }
 
     public String getUid() {
@@ -69,9 +69,34 @@ public class Token extends Entity implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((uid == null) ? 0 : uid.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Token other = (Token) obj;
+        if (uid == null) {
+            if (other.uid != null)
+                return false;
+        } else if (!uid.equals(other.uid))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return String.format("Token(id=%s, uid=%s, nick=%s, avatar=%s)",
-                id, uid, nick, avatar);
+                tokenId, uid, nick, avatar);
     }
 
 }

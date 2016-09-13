@@ -40,7 +40,7 @@ public class Session extends Entity implements Serializable {
     public static final String CLIENT_KEY = "songm_im_key";
 
     /** 会话唯一标示 */
-    private String id;
+    private String sessionId;
 
     /** 会话创建时间 */
     private Date createdTime;
@@ -48,9 +48,10 @@ public class Session extends Entity implements Serializable {
     /** 会话访问时间 */
     private Date accessTime;
 
-    private Map<String, Object> attribute;
-
+    /** 会话TokenID */
     private String tokenId;
+
+    private Map<String, Object> attribute;
 
     public Session() {
         createdTime = new Date();
@@ -59,16 +60,16 @@ public class Session extends Entity implements Serializable {
 
     public Session(String sessionId, String tokenId) {
         this();
-        this.id = sessionId;
+        this.sessionId = sessionId;
         this.tokenId = tokenId;
     }
 
-    public String getId() {
-        return id;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public Object getAttribute(String name) {

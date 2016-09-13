@@ -49,8 +49,8 @@ public class DisconnectOperation extends AbstractOperation {
             return;
         }
 
-        authService.offline(session.getId());
+        authService.offline(session.getSessionId());
         LOG.debug("Disconnect succeed for tokenId={}, sessionId={}",
-                session.getTokenId(), session.getId());
+                session.getTokenId(), session.getSessionId());
     }
 }

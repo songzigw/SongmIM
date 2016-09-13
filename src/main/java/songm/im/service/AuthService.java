@@ -22,7 +22,7 @@ import songm.im.entity.Session;
 import songm.im.entity.Token;
 
 /**
- * 第三方后台访问控制，用户访问授权等操作
+ * 第三方后台访问控制，用户访问授权等操作。
  * 
  * @author zhangsong
  * @since 0.1, 2016-8-23
@@ -32,7 +32,7 @@ import songm.im.entity.Token;
 public interface AuthService {
 
     /** 客户端的时间和服务端的时间误差范围 */
-    public static final long MISTIMING = 3 * 1000;
+    public static final long MISTIMING = 5 * 1000;
 
     /**
      * 第三方应用后台访问授权
@@ -57,6 +57,21 @@ public interface AuthService {
     public Token createToken(String uid, String nick, String avatar);
 
     /**
+     * 删除Token
+     * @param tokenId
+     * @return
+     */
+    public Token deleteToken(String tokenId);
+    
+    /**
+     * 获取Token
+     * 
+     * @param tokenId
+     * @return
+     */
+    public Token getTokenByTokenId(String tokenId);
+
+    /**
      * 用户凭借通信令牌上线，并获取当前用户的会话信息
      * 
      * @param tokenId
@@ -73,21 +88,4 @@ public interface AuthService {
      * @return
      */
     public Session offline(String sessionId);
-
-    /**
-     * 获取Token
-     * 
-     * @param uid
-     * @return
-     */
-    public Token getTokenByUid(String uid);
-
-    /**
-     * 获取Token
-     * 
-     * @param tokenId
-     * @return
-     */
-    public Token getTokenByTokenId(String tokenId);
-
 }

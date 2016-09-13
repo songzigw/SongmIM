@@ -50,17 +50,17 @@ public class ConnectionOperation extends AbstractOperation {
         try {
             // 连接成功
             Session newSes = authService.online(session.getTokenId(),
-                    session.getId(), ch);
-            saveSessionId(ch, newSes.getId());
+                    session.getSessionId(), ch);
+            saveSessionId(ch, newSes.getSessionId());
             LOG.debug("Connection success for tokenId={}, sessionId={}",
-                    newSes.getTokenId(), newSes.getId());
+                    newSes.getTokenId(), newSes.getSessionId());
 
             pro.setBody(JsonUtils.toJson(newSes, Session.class).getBytes());
             ch.writeAndFlush(pro);
         } catch (IMException e) {
             // 连接失败
             LOG.debug("Connection success for tokenId={}, sessionId={}",
-                    session.getTokenId(), session.getId());
+                    session.getTokenId(), session.getSessionId());
 
             session.setErrorCode(e.getErrorCode().name());
             pro.setBody(JsonUtils.toJson(session, Session.class).getBytes());

@@ -18,9 +18,10 @@ package songm.im.service.impl;
 
 import io.netty.channel.Channel;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ import songm.im.utils.Sequence;
 @Service("authService")
 public class AuthServiceImpl implements AuthService {
 
-    // tokenItems可以做到持久化，目前先这样
+    // TokenItems可以做到持久化，目前先这样
     private Map<String, Token> tokenItems = new HashMap<String, Token>();
     @Autowired
     private SessionService sessionService;
@@ -46,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean auth(String key, String nonce, String signature,
             long timestamp) {
-        long curr = (new Date()).getTime();
+        long curr = System.currentTimeMillis();
         long mis = curr - timestamp;
         if (mis > MISTIMING || mis < -MISTIMING) {
             return false;
@@ -71,12 +72,34 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Token createToken(String uid, String nick, String avatar) {
         Token token = new Token();
-        token.setId(Sequence.getInstance().getSequence(16));
         token.setUid(uid);
         token.setNick(nick);
         token.setAvatar(avatar);
-        tokenItems.put(token.getId(), token);
+        
+        if (tokenItems.containsValue(token)) {
+            Set<Entry<String, Token>> set = tokenItems.entrySet();
+            for (Entry<String, Token> s : set) {
+                if (s.getValue().getUid().equals(uid)) {
+                    s.getValue().setNick(nick);
+                    s.getValue().setAvatar(avatar);
+                    return s.getValue();
+                }
+            }
+        }
+        
+        token.setTokenId(Sequence.getInstance().getSequence(16));
+        tokenItems.put(token.getTokenId(), token);
         return token;
+    }
+    
+    @Override
+    public Token deleteToken(String tokenId) {
+        return tokenItems.remove(tokenId);
+    }
+
+    @Override
+    public Token getTokenByTokenId(String tokenId) {
+        return tokenItems.get(tokenId);
     }
 
     @Override
@@ -91,17 +114,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Session offline(String sessionId) {
         return sessionService.remove(sessionId);
-    }
-
-    @Override
-    public Token getTokenByUid(String uid) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Token getTokenByTokenId(String tokenId) {
-        return tokenItems.get(tokenId);
     }
 
 }
