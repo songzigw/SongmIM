@@ -31,11 +31,19 @@ public class Message extends Entity {
 
     private static final long serialVersionUID = 3649240217021961002L;
 
+    /** 会话类型 */
+    private String conv;
+    /** 消息类型 */
     private String type;
+    /** 创建时间 */
     private Date created;
+    /** 修改时间 */
     private Date updated;
+    /** 发送方 */
     private String from;
+    /** 接收方 */
     private String to;
+    /** 具体消息内容 */
     private String jsonBody;
 
     public Date getCreated() {
@@ -84,6 +92,14 @@ public class Message extends Entity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getConv() {
+        return conv;
+    }
+
+    public void setConv(String conv) {
+        this.conv = conv;
     }
 
 }

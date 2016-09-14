@@ -14,17 +14,17 @@
  * limitations under the License.
  * 
  */
-package songm.im;
-
-import io.netty.util.AttributeKey;
+package songm.im.entity;
 
 /**
- * 常量类
- * @author songzigw
+ * 会话
+ * @author zhangsong
  *
  */
-public interface Constants {
+public abstract class Conversation {
 
-    public static final AttributeKey<String> KEY_SESSION_ID = AttributeKey
-            .valueOf("session_id");
+    /** 私聊 */
+    public static final String PRIVATE = "privae";
+    /** 组聊 */
+    public static final String GROUP = "GROUP";
 }
