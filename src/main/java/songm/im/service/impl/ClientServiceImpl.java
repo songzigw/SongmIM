@@ -25,12 +25,14 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import songm.im.IMException;
+import songm.im.IMException.ErrorCode;
 import songm.im.entity.SessionCh;
 import songm.im.mqtt.ClientUser;
 import songm.im.mqtt.MqttClientUser;
 import songm.im.service.ClientService;
 
-@Service("mqttClientService")
+@Service("clientService")
 public class ClientServiceImpl implements ClientService {
 
     private Map<String, ClientUser> clientItems = new HashMap<String, ClientUser>();
@@ -41,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
     private int qos = 2;
 
     @Override
-    public ClientUser createClient(SessionCh session) {
+    public ClientUser createClient(SessionCh session)  throws IMException {
         MqttClientUser client = (MqttClientUser) getClient(session.getUid());
         if (client != null) {
             client.addSession(session);
@@ -55,7 +57,7 @@ public class ClientServiceImpl implements ClientService {
             client = new MqttClientUser(broker, session.getUid());
             client.connect(connOpts);
         } catch (MqttException e) {
-            e.printStackTrace();
+            throw new IMException(ErrorCode.MQ_CONNECT, "MQ Connect", e);
         }
 
         clientItems.put(session.getUid(), client);
@@ -68,20 +70,20 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void disconnect(String uid) {
+    public void disconnect(String uid)  throws IMException {
         MqttClientUser client = (MqttClientUser) this.getClient(uid);
         if (client != null) {
             try {
                 client.disconnect();
             } catch (MqttException e) {
-                e.printStackTrace();
+                throw new IMException(ErrorCode.MQ_DISCONNECT, "MQ Disconnect", e);
             }
             client.clearSessions();
         }
     }
 
     @Override
-    public void publish(String uid, String topic, byte[] body) {
+    public void publish(String uid, String topic, byte[] body)  throws IMException {
         MqttClientUser client = (MqttClientUser) this.getClient(uid);
         if (client == null) {
             return;
@@ -92,7 +94,7 @@ public class ClientServiceImpl implements ClientService {
         try {
             client.publish(topic, message);
         } catch (MqttException e) {
-            e.printStackTrace();
+            throw new IMException(ErrorCode.MQ_PUBLISH, "MQ Publish", e);
         }
     }
 }

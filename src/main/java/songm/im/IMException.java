@@ -63,7 +63,10 @@ public class IMException extends Exception {
         
         // Session异常------------
         /** Session失效 */
-        SESSION_DISABLED
+        SESSION_DISABLED,
+        
+        // MQ异常
+        MQ_CONNECT, MQ_PUBLISH, MQ_DISCONNECT
     }
 
 }

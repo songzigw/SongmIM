@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import songm.im.IMException;
 import songm.im.entity.Protocol;
 import songm.im.entity.Session;
 import songm.im.service.AuthService;
@@ -49,7 +50,11 @@ public class DisconnectOperation extends AbstractOperation {
             return;
         }
 
-        authService.offline(session.getSessionId());
+        try {
+            authService.offline(session.getSessionId());
+        } catch (IMException e) {
+            LOG.error(e.getMessage(), e);
+        }
         LOG.debug("Disconnect succeed for tokenId={}, sessionId={}",
                 session.getTokenId(), session.getSessionId());
     }

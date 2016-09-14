@@ -16,6 +16,8 @@
  */
 package songm.im.mqtt;
 
+import io.netty.channel.Channel;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -53,7 +55,7 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
             @Override
             public void messageArrived(String topic, MqttMessage message)
                     throws Exception {
-                client.trigger(message.getPayload());
+                client.trigger(message.getPayload(), null);
             }
 
             @Override
@@ -72,11 +74,11 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
         sessions.remove(session);
     }
 
-    private void trigger(byte[] payload) {
+    public void trigger(byte[] payload, Channel out) {
         Iterator<SessionCh> iter = sessions.iterator();
         while (iter.hasNext()) {
             SessionCh session = (SessionCh) iter.next();
-            session.onReceived(payload);
+            session.onReceived(payload, out);
         }
     }
     

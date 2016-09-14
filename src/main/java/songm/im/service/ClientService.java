@@ -16,6 +16,7 @@
  */
 package songm.im.service;
 
+import songm.im.IMException;
 import songm.im.entity.SessionCh;
 import songm.im.mqtt.ClientUser;
 
@@ -32,7 +33,7 @@ public interface ClientService {
      * @param session
      * @return
      */
-    public ClientUser createClient(SessionCh session);
+    public ClientUser createClient(SessionCh session) throws IMException;
 
     /**
      * 获取MQTT客户端
@@ -47,7 +48,7 @@ public interface ClientService {
      * 
      * @param uid
      */
-    public void disconnect(String uid);
+    public void disconnect(String uid) throws IMException;
 
     /**
      * 发布消息
@@ -56,5 +57,5 @@ public interface ClientService {
      * @param topic
      * @param body
      */
-    public void publish(String uid, String topic, byte[] body);
+    public void publish(String uid, String topic, byte[] body) throws IMException;
 }

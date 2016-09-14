@@ -14,41 +14,22 @@
  * limitations under the License.
  * 
  */
-package songm.im.mqtt;
-
-import io.netty.channel.Channel;
-import songm.im.entity.SessionCh;
+package songm.im.message;
 
 /**
- * 客户端用户
- * 
+ * 文字消息
  * @author zhangsong
  *
  */
-public interface ClientUser {
+public class TextMessage extends MessageContent {
 
-    /**
-     * 添加Session
-     * @param session
-     */
-    public void addSession(SessionCh session);
+    private String text;
 
-    /**
-     * 移除Session
-     * @param session
-     */
-    public void removeSession(SessionCh session);
+    public String getText() {
+        return text;
+    }
 
-    public void trigger(byte[] payload, Channel out);
-    
-    /**
-     * 是否包含Session
-     * @return
-     */
-    public boolean isSessions();
-
-    /**
-     * 清除Session
-     */
-    public void clearSessions();
+    public void setText(String text) {
+        this.text = text;
+    }
 }

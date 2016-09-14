@@ -25,7 +25,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import songm.im.entity.Session;
+import songm.im.IMException;
 import songm.im.entity.SessionCh;
 import songm.im.entity.Token;
 import songm.im.mqtt.ClientUser;
@@ -36,14 +36,14 @@ import songm.im.utils.Sequence;
 @Service("sessionService")
 public class SessionServiceImpl implements SessionService {
 
-    private Map<String, Session> sesItems = new HashMap<String, Session>();
+    private Map<String, SessionCh> sesItems = new HashMap<String, SessionCh>();
 
-    @Resource(name = "mqttClientService")
-    private ClientService mqttClientService;
+    @Resource(name = "clientService")
+    private ClientService clientService;
 
     @Override
-    public Session create(Token token, String sessionId, Channel ch) {
-        SessionCh ses = (SessionCh) getSession(sessionId);
+    public SessionCh create(Token token, String sessionId, Channel ch) throws IMException {
+        SessionCh ses = getSession(sessionId);
         if (ses != null) {
             ses.addCh(ch);
             return ses;
@@ -51,16 +51,16 @@ public class SessionServiceImpl implements SessionService {
 
         sessionId = Sequence.getInstance().getSequence(28);
         ses = new SessionCh(sessionId, token.getTokenId(), token.getUid());
-        ses.setAttribute(KEY_UID, token.getUid());
         ses.addCh(ch);
+   
+        clientService.createClient(ses);
         sesItems.put(sessionId, ses);
-        
-        mqttClientService.createClient(ses);
+   
         return ses;
     }
 
     @Override
-    public Session getSession(String sessionId) {
+    public SessionCh getSession(String sessionId) {
         if (sessionId == null) {
             return null;
         }
@@ -68,8 +68,8 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Session remove(String sessionId) {
-        SessionCh session = (SessionCh) getSession(sessionId);
+    public SessionCh remove(String sessionId) throws IMException {
+        SessionCh session = getSession(sessionId);
         if (session == null) {
             return null;
         }
@@ -77,11 +77,11 @@ public class SessionServiceImpl implements SessionService {
         session.clearCh();
         
         // 将客户端用户中对应的Session删除
-        ClientUser cUser = mqttClientService.getClient(session.getUid());
+        ClientUser cUser = clientService.getClient(session.getUid());
         if (cUser != null) {
             cUser.removeSession(session);
             if (!cUser.isSessions())
-                mqttClientService.disconnect(session.getUid());
+                clientService.disconnect(session.getUid());
         }
         return sesItems.remove(sessionId);
     }

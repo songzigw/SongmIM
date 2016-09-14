@@ -34,7 +34,7 @@ public class MessageOperation extends AbstractOperation {
     private final Logger LOG = LoggerFactory.getLogger(MessageOperation.class);
     
     @Autowired
-    private ClientService mqttClientService;
+    private ClientService clientService;
 
     @Override
     public int operation() {
@@ -49,12 +49,18 @@ public class MessageOperation extends AbstractOperation {
             ch.close().syncUninterruptibly();
             return;
         }
-        Message msg = JsonUtils.fromJson(pro.getBody(), Message.class);
-        //String uid = (String) getSession(ch).getAttribute(SessionService.KEY_UID);
-        mqttClientService.publish(msg.getFrom(), msg.getTo(), pro.getBody());
 
-        LOG.debug("Message send succeed", pro.toString());
+        Message msg = JsonUtils.fromJson(pro.getBody(), Message.class);
+        clientService.getClient(msg.getFrom()).trigger(pro.getBody(), ch);
         Entity ent = new Entity();
+        try {
+            clientService.publish(msg.getFrom(), msg.getTo(), pro.getBody());
+        } catch (IMException e) {
+            ent.setSucceed(false);
+            ent.setErrorCode(e.getErrorCode().name());
+        }
+        LOG.debug("Message send", pro.toString());
+
         pro.setBody(JsonUtils.toJson(ent, Entity.class).getBytes());
         ch.writeAndFlush(pro);
     }

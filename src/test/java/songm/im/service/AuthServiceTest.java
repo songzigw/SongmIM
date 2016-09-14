@@ -119,7 +119,7 @@ public class AuthServiceTest {
     }
     
     @Test
-    public void testOnlineSuccess() {
+    public void testOnlineSuccess() throws IMException {
         Token t = authService.createToken(token.getUid(),
                 token.getNick(), token.getAvatar());
         

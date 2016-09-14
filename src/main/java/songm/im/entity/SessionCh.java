@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import songm.im.operation.Operation.Type;
+import songm.im.server.ChannelLongPolling;
 
 /**
  * 用户与服务端的会话
@@ -50,14 +51,34 @@ public class SessionCh extends Session {
         chSet.remove(ch);
     }
 
-    public void onReceived(byte[] payload) {
+    public ChannelLongPolling getChannel(String chId) {
         Iterator<Channel> iter = chSet.iterator();
         while (iter.hasNext()) {
-            Channel ch = (Channel) iter.next();
-            Protocol pro = new Protocol();
-            pro.setOperation(Type.MESSAGE.getValue());
-            pro.setBody(payload);
-            ch.writeAndFlush(pro);
+            Channel ch = iter.next();
+            if (ch instanceof ChannelLongPolling) {
+                ChannelLongPolling clp = (ChannelLongPolling) ch;
+                if (clp.getChId().equals(chId)) {
+                    return clp;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public void onReceived(byte[] payload, Channel out) {
+        Iterator<Channel> iter = chSet.iterator();
+        while (iter.hasNext()) {
+            Channel ch = iter.next();
+            if (ch == out) continue;
+            if (ch instanceof ChannelLongPolling) {
+                ChannelLongPolling clp = (ChannelLongPolling) ch;
+                
+            } else {
+                Protocol pro = new Protocol();
+                pro.setOperation(Type.MESSAGE.getValue());
+                pro.setBody(payload);
+                ch.writeAndFlush(pro);
+            }
         }
     }
 
@@ -65,7 +86,12 @@ public class SessionCh extends Session {
         Iterator<Channel> iter = chSet.iterator();
         while (iter.hasNext()) {
             Channel ch = (Channel) iter.next();
-            ch.close().syncUninterruptibly();
+            if (ch instanceof ChannelLongPolling) {
+                ChannelLongPolling clp = (ChannelLongPolling) ch;
+                
+            } else {
+                ch.close().syncUninterruptibly();
+            }
         }
         chSet.clear();
     }

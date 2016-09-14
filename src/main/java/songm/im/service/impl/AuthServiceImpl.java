@@ -112,7 +112,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Session offline(String sessionId) {
+    public Session offline(String sessionId) throws IMException {
         return sessionService.remove(sessionId);
     }
 

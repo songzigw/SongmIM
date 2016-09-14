@@ -16,7 +16,6 @@
  */
 package songm.im.entity;
 
-import java.io.Serializable;
 
 /**
  * 用户在IM服务器上的凭证，
@@ -27,7 +26,7 @@ import java.io.Serializable;
  * @version 0.1
  * 
  */
-public class Token extends Entity implements Serializable {
+public class Token extends Entity {
 
     private static final long serialVersionUID = 1356174819334484641L;
 

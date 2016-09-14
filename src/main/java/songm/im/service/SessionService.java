@@ -17,7 +17,8 @@
 package songm.im.service;
 
 import io.netty.channel.Channel;
-import songm.im.entity.Session;
+import songm.im.IMException;
+import songm.im.entity.SessionCh;
 import songm.im.entity.Token;
 
 /**
@@ -30,8 +31,6 @@ import songm.im.entity.Token;
  */
 public interface SessionService {
     
-    public static final String KEY_UID = "UID";
-
     /**
      * 创建会话
      * 
@@ -40,7 +39,7 @@ public interface SessionService {
      * @param ch
      * @return
      */
-    public Session create(Token token, String sessionId, Channel ch);
+    public SessionCh create(Token token, String sessionId, Channel ch) throws IMException;
 
     /**
      * 获取会话信息
@@ -48,7 +47,7 @@ public interface SessionService {
      * @param sessionId
      * @return
      */
-    public Session getSession(String sessionId);
+    public SessionCh getSession(String sessionId);
 
     /**
      * 移除会话
@@ -56,6 +55,6 @@ public interface SessionService {
      * @param sessionId
      * @return
      */
-    public Session remove(String sessionId);
+    public SessionCh remove(String sessionId) throws IMException;
 
 }

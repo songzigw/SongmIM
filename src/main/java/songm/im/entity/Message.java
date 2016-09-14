@@ -16,26 +16,27 @@
  */
 package songm.im.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 基础消息描述类
+ * 消息实体，用来容纳和存储到客户端收到的消息，
+ * 以及服务端生成的消息经过这个消息实体包装，专递到客户端。
  * 
  * @author zhangsong
  * @since 0.1, 2016-8-23
  * @version 0.1
  *
  */
-public class Message extends Entity implements Serializable {
+public class Message extends Entity {
 
     private static final long serialVersionUID = 3649240217021961002L;
 
+    private String type;
     private Date created;
     private Date updated;
     private String from;
     private String to;
-    private String body;
+    private String jsonBody;
 
     public Date getCreated() {
         return created;
@@ -69,12 +70,20 @@ public class Message extends Entity implements Serializable {
         this.to = to;
     }
 
-    public String getBody() {
-        return body;
+    public String getJsonBody() {
+        return jsonBody;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setJsonBody(String jsonBody) {
+        this.jsonBody = jsonBody;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

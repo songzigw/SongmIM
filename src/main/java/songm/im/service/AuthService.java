@@ -87,5 +87,5 @@ public interface AuthService {
      * @param sessionId
      * @return
      */
-    public Session offline(String sessionId);
+    public Session offline(String sessionId) throws IMException;
 }
