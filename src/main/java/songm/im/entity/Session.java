@@ -35,9 +35,6 @@ public class Session extends Entity {
     /** 默认超时间 */
     public static final long TIME_OUT = 1000 * 24 * 60 * 60;
 
-    /** 用户与服务端会话唯一标示符 */
-    public static final String CLIENT_KEY = "songm_im_key";
-
     /** 会话唯一标示 */
     private String sessionId;
 
