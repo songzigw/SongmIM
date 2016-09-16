@@ -16,11 +16,18 @@
  */
 package songm.im.message;
 
+import songm.im.utils.JsonUtils;
+
 /**
  * 图片消息
  * @author zhangsong
  *
  */
 public class ImageMessage extends MessageContent {
+
+    @Override
+    public String getJsonString() {
+        return JsonUtils.toJson(this, ImageMessage.class);
+    }
 
 }

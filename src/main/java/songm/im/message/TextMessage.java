@@ -16,6 +16,8 @@
  */
 package songm.im.message;
 
+import songm.im.utils.JsonUtils;
+
 /**
  * 文字消息
  * @author zhangsong
@@ -31,5 +33,10 @@ public class TextMessage extends MessageContent {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @Override
+    public String getJsonString() {
+        return JsonUtils.toJson(this, TextMessage.class);
     }
 }

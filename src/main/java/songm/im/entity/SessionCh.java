@@ -24,6 +24,8 @@ import java.util.Set;
 
 import songm.im.operation.Operation.Type;
 import songm.im.server.ChannelLongPolling;
+import songm.im.utils.Sequence;
+import songm.im.utils.StringUtils;
 
 /**
  * 用户与服务端的会话
@@ -44,7 +46,25 @@ public class SessionCh extends Session {
     }
     
     public void addCh(Channel ch) {
-        chSet.add(ch);
+        if (ch instanceof ChannelLongPolling) {
+            ChannelLongPolling clp = (ChannelLongPolling) ch;
+            if (isFirstConn(clp.getChId())) {
+                clp.setChId(Sequence.getInstance().getSequence(7));
+                chSet.add(ch);
+            }
+        } else {
+            chSet.add(ch);
+        }
+    }
+    
+    public boolean isFirstConn(String chId) {
+        if (StringUtils.isEmptyOrNull(chId)) {
+            return true;
+        }
+        if (getChannel(chId) == null) {
+            return true;
+        }
+        return false;
     }
     
     public void removeCh(Channel ch) {
@@ -72,7 +92,7 @@ public class SessionCh extends Session {
             if (ch == out) continue;
             if (ch instanceof ChannelLongPolling) {
                 ChannelLongPolling clp = (ChannelLongPolling) ch;
-                
+                clp.addMessage(payload);
             } else {
                 Protocol pro = new Protocol();
                 pro.setOperation(Type.MESSAGE.getValue());
@@ -88,7 +108,7 @@ public class SessionCh extends Session {
             Channel ch = (Channel) iter.next();
             if (ch instanceof ChannelLongPolling) {
                 ChannelLongPolling clp = (ChannelLongPolling) ch;
-                
+                clp.clearMessage();
             } else {
                 ch.close().syncUninterruptibly();
             }

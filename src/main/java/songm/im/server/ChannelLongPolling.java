@@ -16,6 +16,10 @@
  */
 package songm.im.server;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * 长轮询管道
  * @author zhangsong
@@ -23,8 +27,15 @@ package songm.im.server;
  */
 public class ChannelLongPolling extends IMChannel {
 
+    private List<byte[]> queue;
+
     private String chId;
 
+    public ChannelLongPolling(String chId) {
+        queue = Collections.synchronizedList(new LinkedList<byte[]>());
+        this.chId = chId;
+    }
+    
     public String getChId() {
         return chId;
     }
@@ -33,4 +44,18 @@ public class ChannelLongPolling extends IMChannel {
         this.chId = chId;
     }
 
+    public void addMessage(byte[] msg) {
+        queue.add(msg);
+    }
+    
+    public byte[] getMessage() {
+        if (queue.size() == 0) {
+            return null;
+        }
+        return queue.remove(0);
+    }
+    
+    public void clearMessage() {
+        queue.clear();
+    }
 }

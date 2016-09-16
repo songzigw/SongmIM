@@ -24,7 +24,9 @@ package songm.im.message;
 public abstract class MessageContent {
 
     /** 文本消息 */
-    static final String TEXT = "text";
+    public static final String TEXT = "text";
     /** 图片消息 */
-    static final String IMAGE = "image";
+    public static final String IMAGE = "image";
+    
+    public abstract String getJsonString();
 }

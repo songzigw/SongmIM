@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 import songm.im.Config;
 import songm.im.IMException;
 import songm.im.IMException.ErrorCode;
-import songm.im.entity.Session;
+import songm.im.entity.SessionCh;
 import songm.im.entity.Token;
 import songm.im.service.AuthService;
 import songm.im.service.SessionService;
@@ -103,7 +103,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Session online(String tokenId, String sessionId, Channel ch) throws IMException {
+    public SessionCh online(String tokenId, String sessionId, Channel ch) throws IMException {
         Token token = tokenItems.get(tokenId);
         if (token == null) {
             throw new IMException(ErrorCode.TOKEN_INVALID, "Token invalid");
@@ -112,7 +112,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Session offline(String sessionId) throws IMException {
+    public SessionCh offline(String sessionId) throws IMException {
         return sessionService.remove(sessionId);
     }
 
