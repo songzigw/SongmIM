@@ -31,6 +31,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+/**
+ * WebSocket通信协议的编码与解码
+ * @author zhangsong
+ *
+ */
 @Component
 @ChannelHandler.Sharable
 public class WsocketProtocolCodec extends
