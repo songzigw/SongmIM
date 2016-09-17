@@ -41,6 +41,7 @@ public class ClientServiceImpl implements ClientService {
     private String broker = "tcp://iot.eclipse.org:1883";
     @Value("${mqtt.qos}")
     private int qos = 2;
+    private boolean clearSession = true;
 
     @Override
     public ClientUser createClient(SessionCh session)  throws IMException {
@@ -51,7 +52,7 @@ public class ClientServiceImpl implements ClientService {
         }
 
         MqttConnectOptions connOpts = new MqttConnectOptions();
-        connOpts.setCleanSession(true);
+        connOpts.setCleanSession(clearSession);
 
         try {
             client = new MqttClientUser(broker, session.getUid());

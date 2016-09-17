@@ -42,7 +42,7 @@ public class SessionServiceImpl implements SessionService {
     private ClientService clientService;
 
     @Override
-    public SessionCh create(Token token, String sessionId, Channel ch) throws IMException {
+    public SessionCh createSession(Token token, String sessionId, Channel ch) throws IMException {
         SessionCh ses = getSession(sessionId);
         if (ses != null) {
             ses.addCh(ch);
@@ -68,7 +68,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public SessionCh remove(String sessionId) throws IMException {
+    public SessionCh removeSession(String sessionId) throws IMException {
         SessionCh session = getSession(sessionId);
         if (session == null) {
             return null;

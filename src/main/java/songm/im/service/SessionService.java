@@ -39,7 +39,7 @@ public interface SessionService {
      * @param ch
      * @return
      */
-    public SessionCh create(Token token, String sessionId, Channel ch) throws IMException;
+    public SessionCh createSession(Token token, String sessionId, Channel ch) throws IMException;
 
     /**
      * 获取会话信息
@@ -55,6 +55,6 @@ public interface SessionService {
      * @param sessionId
      * @return
      */
-    public SessionCh remove(String sessionId) throws IMException;
+    public SessionCh removeSession(String sessionId) throws IMException;
 
 }

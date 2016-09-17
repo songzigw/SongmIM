@@ -108,12 +108,12 @@ public class AuthServiceImpl implements AuthService {
         if (token == null) {
             throw new IMException(ErrorCode.TOKEN_INVALID, "Token invalid");
         }
-        return sessionService.create(token, sessionId, ch);
+        return sessionService.createSession(token, sessionId, ch);
     }
 
     @Override
     public SessionCh offline(String sessionId) throws IMException {
-        return sessionService.remove(sessionId);
+        return sessionService.removeSession(sessionId);
     }
 
 }

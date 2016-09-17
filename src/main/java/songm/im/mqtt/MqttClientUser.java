@@ -67,6 +67,11 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
     }
 
     public synchronized void addSession(SessionCh session) {
+        for (SessionCh ses : sessions) {
+            if (ses.getSessionId().equals(session.getSessionId())) {
+                return;
+            }
+        }
         sessions.add(session);
     }
 
