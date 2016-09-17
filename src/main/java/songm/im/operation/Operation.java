@@ -26,7 +26,7 @@ import songm.im.entity.Protocol;
  */
 public interface Operation {
 
-    public int operation();
+    public int handle();
 
     void action(Channel ch, Protocol pro);
 

@@ -43,7 +43,7 @@ public class OperationManager {
     public Map<Integer, Operation> operations() {
         Map<String, Operation> beans = context.getBeansOfType(Operation.class);
         for (Operation op : beans.values()) {
-            ops.put(op.operation(), op);
+            ops.put(op.handle(), op);
         }
         return ops;
     }

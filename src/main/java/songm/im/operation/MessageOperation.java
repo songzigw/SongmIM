@@ -37,7 +37,7 @@ public class MessageOperation extends AbstractOperation {
     private ClientService clientService;
 
     @Override
-    public int operation() {
+    public int handle() {
         return Type.MSG_SEND.getValue();
     }
 

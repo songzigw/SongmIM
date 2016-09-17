@@ -36,7 +36,7 @@ public class DisconnectOperation extends AbstractOperation {
     private AuthService authService;
 
     @Override
-    public int operation() {
+    public int handle() {
         return Type.CONN_CLOSE.getValue();
     }
 

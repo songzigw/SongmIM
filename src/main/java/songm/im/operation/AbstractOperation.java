@@ -26,6 +26,11 @@ import songm.im.IMException.ErrorCode;
 import songm.im.entity.Session;
 import songm.im.service.SessionService;
 
+/**
+ * 基础操作类
+ * @author zhangsong
+ *
+ */
 public abstract class AbstractOperation implements Operation {
 
     @Autowired
