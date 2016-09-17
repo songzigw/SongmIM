@@ -44,11 +44,11 @@ public interface ClientService {
     public ClientUser getClient(String uid);
 
     /**
-     * 断开连接
+     * 移除客户端
      * 
      * @param uid
      */
-    public void disconnect(String uid) throws IMException;
+    public void removeClient(String uid) throws IMException;
 
     /**
      * 发布消息

@@ -67,7 +67,13 @@ public class SessionCh extends Session {
         return false;
     }
     
-    public void removeCh(Channel ch) {
+    public void removeChannel(Channel ch) {
+        if (ch instanceof ChannelLongPolling) {
+            ChannelLongPolling clp = (ChannelLongPolling) ch;
+            clp.clearMessage();
+        } else {
+            ch.close().syncUninterruptibly();
+        }
         chSet.remove(ch);
     }
 
@@ -102,7 +108,7 @@ public class SessionCh extends Session {
         }
     }
 
-    public void clearCh() {
+    public void clearChannel() {
         Iterator<Channel> iter = chSet.iterator();
         while (iter.hasNext()) {
             Channel ch = (Channel) iter.next();
@@ -116,4 +122,7 @@ public class SessionCh extends Session {
         chSet.clear();
     }
     
+    public boolean isChannels() {
+        return !chSet.isEmpty();
+    }
 }

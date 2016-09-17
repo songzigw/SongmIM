@@ -71,8 +71,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void disconnect(String uid)  throws IMException {
-        MqttClientUser client = (MqttClientUser) this.getClient(uid);
+    public void removeClient(String uid)  throws IMException {
+        MqttClientUser client = (MqttClientUser) getClient(uid);
         if (client != null) {
             try {
                 client.disconnect();
@@ -80,6 +80,7 @@ public class ClientServiceImpl implements ClientService {
                 throw new IMException(ErrorCode.MQ_DISCONNECT, "MQ Disconnect", e);
             }
             client.clearSessions();
+            clientItems.remove(uid);
         }
     }
 

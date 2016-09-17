@@ -76,6 +76,7 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
     }
 
     public synchronized void removeSession(SessionCh session) {
+        session.clearChannel();
         sessions.remove(session);
     }
 
@@ -95,7 +96,7 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
         Iterator<SessionCh> iter = sessions.iterator();
         while (iter.hasNext()) {
             SessionCh session = (SessionCh) iter.next();
-            session.clearCh();
+            session.clearChannel();
         }
         sessions.clear();
     }

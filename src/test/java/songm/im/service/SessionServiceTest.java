@@ -26,12 +26,12 @@ public class SessionServiceTest {
         t.setTokenId("123456789");
         t.setUid("100");
         t.setNick("zhangsong");
-        Session ses = sessionService.create(t, null, null);
+        Session ses = sessionService.createSession(t, null, null);
         
         Assert.assertThat(t.getTokenId(), Matchers.is(ses.getTokenId()));
         Assert.assertThat(t.getUid(), Matchers.is(ses.getUid()));
         
-        sessionService.remove(ses.getSessionId());
+        sessionService.removeSession(ses.getSessionId());
     }
     
 }

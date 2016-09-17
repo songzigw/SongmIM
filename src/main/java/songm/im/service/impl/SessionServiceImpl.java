@@ -74,16 +74,30 @@ public class SessionServiceImpl implements SessionService {
             return null;
         }
         // 将Session中所有管道连接清除
-        session.clearCh();
+        session.clearChannel();
         
         // 将客户端用户中对应的Session删除
         ClientUser cUser = clientService.getClient(session.getUid());
         if (cUser != null) {
             cUser.removeSession(session);
             if (!cUser.isSessions())
-                clientService.disconnect(session.getUid());
+                clientService.removeClient(session.getUid());
         }
         return sesItems.remove(sessionId);
+    }
+
+    @Override
+    public void removeChannel(String sessionId, Channel ch) throws IMException {
+        SessionCh session = getSession(sessionId);
+        if (session == null) {
+            return;
+        }
+        // 清除管道
+        session.removeChannel(ch);
+        
+        if (!session.isChannels()) {
+            removeSession(sessionId);
+        }
     }
 
 }
