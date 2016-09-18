@@ -15,6 +15,7 @@ public class IMApplicationTest {
 
     @Test
     public void testStart() {
+        imApplication.shutdown();
         try {
             imApplication.start();
         } catch (IMException e) {
@@ -25,6 +26,7 @@ public class IMApplicationTest {
 
     @Test
     public void testRestart() {
+        imApplication.shutdown();
         try {
             imApplication.restart();
         } catch (IMException e) {
