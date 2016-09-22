@@ -1,5 +1,5 @@
 # SongmIM
-松美即时聊天消息服务器
+松美即时聊天消息服务器（Songm IM message server）
 
 ## 概述
 
