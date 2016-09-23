@@ -14,7 +14,7 @@
  * limitations under the License.
  * 
  */
-package songm.im.operation;
+package songm.im.handler;
 
 import io.netty.channel.Channel;
 
@@ -29,38 +29,28 @@ import songm.im.entity.Protocol;
 import songm.im.service.ClientService;
 import songm.im.utils.JsonUtils;
 
-public class MessageOperation extends AbstractOperation {
+public class MessageHandler extends AbstractHandler {
 
-    private final Logger LOG = LoggerFactory.getLogger(MessageOperation.class);
+    private final Logger LOG = LoggerFactory.getLogger(MessageHandler.class);
     
     @Autowired
     private ClientService clientService;
 
     @Override
-    public int handle() {
-        return Type.MSG_SEND.getValue();
+    public int operation() {
+        return Operation.MSG_SEND.getValue();
     }
 
     @Override
-    public void action(Channel ch, Protocol pro) {
-        try {
-            checkSession(ch);
-        } catch (IMException e) {
-            ch.close().syncUninterruptibly();
-            return;
-        }
+    public void action(Channel ch, Protocol pro) throws IMException {
+        checkSession(ch);
 
         Message msg = JsonUtils.fromJson(pro.getBody(), Message.class);
         clientService.getClient(msg.getFrom()).trigger(pro.getBody(), ch);
-        Entity ent = new Entity();
-        try {
-            clientService.publish(msg.getFrom(), msg.getTo(), pro.getBody());
-        } catch (IMException e) {
-            ent.setSucceed(false);
-            ent.setErrorCode(e.getErrorCode().name());
-        }
-        LOG.debug("Message send", pro.toString());
+        clientService.publish(msg.getFrom(), msg.getTo(), pro.getBody());
+        LOG.debug("MessageHandler {}", pro.toString());
 
+        Entity ent = new Entity();
         pro.setBody(JsonUtils.toJson(ent, Entity.class).getBytes());
         ch.writeAndFlush(pro);
     }

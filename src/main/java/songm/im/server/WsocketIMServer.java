@@ -83,7 +83,7 @@ public class WsocketIMServer implements IMServer {
                 }
             });
         }
-        LOG.info("Start WebSocketIMServer Port:{}", port);
+        LOG.info("Start WebSocketIMServer Port: {}", port);
     }
 
     @Override

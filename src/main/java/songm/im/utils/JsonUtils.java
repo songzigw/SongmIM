@@ -10,6 +10,14 @@ public class JsonUtils {
         return gson.toJson(obj, clazz);
     }
 
+    public static <T> byte[] toJsonBytes(Object obj, Class<T> clazz) {
+        String json = gson.toJson(obj, clazz);
+        if (json == null) {
+            return null;
+        }
+        return json.getBytes();
+    }
+    
     public static <T> T fromJson(String str, Class<T> clazz) {
         return gson.fromJson(str, clazz);
     }

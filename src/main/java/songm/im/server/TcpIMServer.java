@@ -82,7 +82,7 @@ public class TcpIMServer implements IMServer {
                 }
             });
         }
-        LOG.info("Start TcpIMServer Port:{}", port);
+        LOG.info("Start TcpIMServer Port: {}", port);
     }
 
     @Override

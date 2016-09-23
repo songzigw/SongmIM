@@ -14,47 +14,49 @@
  * limitations under the License.
  * 
  */
-package songm.im.operation;
+package songm.im.handler;
 
 import io.netty.channel.Channel;
+import songm.im.IMException;
 import songm.im.entity.Protocol;
 
 /**
  * 消息事件操作
+ * 
  * @author zhangsong
  *
  */
-public interface Operation {
+public interface Handler {
 
-    public int handle();
+    public int operation();
 
-    void action(Channel ch, Protocol pro);
+    void action(Channel ch, Protocol pro) throws IMException;
 
-    public static enum Type {
+    public static enum Operation {
         /** 连接请求（授权） */
         CONN_AUTH(1),
         /** 连接关闭 */
         CONN_CLOSE(2),
-        
+
         /** 消息发生 */
         MESSAGE(3),
         /** 消息从客户端发送过来 */
         MSG_SEND(4);
-        
+
         private final int value;
-        
-        private Type(int value) {
+
+        private Operation(int value) {
             this.value = value;
         }
 
         public int getValue() {
             return value;
         }
-        
-        public static Type getInstance(int v) {
-            for (Type type : Type.values()) {
-                if (type.getValue() == v) {
-                    return type;
+
+        public static Operation getInstance(int v) {
+            for (Operation op : Operation.values()) {
+                if (op.getValue() == v) {
+                    return op;
                 }
             }
             return null;

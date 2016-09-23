@@ -16,13 +16,12 @@
  */
 package songm.im.entity;
 
-import io.netty.channel.Channel;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import songm.im.operation.Operation.Type;
+import io.netty.channel.Channel;
+import songm.im.handler.Handler.Operation;
 import songm.im.server.ChannelLongPolling;
 import songm.im.utils.Sequence;
 import songm.im.utils.StringUtils;
@@ -40,11 +39,11 @@ public class SessionCh extends Session {
     private static final long serialVersionUID = -2720707956157888183L;
 
     private Set<Channel> chSet = new HashSet<Channel>();
-    
+
     public SessionCh(String sessionId, String tokenId, String uid) {
         super(sessionId, tokenId, uid);
     }
-    
+
     public void addCh(Channel ch) {
         if (ch instanceof ChannelLongPolling) {
             ChannelLongPolling clp = (ChannelLongPolling) ch;
@@ -56,7 +55,7 @@ public class SessionCh extends Session {
             chSet.add(ch);
         }
     }
-    
+
     public boolean isFirstConn(String chId) {
         if (StringUtils.isEmptyOrNull(chId)) {
             return true;
@@ -66,7 +65,7 @@ public class SessionCh extends Session {
         }
         return false;
     }
-    
+
     public void removeChannel(Channel ch) {
         if (ch instanceof ChannelLongPolling) {
             ChannelLongPolling clp = (ChannelLongPolling) ch;
@@ -90,18 +89,19 @@ public class SessionCh extends Session {
         }
         return null;
     }
-    
+
     public void onReceived(byte[] payload, Channel out) {
         Iterator<Channel> iter = chSet.iterator();
         while (iter.hasNext()) {
             Channel ch = iter.next();
-            if (ch == out) continue;
+            if (ch == out)
+                continue;
             if (ch instanceof ChannelLongPolling) {
                 ChannelLongPolling clp = (ChannelLongPolling) ch;
                 clp.addMessage(payload);
             } else {
                 Protocol pro = new Protocol();
-                pro.setOperation(Type.MESSAGE.getValue());
+                pro.setOperation(Operation.MESSAGE.getValue());
                 pro.setBody(payload);
                 ch.writeAndFlush(pro);
             }
@@ -121,7 +121,7 @@ public class SessionCh extends Session {
         }
         chSet.clear();
     }
-    
+
     public boolean isChannels() {
         return !chSet.isEmpty();
     }

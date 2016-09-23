@@ -14,7 +14,7 @@
  * limitations under the License.
  * 
  */
-package songm.im.operation;
+package songm.im.handler;
 
 import io.netty.channel.Channel;
 
@@ -30,17 +30,16 @@ import songm.im.service.AuthService;
 import songm.im.utils.JsonUtils;
 
 @Component
-public class ConnectionOperation extends AbstractOperation {
+public class ConnectionHandler extends AbstractHandler {
 
-    private final Logger LOG = LoggerFactory
-            .getLogger(ConnectionOperation.class);
+    private final Logger LOG = LoggerFactory.getLogger(ConnectionHandler.class);
 
     @Autowired
     private AuthService authService;
 
     @Override
-    public int handle() {
-        return Type.CONN_AUTH.getValue();
+    public int operation() {
+        return Operation.CONN_AUTH.getValue();
     }
 
     @Override
@@ -49,18 +48,15 @@ public class ConnectionOperation extends AbstractOperation {
 
         try {
             // 连接成功
-            Session newSes = authService.online(session.getTokenId(),
-                    session.getSessionId(), ch);
+            Session newSes = authService.online(session.getTokenId(), session.getSessionId(), ch);
             saveSessionId(ch, newSes.getSessionId());
-            LOG.debug("Connection success for tokenId={}, sessionId={}",
-                    newSes.getTokenId(), newSes.getSessionId());
+            LOG.debug("Connection success for tokenId={}, sessionId={}", newSes.getTokenId(), newSes.getSessionId());
 
             pro.setBody(JsonUtils.toJson(newSes, Session.class).getBytes());
             ch.writeAndFlush(pro);
         } catch (IMException e) {
             // 连接失败
-            LOG.debug("Connection success for tokenId={}, sessionId={}",
-                    session.getTokenId(), session.getSessionId());
+            LOG.debug("Connection success for tokenId={}, sessionId={}", session.getTokenId(), session.getSessionId());
 
             session.setSucceed(false);
             session.setErrorCode(e.getErrorCode().name());

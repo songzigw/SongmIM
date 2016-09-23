@@ -16,22 +16,24 @@
  */
 package songm.im.server;
 
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import songm.im.IMException;
+import songm.im.entity.Entity;
 import songm.im.entity.Protocol;
-import songm.im.operation.OperationManager;
-import songm.im.operation.Operation;
-import songm.im.service.AuthService;
+import songm.im.handler.Handler;
+import songm.im.handler.HandlerManager;
+import songm.im.utils.JsonUtils;
 
 /**
  * 服务器消息处理者
+ * 
  * @author zhangsong
  *
  */
@@ -39,20 +41,25 @@ import songm.im.service.AuthService;
 @ChannelHandler.Sharable
 public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(IMServerHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IMServerHandler.class);
 
     @Autowired
-    private OperationManager operationManager;
-    @Autowired
-    private AuthService authService;
+    private HandlerManager operationManager;
 
     @Override
-    protected void messageReceived(ChannelHandlerContext ctx, Protocol pro)
-            throws Exception {
-        Operation op = operationManager.find(pro.getOperation());
+    protected void messageReceived(ChannelHandlerContext ctx, Protocol pro) throws Exception {
+        Handler op = operationManager.find(pro.getOperation());
         if (op != null) {
-            op.action(ctx.channel(), pro);
+            try {
+                op.action(ctx.channel(), pro);
+            } catch (IMException e) {
+                Entity ent = new Entity();
+                ent.setSucceed(false);
+                ent.setErrorCode(e.getErrorCode().name());
+                pro.setBody(JsonUtils.toJsonBytes(ent, ent.getClass()));
+                ctx.writeAndFlush(pro);
+                ctx.close().syncUninterruptibly();
+            }
         } else {
             LOG.warn("Not found operation: " + pro.getOperation());
         }
@@ -64,8 +71,7 @@ public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
-            throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         LOG.error("ExceptionCaught", cause);
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  * 
  */
-package songm.im.operation;
+package songm.im.handler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,31 +24,32 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import songm.im.operation.Operation;
+import songm.im.handler.Handler;
 
 /**
  * 事件操作管理器
+ * 
  * @author zhangsong
  *
  */
 @Component
-public class OperationManager {
+public class HandlerManager {
 
     @Autowired
     private ApplicationContext context;
 
-    private Map<Integer, Operation> ops = new HashMap<Integer, Operation>();
+    private Map<Integer, Handler> ops = new HashMap<Integer, Handler>();
 
-    @Bean(name = "operations")
-    public Map<Integer, Operation> operations() {
-        Map<String, Operation> beans = context.getBeansOfType(Operation.class);
-        for (Operation op : beans.values()) {
-            ops.put(op.handle(), op);
+    @Bean(name = "handlers")
+    public Map<Integer, Handler> operations() {
+        Map<String, Handler> beans = context.getBeansOfType(Handler.class);
+        for (Handler er : beans.values()) {
+            ops.put(er.operation(), er);
         }
         return ops;
     }
 
-    public Operation find(Integer op) {
+    public Handler find(Integer op) {
         return ops.get(op);
     }
 

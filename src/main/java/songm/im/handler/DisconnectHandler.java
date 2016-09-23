@@ -14,7 +14,7 @@
  * limitations under the License.
  * 
  */
-package songm.im.operation;
+package songm.im.handler;
 
 import io.netty.channel.Channel;
 
@@ -27,21 +27,20 @@ import songm.im.entity.Protocol;
 import songm.im.entity.Session;
 import songm.im.service.AuthService;
 
-public class DisconnectOperation extends AbstractOperation {
+public class DisconnectHandler extends AbstractHandler {
 
-    private final Logger LOG = LoggerFactory
-            .getLogger(DisconnectOperation.class);
+    private final Logger LOG = LoggerFactory.getLogger(DisconnectHandler.class);
 
     @Autowired
     private AuthService authService;
 
     @Override
-    public int handle() {
-        return Type.CONN_CLOSE.getValue();
+    public int operation() {
+        return Operation.CONN_CLOSE.getValue();
     }
 
     @Override
-    public void action(Channel ch, Protocol pro) {
+    public void action(Channel ch, Protocol pro) throws IMException {
         // 关闭连接
         ch.close().syncUninterruptibly();
 
@@ -50,12 +49,8 @@ public class DisconnectOperation extends AbstractOperation {
             return;
         }
 
-        try {
-            authService.offline(session.getSessionId());
-        } catch (IMException e) {
-            LOG.error(e.getMessage(), e);
-        }
-        LOG.debug("Disconnect succeed for tokenId={}, sessionId={}",
+        authService.offline(session.getSessionId());
+        LOG.debug("DisconnectHandler tokenId={}, sessionId={}",
                 session.getTokenId(), session.getSessionId());
     }
 }

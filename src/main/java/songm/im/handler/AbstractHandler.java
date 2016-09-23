@@ -14,7 +14,7 @@
  * limitations under the License.
  * 
  */
-package songm.im.operation;
+package songm.im.handler;
 
 import io.netty.channel.Channel;
 
@@ -28,10 +28,11 @@ import songm.im.service.SessionService;
 
 /**
  * 基础操作类
+ * 
  * @author zhangsong
  *
  */
-public abstract class AbstractOperation implements Operation {
+public abstract class AbstractHandler implements Handler {
 
     @Autowired
     private SessionService sessionService;
@@ -45,11 +46,12 @@ public abstract class AbstractOperation implements Operation {
         return sessionService.getSession(sesId);
     }
 
-    protected void checkSession(Channel ch) throws IMException {
-        if (getSession(ch) == null) {
-            throw new IMException(ErrorCode.SESSION_DISABLED,
-                    "Session not exist");
+    protected Session checkSession(Channel ch) throws IMException {
+        Session ses = getSession(ch);
+        if (ses == null) {
+            throw new IMException(ErrorCode.SESSION_DISABLED, "Session not exist");
         }
+        return ses;
     }
 
 }
