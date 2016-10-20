@@ -25,11 +25,11 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import songm.im.IMException;
-import songm.im.entity.Entity;
 import songm.im.entity.Protocol;
 import songm.im.handler.Handler;
 import songm.im.handler.HandlerManager;
 import songm.im.utils.JsonUtils;
+import songm.im.entity.Result;
 
 /**
  * 服务器消息处理者
@@ -53,10 +53,9 @@ public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
             try {
                 op.action(ctx.channel(), pro);
             } catch (IMException e) {
-                Entity ent = new Entity();
-                ent.setSucceed(false);
-                ent.setErrorCode(e.getErrorCode().name());
-                pro.setBody(JsonUtils.toJsonBytes(ent, ent.getClass()));
+                Result<Object> res = new Result<Object>();
+                res.setErrorCode(e.getErrorCode().name());
+                pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
                 ctx.writeAndFlush(pro);
                 // ctx.close().syncUninterruptibly();
             }

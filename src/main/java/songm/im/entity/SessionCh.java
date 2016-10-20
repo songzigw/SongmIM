@@ -23,6 +23,7 @@ import java.util.Set;
 import io.netty.channel.Channel;
 import songm.im.handler.Handler.Operation;
 import songm.im.server.ChannelLongPolling;
+import songm.im.utils.JsonUtils;
 import songm.im.utils.Sequence;
 import songm.im.utils.StringUtils;
 
@@ -69,7 +70,7 @@ public class SessionCh extends Session {
     public void removeChannel(Channel ch) {
         if (ch instanceof ChannelLongPolling) {
             ChannelLongPolling clp = (ChannelLongPolling) ch;
-            clp.clearMessage();
+            clp.clearResMsg();
         } else {
             ch.close().syncUninterruptibly();
         }
@@ -91,6 +92,10 @@ public class SessionCh extends Session {
     }
 
     public void onReceived(byte[] payload, Channel out) {
+        Message msg = JsonUtils.fromJson(payload, Message.class);
+        Result<Message> res = new Result<Message>();
+        res.setData(msg);
+        
         Iterator<Channel> iter = chSet.iterator();
         while (iter.hasNext()) {
             Channel ch = iter.next();
@@ -98,11 +103,11 @@ public class SessionCh extends Session {
                 continue;
             if (ch instanceof ChannelLongPolling) {
                 ChannelLongPolling clp = (ChannelLongPolling) ch;
-                clp.addMessage(payload);
+                clp.addResMsg(JsonUtils.toJsonBytes(res, res.getClass()));
             } else {
                 Protocol pro = new Protocol();
                 pro.setOperation(Operation.MESSAGE.getValue());
-                pro.setBody(payload);
+                pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
                 ch.writeAndFlush(pro);
             }
         }
@@ -114,7 +119,7 @@ public class SessionCh extends Session {
             Channel ch = (Channel) iter.next();
             if (ch instanceof ChannelLongPolling) {
                 ChannelLongPolling clp = (ChannelLongPolling) ch;
-                clp.clearMessage();
+                clp.clearResMsg();
             } else {
                 ch.close().syncUninterruptibly();
             }

@@ -16,6 +16,7 @@
  */
 package songm.im.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -27,7 +28,7 @@ import java.util.Date;
  * @version 0.1
  *
  */
-public class Message extends Entity {
+public class Message implements Serializable {
 
     private static final long serialVersionUID = 3649240217021961002L;
 

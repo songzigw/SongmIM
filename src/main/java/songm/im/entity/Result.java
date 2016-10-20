@@ -19,22 +19,24 @@ package songm.im.entity;
 import java.io.Serializable;
 
 /**
- * Entity
- * 
- * @author zhangsong
- * @since 0.1, 2016-8-23
- * @version 0.1
+ * 结果数据包装类
  *
+ * @author  zhangsong
+ * @since   0.1, 2016-7-29
+ * @version 0.1
+ * 
  */
-public class Entity implements Serializable {
+public class Result<T> implements Serializable {
 
-    private static final long serialVersionUID = -3895996346260053766L;
+    private static final long serialVersionUID = 7055382336733429251L;
 
     private Boolean succeed;
     
     private String errorCode;
+    
+    private T data;
 
-    public Entity() {
+    public Result() {
         succeed = true;
     }
 
@@ -55,5 +57,13 @@ public class Entity implements Serializable {
             succeed = false;
         }
         this.errorCode = errorCode;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }

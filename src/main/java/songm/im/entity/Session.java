@@ -16,6 +16,7 @@
  */
 package songm.im.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ import java.util.Map;
  * @version 0.1
  * 
  */
-public class Session extends Entity {
+public class Session implements Serializable {
 
     private static final long serialVersionUID = 1689305158269907021L;
 

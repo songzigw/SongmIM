@@ -16,16 +16,15 @@
  */
 package songm.im.handler;
 
-import io.netty.channel.Channel;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import io.netty.channel.Channel;
 import songm.im.IMException;
-import songm.im.entity.Entity;
 import songm.im.entity.Message;
 import songm.im.entity.Protocol;
+import songm.im.entity.Result;
 import songm.im.service.ClientService;
 import songm.im.utils.JsonUtils;
 
@@ -50,8 +49,9 @@ public class MessageHandler extends AbstractHandler {
         clientService.publish(msg.getFrom(), msg.getTo(), pro.getBody());
         LOG.debug("MessageHandler {}", pro.toString());
 
-        Entity ent = new Entity();
-        pro.setBody(JsonUtils.toJson(ent, Entity.class).getBytes());
+        Result<Message> res = new Result<Message>();
+        res.setData(msg);
+        pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
         ch.writeAndFlush(pro);
     }
 

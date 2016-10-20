@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import songm.im.IMException;
 import songm.im.entity.Protocol;
+import songm.im.entity.Result;
 import songm.im.entity.Session;
 import songm.im.service.AuthService;
 import songm.im.utils.JsonUtils;
@@ -46,21 +47,23 @@ public class ConnectionHandler extends AbstractHandler {
     public void action(Channel ch, Protocol pro) {
         Session session = JsonUtils.fromJson(pro.getBody(), Session.class);
 
+        Result<Session> res = new Result<Session>();
         try {
             // 连接成功
             Session newSes = authService.online(session.getTokenId(), session.getSessionId(), ch);
             saveSessionId(ch, newSes.getSessionId());
             LOG.debug("Connection success for tokenId={}, sessionId={}", newSes.getTokenId(), newSes.getSessionId());
 
-            pro.setBody(JsonUtils.toJson(newSes, Session.class).getBytes());
+            res.setData(newSes);
+            pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
             ch.writeAndFlush(pro);
         } catch (IMException e) {
             // 连接失败
-            LOG.debug("Connection success for tokenId={}, sessionId={}", session.getTokenId(), session.getSessionId());
+            LOG.debug("Connection failure for tokenId={}, sessionId={}", session.getTokenId(), session.getSessionId());
 
-            session.setSucceed(false);
-            session.setErrorCode(e.getErrorCode().name());
-            pro.setBody(JsonUtils.toJson(session, Session.class).getBytes());
+            res.setData(session);
+            res.setErrorCode(e.getErrorCode().name());
+            pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
             ch.writeAndFlush(pro);
 
             // 关闭连接

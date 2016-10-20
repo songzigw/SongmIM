@@ -8,8 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import songm.im.IMException;
 import songm.im.IMException.ErrorCode;
-import songm.im.entity.Entity;
 import songm.im.entity.Message;
+import songm.im.entity.Result;
 import songm.im.entity.Session;
 import songm.im.entity.SessionCh;
 import songm.im.message.MessageContent;
@@ -54,19 +54,19 @@ public class PollingController {
     @RequestMapping(value = "/long", method = RequestMethod.GET)
     public String longPolling(String token, String session, String chId, String callback) {
         ModelAndView mv = new ModelAndView();
+        Result<Session> res = new Result<Session>();
         
         SessionCh ses = null;
         ChannelLongPolling clp = new ChannelLongPolling(chId);
         try {
             // 连接成功
             ses = authService.online(token, session, clp);
+            res.setData(ses);
         } catch (IMException e) {
             // 连接失败
-            Session s = new Session();
-            s.setSucceed(false);
-            s.setErrorCode(e.getErrorCode().name());
+            res.setErrorCode(e.getErrorCode().name());
             mv.addObject("data", callback + "("
-                    + JsonUtils.toJson(s, Session.class) + ")");
+                    + JsonUtils.toJson(res, res.getClass()) + ")");
             return "/data";
         }
         
@@ -74,42 +74,40 @@ public class PollingController {
         if (ses.isFirstConn(chId)) {
             ses.setAttribute("ch_id", clp.getChId());
             mv.addObject("data", callback + "("
-                    + JsonUtils.toJson(ses, Session.class) + ")");
+                    + JsonUtils.toJson(res, res.getClass()) + ")");
             return "/data";
         }
         
         // 获取消息
         long start = System.currentTimeMillis();
         ChannelLongPolling ch = ses.getChannel(chId);
-        byte[] message = null;
+        byte[] resMsg = null;
         do {
-            message = ch.getMessage();
-            if (message != null) {
+            resMsg = ch.getResMsg();
+            if (resMsg != null) {
                 break;
             }
             if (System.currentTimeMillis() - start > TIME_OUT) {
-                message = new byte[] {};
+                resMsg = new byte[] {};
                 break;
             }
         } while (true);
         
-        mv.addObject("data", callback + "("
-                + JsonUtils.toJson(message, Message.class) + ")");
+        mv.addObject("data", callback + "(" + new String(resMsg) + ")");
         return "/data";
     }
     
     @RequestMapping(value = "/message", method = RequestMethod.GET)
     public String sendMessage(String session, String chId, String from, String to, String text, String callback) {
         ModelAndView mv = new ModelAndView();
-        Entity ent = new Entity();
+        Result<Object> res = new Result<Object>();
 
         // Session是否正确
         SessionCh ses = getSession(session);
         if (ses == null) {
-            ent.setSucceed(false);
-            ent.setErrorCode(ErrorCode.SESSION_DISABLED.name());
+            res.setErrorCode(ErrorCode.SESSION_DISABLED.name());
             mv.addObject("data", callback + "("
-                    + JsonUtils.toJson(ent, Entity.class) + ")");
+                    + JsonUtils.toJson(res, res.getClass()) + ")");
             return "/data";
         }
         
@@ -122,17 +120,16 @@ public class PollingController {
         msg.setJsonBody(tm.getJsonString());
         
         ChannelLongPolling ch = ses.getChannel(chId);
-        byte[] bytes = JsonUtils.toJson(msg, Message.class).getBytes();
+        byte[] bytes = JsonUtils.toJsonBytes(msg, Message.class);
         clientService.getClient(msg.getFrom()).trigger(bytes, ch);
         try {
             clientService.publish(msg.getFrom(), msg.getTo(), bytes);
         } catch (IMException e) {
-            ent.setSucceed(false);
-            ent.setErrorCode(e.getErrorCode().name());
+            res.setErrorCode(e.getErrorCode().name());
         }
         
         mv.addObject("data", callback + "("
-                + JsonUtils.toJson(ent, Entity.class) + ")");
+                + JsonUtils.toJson(res, res.getClass()) + ")");
         return "/data";
     }
 }
