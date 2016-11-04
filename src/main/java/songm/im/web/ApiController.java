@@ -33,13 +33,13 @@ public class ApiController {
      * @return
      */
     @RequestMapping(value = "/token", method = RequestMethod.GET)
-    public String getToken(String uid, String nick, String avatar) {
+    public ModelAndView getToken(String uid, String nick, String avatar) {
         Token token = authService.createToken(uid, nick, avatar);
         Result<Token> res = new Result<Token>();
         res.setData(token);
         
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv = new ModelAndView("/data");
         mv.addObject("data", JsonUtils.toJson(res, res.getClass()));
-        return "/data";
+        return mv;
     }
 }

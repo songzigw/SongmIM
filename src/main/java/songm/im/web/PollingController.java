@@ -52,8 +52,8 @@ public class PollingController {
      * @return
      */
     @RequestMapping(value = "/long", method = RequestMethod.GET)
-    public String longPolling(String token, String session, String chId, String callback) {
-        ModelAndView mv = new ModelAndView();
+    public ModelAndView longPolling(String token, String session, String chId, String callback) {
+        ModelAndView mv = new ModelAndView("/data");
         Result<Session> res = new Result<Session>();
         
         SessionCh ses = null;
@@ -67,7 +67,7 @@ public class PollingController {
             res.setErrorCode(e.getErrorCode().name());
             mv.addObject("data", callback + "("
                     + JsonUtils.toJson(res, res.getClass()) + ")");
-            return "/data";
+            return mv;
         }
         
         // 第一次连接成功
@@ -75,7 +75,7 @@ public class PollingController {
             ses.setAttribute("ch_id", clp.getChId());
             mv.addObject("data", callback + "("
                     + JsonUtils.toJson(res, res.getClass()) + ")");
-            return "/data";
+            return mv;
         }
         
         // 获取消息
@@ -94,12 +94,12 @@ public class PollingController {
         } while (true);
         
         mv.addObject("data", callback + "(" + new String(resMsg) + ")");
-        return "/data";
+        return mv;
     }
     
     @RequestMapping(value = "/message", method = RequestMethod.GET)
-    public String sendMessage(String session, String chId, String from, String to, String text, String callback) {
-        ModelAndView mv = new ModelAndView();
+    public ModelAndView sendMessage(String session, String chId, String from, String to, String text, String callback) {
+        ModelAndView mv = new ModelAndView("/data");
         Result<Object> res = new Result<Object>();
 
         // Session是否正确
@@ -108,7 +108,7 @@ public class PollingController {
             res.setErrorCode(ErrorCode.SESSION_DISABLED.name());
             mv.addObject("data", callback + "("
                     + JsonUtils.toJson(res, res.getClass()) + ")");
-            return "/data";
+            return mv;
         }
         
         TextMessage tm = new TextMessage();
@@ -130,6 +130,6 @@ public class PollingController {
         
         mv.addObject("data", callback + "("
                 + JsonUtils.toJson(res, res.getClass()) + ")");
-        return "/data";
+        return mv;
     }
 }
