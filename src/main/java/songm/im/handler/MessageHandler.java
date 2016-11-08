@@ -19,6 +19,7 @@ package songm.im.handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import io.netty.channel.Channel;
 import songm.im.IMException;
@@ -28,6 +29,7 @@ import songm.im.entity.Result;
 import songm.im.service.ClientService;
 import songm.im.utils.JsonUtils;
 
+@Component
 public class MessageHandler extends AbstractHandler {
 
     private final Logger LOG = LoggerFactory.getLogger(MessageHandler.class);

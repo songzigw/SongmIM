@@ -21,12 +21,14 @@ import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import songm.im.IMException;
 import songm.im.entity.Protocol;
 import songm.im.entity.Session;
 import songm.im.service.AuthService;
 
+@Component
 public class DisconnectHandler extends AbstractHandler {
 
     private final Logger LOG = LoggerFactory.getLogger(DisconnectHandler.class);
