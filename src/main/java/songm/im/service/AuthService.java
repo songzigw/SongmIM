@@ -32,7 +32,7 @@ import songm.im.entity.Token;
 public interface AuthService {
 
     /** 客户端的时间和服务端的时间误差范围 */
-    public static final long MISTIMING = 5 * 1000;
+    public static final long MISTIMING = 10 * 1000;
 
     /**
      * 第三方应用后台访问授权

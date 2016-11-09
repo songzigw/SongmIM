@@ -39,7 +39,9 @@ API接口如下：
 SM-Server-Key | String | 消息服务器的KEY
 SM-Nonce | String | 随机数，无长度限制
 SM-Timestamp | String | 时间戳，以毫秒为单位
-SM-Signature | String | 数据签名，算法见下一行
+SM-Signature | String | 数据签名，算法见说明
+
+*PS:*
 
 SM-Signature(数据签名)算法：将消息服务器的Secret、Nonce(随机数)、Timestamp(时间戳)三个字符串按先后顺序拼接成一个字符串并进行 SHA1 哈希计算。
 
@@ -59,17 +61,22 @@ avatar | string | false | 用户头像
 返回成功：
 
 ```
-{
-    succeed: true,       // 获取Token成功
-    tokenId: <<TokenId>> // 消息服务分的配通信令牌
+{ json
+    succeed: true,            // 获取Token成功
+    data   : {
+        tokenId: <<TokenId>>, // 消息服务分的配通信令牌
+        uid    : <<uid>>,
+        nick   : <<nick>>,
+        avatar : <<avatar>>
+    }
 }
 ```
 
 返回失败：
 
 ```
-{
-    succeed  : false,     // 获取Token失败
+{ json
+    succeed  : false,    // 获取Token失败
     errorCode: <<错误码>> // 返回失败的原因
 }
 ```

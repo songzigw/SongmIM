@@ -95,7 +95,7 @@ public class Token implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Token(id=%s, uid=%s, nick=%s, avatar=%s)",
+        return String.format("Token(tokenId=%s, uid=%s, nick=%s, avatar=%s)",
                 tokenId, uid, nick, avatar);
     }
 

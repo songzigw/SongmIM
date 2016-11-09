@@ -16,16 +16,24 @@ import songm.im.utils.JsonUtils;
 
 public class AuthInterceptor implements HandlerInterceptor {
 
+    private static final String APPKEY = "SM-Server-Key";
+    private static final String NONCE = "SM-Nonce";
+    private static final String TIMESTAMP = "SM-Timestamp";
+    private static final String SIGNATURE = "SM-Signature";
+    
     @Autowired
     private AuthService authService;
     
     @Override
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception {
-        String key = request.getHeader("key");
-        String nonce = request.getHeader("nonce");
-        String signature = request.getHeader("signature");
-        long timestamp = Long.parseLong(request.getHeader("timestamp"));
+        String key = request.getHeader(APPKEY);
+        String nonce = request.getHeader(NONCE);
+        String signature = request.getHeader(SIGNATURE);
+        long timestamp = 0;
+        try {
+            timestamp = Long.parseLong(request.getHeader(TIMESTAMP));
+        } catch (Exception e) {}
         boolean f = authService.auth(key, nonce, signature, timestamp);
         if (f) {
             return true;
