@@ -113,14 +113,14 @@ number | int | false | 获取记录的条数
 - HeaderLen
 占2byte，描述包头的长度
 
-- Operation
-占4byte，描述具体操作项，告诉程序数据的处理行为
+- PacketLen
+占4byte，描述整个数据包的字节大小（固定包头20byte + 包体实际字节）
 
 - Sequence
 占8byte，每次操作的唯一标识，每次操作生成一个唯一的序列码
 
-- PacketLen
-占4byte，描述整个数据包的字节大小（固定包头20byte + 包体实际字节）
+- Operation
+占4byte，描述具体操作项，告诉程序数据的处理行为
 
 ----- 包体部分 -----
 
@@ -134,32 +134,32 @@ number | int | false | 获取记录的条数
 
 ----- 请求数据包 -----
 
-数据项 | 数据值 | 所占字节 | 描述
---- | --- | --- | ---
-version | 1 | 2 | 版本号
-headerLen | 20 | 2 | 包头字节大小
-***operation*** | 1  | 4 | 请求连接并授权处理
-sequence | 当前时间戳 | 8 | 数据包序列
-packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
-body | Json对象 | 实际长度决定 | 举例如下：
+数据项 | 数据值 | 描述
+--- | --- | ---
+version | 1 | 版本号
+headerLen | 20 | 包头字节大小
+packetLen | 20 + 包体长度 | 整个包的字节大小
+sequence | 当前时间戳 | 数据包序列
+***operation*** | 1 | 请求连接并授权
+body | Session数据 ｜ 举例如下：
 
-```
+```json
 {
-    id     : <<SessionID>>, // 当前客户端保存的会话，如果没有，id: null
-    tokenId: <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
+    "sessioniId": <<SessionID>>, // 当前客户端保存的会话，如果没有，值为null
+    "tokenId"   : <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
 }
 ```
 
 ----- 响应数据包 -----
 
 数据项 | 数据值 | 所占字节 | 描述
---- | --- | --- | ---
-version | 1 | 2 | 版本号
-headerLen | 20 | 2 | 包头字节大小
-***operation*** | 1  | 4 | 响应连接并授权结果
-sequence | 当前时间戳 | 8 | 数据包序列
-packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
-body | Json对象 | 实际长度决定 | 举例如下：
+--- | --- | ---
+version | 1 | 版本号
+headerLen | 20 | 包头字节大小
+packetLen | 20 + 包体长度 | 整个包的字节大小
+sequence | 当前时间戳 | 数据包序列
+***operation*** | 1 | 响应连接并授权的结果
+body | Result对象 | 举例如下：
 
 返回成功：
 
@@ -176,7 +176,7 @@ body | Json对象 | 实际长度决定 | 举例如下：
 ```
 {
     succeed  : false,     // 连接服务器并且授权失败
-    errorCode: <<错误码>> // 返回失败的原因
+    errorCode: <<错误码>>  // 返回失败的原因
 }
 ```
 
@@ -184,14 +184,14 @@ body | Json对象 | 实际长度决定 | 举例如下：
 
 ----- 请求数据包 -----
 
-数据项 | 数据值 | 所占字节 | 描述
---- | --- | --- | ---
-version | 1 | 2 | 版本号
-headerLen | 20 | 2 | 包头字节大小
-***operation*** | 2  | 4 | 请求发送聊天消息
-sequence | 当前时间戳 | 8 | 数据包序列
-packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
-body | Json对象 | 实际长度决定 | 举例如下：
+数据项 | 数据值 | 描述
+--- | --- | ---
+version | 1 | 版本号
+headerLen | 20 | 包头字节大小
+packetLen | 20 + 包体长度 | 整个包的字节大小
+***operation*** | 2 | 请求发送聊天消息
+sequence | 当前时间戳 | 数据包序列
+body | Message对象 | 举例如下：
 
 ```
 {
@@ -202,14 +202,14 @@ body | Json对象 | 实际长度决定 | 举例如下：
 
 ----- 响应数据包 -----
 
-数据项 | 数据值 | 所占字节 | 描述
---- | --- | --- | ---
-version | 1 | 2 | 版本号
-headerLen | 20 | 2 | 包头字节大小
-***operation*** | 2  | 4 | 响应聊天消息处理结果
-sequence | 当前时间戳 | 8 | 数据包序列
-packetLen | 20 + 包体长度  | 4 | 整个包的字节大小
-body | Json对象 | 实际长度决定 | 举例如下：
+数据项 | 数据值 | 描述
+--- | --- | ---
+version | 1 | 版本号
+headerLen | 20 | 包头字节大小
+***operation*** | 2 | 响应聊天消息处理结果
+sequence | 当前时间戳 | 数据包序列
+packetLen | 20 + 包体长度 | 整个包的字节大小
+body | Result对象 | 举例如下：
 
 返回成功：
 
@@ -224,7 +224,7 @@ body | Json对象 | 实际长度决定 | 举例如下：
 ```
 {
     succeed  : false,     // 聊天消息发送失败
-    errorCode: <<错误码>> // 返回失败的原因
+    errorCode: <<错误码>>  // 返回失败的原因
 }
 ```
 
@@ -232,14 +232,14 @@ body | Json对象 | 实际长度决定 | 举例如下：
 
 ----- 接收数据包 -----
 
-数据项 | 数据值 | 所占字节 | 描述
---- | --- | --- | ---
-version | 1 | 2 | 版本号
-headerLen | 20 | 2 | 包头字节大小
-***operation*** | 3  | 4 | 服务端发送到客户端的消息
-sequence | 0 | 8 | 数据包序列
-packetLen | 20 + 包体长度 | 4 | 整个包的字节大小
-body | Json对象 | 实际长度决定 | 举例如下：
+数据项 | 数据值 | 描述
+--- | --- | ---
+version | 1 | 版本号
+headerLen | 20 | 包头字节大小
+packetLen | 20 + 包体长度 | 整个包的字节大小
+sequence | 0 | 数据包序列
+***operation*** | 3  | 服务端发送数据到客户端
+body | Message对象 | 举例如下：
 
 ```
 {
