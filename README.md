@@ -62,12 +62,12 @@ avatar | string | false | 用户头像
 
 ```json
 {
-    succeed: true,            // 获取Token成功
-    data   : {
-        tokenId: <<TokenId>>, // 消息服务分的配通信令牌
-        uid    : <<uid>>,
-        nick   : <<nick>>,
-        avatar : <<avatar>>
+    "succeed": true,            // 获取Token成功
+    "data"   : {
+        "tokenId": <<TokenId>>, // 消息服务分的配通信令牌
+        "uid"    : <<uid>>,
+        "nick"   : <<nick>>,
+        "avatar" : <<avatar>>
     }
 }
 ```
@@ -76,8 +76,8 @@ avatar | string | false | 用户头像
 
 ```json
 {
-    succeed  : false,    // 获取Token失败
-    errorCode: <<错误码>> // 返回失败的原因
+    "succeed"  : false,    // 获取Token失败
+    "errorCode": <<错误码>> // 返回失败的原因
 }
 ```
 
