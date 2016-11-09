@@ -141,7 +141,7 @@ headerLen | 20 | 包头字节大小
 packetLen | 20 + 包体长度 | 整个包的字节大小
 sequence | 当前时间戳 | 数据包序列
 ***operation*** | 1 | 请求连接并授权
-body | Session数据 ｜ 举例如下：
+body | Session数据 | 举例如下：
 
 ```json
 {
@@ -152,7 +152,7 @@ body | Session数据 ｜ 举例如下：
 
 ----- 响应数据包 -----
 
-数据项 | 数据值 | 所占字节 | 描述
+数据项 | 数据值 | 描述
 --- | --- | ---
 version | 1 | 版本号
 headerLen | 20 | 包头字节大小
@@ -163,7 +163,7 @@ body | Result对象 | 举例如下：
 
 返回成功：
 
-```
+```json
 {
     succeed: true,          // 连接服务器并且授权访问客户端访问成功
     id     : <<SessionID>>, // 返回服务器分配的会话ID
@@ -173,7 +173,7 @@ body | Result对象 | 举例如下：
 
 返回失败：
 
-```
+```json
 {
     succeed  : false,     // 连接服务器并且授权失败
     errorCode: <<错误码>>  // 返回失败的原因
@@ -193,7 +193,7 @@ packetLen | 20 + 包体长度 | 整个包的字节大小
 sequence | 当前时间戳 | 数据包序列
 body | Message对象 | 举例如下：
 
-```
+```json
 {
     id     : <<SessionID>>, // 当前客户端保存的会话，如果没有，id: null
     tokenId: <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
@@ -213,7 +213,7 @@ body | Result对象 | 举例如下：
 
 返回成功：
 
-```
+```json
 {
     succeed: true // 聊天消息发送成功
 }
@@ -221,7 +221,7 @@ body | Result对象 | 举例如下：
 
 返回失败：
 
-```
+```json
 {
     succeed  : false,     // 聊天消息发送失败
     errorCode: <<错误码>>  // 返回失败的原因
@@ -241,7 +241,7 @@ sequence | 0 | 数据包序列
 ***operation*** | 3  | 服务端发送数据到客户端
 body | Message对象 | 举例如下：
 
-```
+```json
 {
     succeed: true, // 返回成功，接收到的消息都是成功的没有失败
     created: <<产生的时间戳>>,
