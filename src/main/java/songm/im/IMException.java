@@ -70,6 +70,9 @@ public class IMException extends Exception {
         
         /** 授权失败 */
         AUTH_FAILURE,
+        
+        /** 请求超时 */
+        TIME_OUT,
     }
 
 }

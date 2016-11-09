@@ -88,7 +88,9 @@ public class PollingController {
                 break;
             }
             if (System.currentTimeMillis() - start > TIME_OUT) {
-                resMsg = new byte[] {};
+                Result<Object> m = new Result<Object>();
+                m.setErrorCode(ErrorCode.TIME_OUT.name());
+                resMsg = JsonUtils.toJsonBytes(m, m.getClass());
                 break;
             }
         } while (true);

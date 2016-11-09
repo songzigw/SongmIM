@@ -60,8 +60,8 @@ avatar | string | false | 用户头像
 
 返回成功：
 
-```
-{ json
+```json
+{
     succeed: true,            // 获取Token成功
     data   : {
         tokenId: <<TokenId>>, // 消息服务分的配通信令牌
@@ -74,8 +74,8 @@ avatar | string | false | 用户头像
 
 返回失败：
 
-```
-{ json
+```json
+{
     succeed  : false,    // 获取Token失败
     errorCode: <<错误码>> // 返回失败的原因
 }

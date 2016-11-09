@@ -29,12 +29,10 @@
 
 	<mvc:interceptors>
 		<bean class="songm.im.web.MustInterceptor" />
-		<!-- 
 		<mvc:interceptor>
 			<mvc:mapping path="/api/*" />
 			<bean class="songm.im.web.AuthInterceptor" />
 		</mvc:interceptor>
-		 -->
 	</mvc:interceptors>
 
 	<bean id="handlerExceptionResolver"
