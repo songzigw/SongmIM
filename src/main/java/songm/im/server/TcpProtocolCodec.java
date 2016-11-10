@@ -54,16 +54,16 @@ public class TcpProtocolCodec extends MessageToMessageCodec<ByteBuf, Protocol> {
         ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();
         byteBuf.writeShort(pro.getVersion());
         byteBuf.writeShort(pro.getHeaderLen());
-        byteBuf.writeInt(pro.getOperation());
-        byteBuf.writeLong(pro.getSequence());
-
         if (pro.getBody() != null) {
             pro.setPacketLen(Protocol.HEADER_LEN + pro.getBody().length);
-            byteBuf.writeInt(pro.getPacketLen());
-            byteBuf.writeBytes(pro.getBody());
         } else {
             pro.setPacketLen(Protocol.HEADER_LEN);
-            byteBuf.writeInt(pro.getPacketLen());
+        }
+        byteBuf.writeInt(pro.getPacketLen());
+        byteBuf.writeLong(pro.getSequence());
+        byteBuf.writeInt(pro.getOperation());
+        if (pro.getBody() != null) {
+            byteBuf.writeBytes(pro.getBody());
         }
 
         list.add(byteBuf);
@@ -77,9 +77,9 @@ public class TcpProtocolCodec extends MessageToMessageCodec<ByteBuf, Protocol> {
         Protocol pro = new Protocol();
         pro.setVersion(byteBuf.readShort());
         pro.setHeaderLen(byteBuf.readShort());
-        pro.setOperation(byteBuf.readInt());
-        pro.setSequence(byteBuf.readLong());
         pro.setPacketLen(byteBuf.readInt());
+        pro.setSequence(byteBuf.readLong());
+        pro.setOperation(byteBuf.readInt());
 
         if (pro.getPacketLen() > pro.getHeaderLen()) {
             byte[] bytes = new byte[pro.getPacketLen() - pro.getHeaderLen()];

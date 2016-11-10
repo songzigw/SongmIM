@@ -50,8 +50,8 @@ public class WsocketProtocolCodec extends
         JsonNode body = jsonMapper.readTree(pro.getBody());
 
         root.put("ver", pro.getVersion());
-        root.put("op", pro.getOperation());
         root.put("seq", pro.getSequence());
+        root.put("op", pro.getOperation());
         root.set("body", body);
 
         list.add(new TextWebSocketFrame(root.toString()));
@@ -68,11 +68,11 @@ public class WsocketProtocolCodec extends
         if (root.has("ver")) {
             pro.setVersion(root.get("ver").shortValue());
         }
-        if (root.has("op")) {
-            pro.setOperation(root.get("op").asInt());
-        }
         if (root.has("seq")) {
             pro.setSequence(root.get("seq").asLong());
+        }
+        if (root.has("op")) {
+            pro.setOperation(root.get("op").asInt());
         }
         if (root.has("body")) {
             pro.setBody(root.get("body").toString().getBytes());

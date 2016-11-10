@@ -36,9 +36,9 @@ public class Protocol implements Serializable {
 
     private short version;
     private short headerLen;
-    private int operation;
-    private long sequence;
     private int packetLen;
+    private long sequence;
+    private int operation;
     private byte[] body;
 
     public int getPacketLen() {
