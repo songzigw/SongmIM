@@ -89,7 +89,7 @@ public class PollingController {
             }
             if (System.currentTimeMillis() - start > TIME_OUT) {
                 Result<Object> m = new Result<Object>();
-                m.setErrorCode(ErrorCode.TIME_OUT.name());
+                // 返回空消息，客户端不做任何处理
                 resMsg = JsonUtils.toJsonBytes(m, m.getClass());
                 break;
             }

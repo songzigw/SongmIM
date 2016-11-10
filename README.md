@@ -145,8 +145,8 @@ body | Session数据 | 举例如下：
 
 ```json
 {
-    "sessioniId": <<SessionID>>, // 当前客户端保存的会话，如果没有，值为null
-    "tokenId"   : <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
+    "sessionId": <<SessionID>>, // 当前客户端保存的会话，如果没有，值为null
+    "tokenId"  : <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
 }
 ```
 
@@ -165,9 +165,9 @@ body | Result对象 | 举例如下：
 
 ```json
 {
-    succeed: true,          // 连接服务器并且授权访问客户端访问成功
-    id     : <<SessionID>>, // 返回服务器分配的会话ID
-    tokenId: <<TokenId>>    // 返回之前传递通信令牌
+    "succeed"  : true,          // 连接服务器并且授权访问客户端访问成功
+    "sessionId": <<SessionID>>, // 返回服务器分配的会话ID
+    "tokenId"  : <<TokenId>>    // 返回之前传递通信令牌
 }
 ```
 
@@ -175,8 +175,8 @@ body | Result对象 | 举例如下：
 
 ```json
 {
-    succeed  : false,     // 连接服务器并且授权失败
-    errorCode: <<错误码>>  // 返回失败的原因
+    "succeed"  : false,     // 连接服务器并且授权失败
+    "errorCode": <<错误码>>  // 返回失败的原因
 }
 ```
 
@@ -195,8 +195,8 @@ body | Message对象 | 举例如下：
 
 ```json
 {
-    id     : <<SessionID>>, // 当前客户端保存的会话，如果没有，id: null
-    tokenId: <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
+    "sessionId": <<SessionID>>, // 当前客户端保存的会话，如果没有，id: null
+    "tokenId"  : <<TokenId>>    // 第三方应用，请求消息服务器获取的通信令牌
 }
 ```
 
@@ -215,7 +215,7 @@ body | Result对象 | 举例如下：
 
 ```json
 {
-    succeed: true // 聊天消息发送成功
+    "succeed": true // 聊天消息发送成功
 }
 ```
 
@@ -223,8 +223,8 @@ body | Result对象 | 举例如下：
 
 ```json
 {
-    succeed  : false,     // 聊天消息发送失败
-    errorCode: <<错误码>>  // 返回失败的原因
+    "succeed"  : false,     // 聊天消息发送失败
+    "errorCode": <<错误码>>  // 返回失败的原因
 }
 ```
 
@@ -239,15 +239,72 @@ headerLen | 20 | 包头字节大小
 packetLen | 20 + 包体长度 | 整个包的字节大小
 sequence | 0 | 数据包序列
 ***operation*** | 3  | 服务端发送数据到客户端
-body | Message对象 | 举例如下：
+body | Result对象 | 举例如下：
 
 ```json
 {
-    succeed: true, // 返回成功，接收到的消息都是成功的没有失败
-    created: <<产生的时间戳>>,
-    from   : <<发送者>>,
-    to     : <<接收者>>,
-    body   : <<聊天内容>>
+    "succeed": true, // 返回成功，接收到的消息都是成功的没有失败
+    "created": <<产生的时间戳>>,
+    "from"   : <<发送者>>,
+    "to"     : <<接收者>>,
+    "body"   : <<聊天内容>>
+}
+```
+
+### 长轮询接口设计
+
+*url* `/polling/long`
+
+请求参数
+
+名称 | 类型 | 是否必须 | 描述
+--- | --- | --- | ---
+token | string | true | 服务器分配的通信令牌
+session | string | false | 连接成功后分配的Session
+chId | string | false | 连接成功后分配的管道ID
+
+返回成功（第一次轮询，返回连接成功）：
+
+```json
+{
+    "succeed": true,
+    "data"   : {
+        "sessionId": <<sessionId>>,
+        "attribute": {"ch_id": <<chId>>},
+        "tokenId"  : <<TokenId>>,
+        "uid"      : <<uid>>
+    }
+}
+```
+
+### 发送消息接口设计
+
+*url* `/polling/message`
+
+请求参数
+
+名称 | 类型 | 是否必须 | 描述
+--- | --- | --- | ---
+session | string | true | 连接成功后分配的Session
+chId | string | true | 连接成功后分配的管道ID
+from | string | true | 消息发送者
+to | string | true | 消息接收者
+text | string | true | 消息内容
+
+返回成功：
+
+```json
+{
+    "succeed": true
+}
+```
+
+返回失败：
+
+```json
+{
+    "succeed"  : false,
+    "errorCode": <<错误码>>
 }
 ```
 
