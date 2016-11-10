@@ -190,7 +190,7 @@ version | 1 | 版本号
 headerLen | 20 | 包头字节大小
 packetLen | 20 + 包体长度 | 整个包的字节大小
 sequence | 当前时间戳 | 数据包序列
-***operation*** | 2 | 请求发送聊天消息
+***operation*** | 3 | 请求发送聊天消息
 body | Message对象 | 举例如下：
 
 ```json
@@ -208,7 +208,7 @@ version | 1 | 版本号
 headerLen | 20 | 包头字节大小
 packetLen | 20 + 包体长度 | 整个包的字节大小
 sequence | 当前时间戳 | 数据包序列
-***operation*** | 2 | 响应聊天消息处理结果
+***operation*** | 3 | 响应聊天消息处理结果
 body | Result对象 | 举例如下：
 
 返回成功：
@@ -238,7 +238,7 @@ version | 1 | 版本号
 headerLen | 20 | 包头字节大小
 packetLen | 20 + 包体长度 | 整个包的字节大小
 sequence | 0 | 数据包序列
-***operation*** | 3  | 服务端发送数据到客户端
+***operation*** | 4  | 服务端发送数据到客户端
 body | Result对象 | 举例如下：
 
 ```json
