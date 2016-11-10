@@ -263,7 +263,7 @@ token | string | true | 服务器分配的通信令牌
 session | string | false | 连接成功后分配的Session
 chId | string | false | 连接成功后分配的管道ID
 
-返回成功（第一次轮询，返回连接成功）：
+返回成功（第一次轮询，返回Session数据）：
 
 ```json
 {
@@ -277,7 +277,27 @@ chId | string | false | 连接成功后分配的管道ID
 }
 ```
 
-### 发送消息接口设计
+返回成功（以后每次轮询，返回Message数据）：
+
+```json
+{
+    "succeed": true,
+    "data"   : {
+        
+    }
+}
+```
+
+返回失败（返回连接失败）：
+
+```json
+{
+    "succeed"  : false,    // 连接失败
+    "errorCode": <<错误码>> // 失败的原因
+}
+```
+
+### 消息发送接口设计
 
 *url* `/polling/message`
 
