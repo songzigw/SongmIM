@@ -72,7 +72,7 @@ public class IMException extends Exception {
         AUTH_FAILURE,
         
         /** 请求超时 */
-        TIME_OUT,
+        TIMEOUT,
     }
 
 }

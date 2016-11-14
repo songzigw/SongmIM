@@ -62,6 +62,15 @@ public class ClientServiceImpl implements ClientService {
         }
 
         clientItems.put(session.getUid(), client);
+        String topic = "/appid/zhangsong/uid/" + session.getUid();
+        try {
+            client.subscribe(topic);
+        } catch (MqttException e) {
+            try {
+                client.close();
+            } catch (MqttException e1) {}
+            throw new IMException(ErrorCode.MQ_CONNECT, "MQ Connect", e);
+        }
         return client;
     }
 
@@ -87,10 +96,9 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void publish(String uid, String topic, byte[] body)  throws IMException {
         MqttClientUser client = (MqttClientUser) this.getClient(uid);
-        if (client == null) {
-            return;
-        }
+        if (client == null) return;
 
+        topic = "/appid/zhangsong/uid/" + topic;
         MqttMessage message = new MqttMessage(body);
         message.setQos(qos);
         try {
@@ -99,4 +107,5 @@ public class ClientServiceImpl implements ClientService {
             throw new IMException(ErrorCode.MQ_PUBLISH, "MQ Publish", e);
         }
     }
+
 }

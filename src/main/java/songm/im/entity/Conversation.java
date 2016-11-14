@@ -16,15 +16,21 @@
  */
 package songm.im.entity;
 
+import java.io.Serializable;
+
 /**
  * 会话
  * @author zhangsong
  *
  */
-public abstract class Conversation {
+public class Conversation implements Serializable {
+
+    private static final long serialVersionUID = -6267677672827188664L;
 
     /** 私聊 */
-    public static final String PRIVATE = "privae";
-    /** 组聊 */
-    public static final String GROUP = "GROUP";
+    public static final String PRIVATE = "private";
+    /** 群聊 */
+    public static final String GROUP = "group";
+    /** 通知 */
+    public static final String NOTICE = "notice";
 }

@@ -21,7 +21,7 @@ import java.util.Date;
 
 /**
  * 消息实体，用来容纳和存储到客户端收到的消息，
- * 以及服务端生成的消息经过这个消息实体包装，专递到客户端。
+ * 以及服务端生成的消息经过这个消息实体包装，传递到客户端。
  * 
  * @author zhangsong
  * @since 0.1, 2016-8-23
@@ -36,16 +36,16 @@ public class Message implements Serializable {
     private String conv;
     /** 消息类型 */
     private String type;
-    /** 创建时间 */
-    private Date created;
-    /** 修改时间 */
-    private Date updated;
     /** 发送方 */
     private String from;
     /** 接收方 */
     private String to;
+    /** 创建时间 */
+    private Date created;
+    /** 修改时间 */
+    private Date updated;
     /** 具体消息内容 */
-    private String jsonBody;
+    private String body;
 
     public Date getCreated() {
         return created;
@@ -79,12 +79,12 @@ public class Message implements Serializable {
         this.to = to;
     }
 
-    public String getJsonBody() {
-        return jsonBody;
+    public String getBody() {
+        return body;
     }
 
-    public void setJsonBody(String jsonBody) {
-        this.jsonBody = jsonBody;
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public String getType() {

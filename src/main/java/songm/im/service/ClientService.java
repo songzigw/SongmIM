@@ -56,6 +56,7 @@ public interface ClientService {
      * @param uid
      * @param topic
      * @param body
+     * @throws IMException
      */
     public void publish(String uid, String topic, byte[] body) throws IMException;
 }

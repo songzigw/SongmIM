@@ -119,7 +119,7 @@ public class PollingController {
         msg.setType(MessageContent.TEXT);
         msg.setFrom(from);
         msg.setTo(to);
-        msg.setJsonBody(tm.getJsonString());
+        msg.setBody(tm.getJsonString());
         
         ChannelLongPolling ch = ses.getChannel(chId);
         byte[] bytes = JsonUtils.toJsonBytes(msg, Message.class);
