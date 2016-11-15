@@ -39,23 +39,23 @@ public class Session implements Serializable {
     /** 会话唯一标示 */
     private String sessionId;
 
-    /** 会话创建时间 */
-    private Date createdTime;
-
-    /** 会话访问时间 */
-    private Date accessTime;
-
     /** 会话TokenID */
     private String tokenId;
     
     /** 用户UID */
     private String uid;
+    
+    /** 会话创建时间 */
+    private Date created;
+
+    /** 会话访问时间 */
+    private Date access;
 
     private Map<String, Object> attribute;
 
     public Session() {
-        createdTime = new Date();
-        accessTime = createdTime;
+        created = new Date();
+        access = created;
     }
 
     public Session(String sessionId, String tokenId, String uid) {
@@ -87,24 +87,32 @@ public class Session implements Serializable {
         attribute.put(name, value);
     }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+    public Map<String, Object> getAttribute() {
+        return this.attribute;
+    }
+    
+    public void setAttribute(Map<String, Object> attribute) {
+        this.attribute = attribute;
+    }
+    
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
-    public void setAccessTime(Date accessTime) {
-        this.accessTime = accessTime;
+    public void setAccess(Date access) {
+        this.access = access;
     }
 
-    public long getCreatedTime() {
-        return createdTime.getTime();
+    public long getCreated() {
+        return created.getTime();
     }
 
-    public long getAccessTime() {
-        return accessTime.getTime();
+    public long getAccess() {
+        return access.getTime();
     }
 
-    public void updateAccessTime() {
-        accessTime = new Date();
+    public void updateAccess() {
+        access = new Date();
     }
 
     public String getTokenId() {
@@ -124,7 +132,7 @@ public class Session implements Serializable {
     }
 
     public boolean isTimeout() {
-        if (new Date().getTime() - accessTime.getTime() > TIME_OUT) {
+        if (new Date().getTime() - access.getTime() > TIME_OUT) {
             return true;
         }
         return false;

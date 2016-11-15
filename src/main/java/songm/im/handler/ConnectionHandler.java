@@ -20,6 +20,7 @@ import io.netty.channel.Channel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,7 @@ import songm.im.IMException;
 import songm.im.entity.Protocol;
 import songm.im.entity.Result;
 import songm.im.entity.Session;
+import songm.im.entity.SessionCh;
 import songm.im.service.AuthService;
 import songm.im.utils.JsonUtils;
 
@@ -45,23 +47,23 @@ public class ConnectionHandler extends AbstractHandler {
 
     @Override
     public void action(Channel ch, Protocol pro) {
-        Session session = JsonUtils.fromJson(pro.getBody(), Session.class);
+        Session ses = JsonUtils.fromJson(pro.getBody(), Session.class);
 
         Result<Session> res = new Result<Session>();
+        res.setData(ses);
         try {
             // 连接成功
-            Session newSes = authService.online(session.getTokenId(), session.getSessionId(), ch);
-            saveSessionId(ch, newSes.getSessionId());
-            LOG.debug("Connection success for tokenId={}, sessionId={}", newSes.getTokenId(), newSes.getSessionId());
+            SessionCh sesch = authService.online(ses.getTokenId(), ses.getSessionId(), ch);
+            saveSessionId(ch, sesch.getSessionId());
+            LOG.debug("Connection succeed for tokenId={}, sessionId={}", sesch.getTokenId(), sesch.getSessionId());
 
-            res.setData(newSes);
+            BeanUtils.copyProperties(sesch, ses);
             pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
             ch.writeAndFlush(pro);
         } catch (IMException e) {
             // 连接失败
-            LOG.debug("Connection failure for tokenId={}, sessionId={}", session.getTokenId(), session.getSessionId());
+            LOG.debug("Connection failure for tokenId={}, sessionId={}", ses.getTokenId(), ses.getSessionId());
 
-            res.setData(session);
             res.setErrorCode(e.getErrorCode().name());
             pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
             ch.writeAndFlush(pro);

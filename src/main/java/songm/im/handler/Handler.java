@@ -38,9 +38,9 @@ public interface Handler {
         /** 连接关闭 */
         CONN_CLOSE(2),
 
-        /** 消息发生 */
+        /** 消息发送出去 */
         MESSAGE(3),
-        /** 消息从客户端发送过来 */
+        /** 收到客户消息 */
         MSG_SEND(4);
 
         private final int value;
