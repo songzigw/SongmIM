@@ -103,4 +103,10 @@ public class Message implements Serializable {
         this.conv = conv;
     }
 
+    @Override
+    public String toString() {
+        return "Message [conv=" + conv + ", type=" + type + ", from=" + from + ", to=" + to + ", created=" + created
+                + ", updated=" + updated + ", body=" + body + "]";
+    }
+
 }

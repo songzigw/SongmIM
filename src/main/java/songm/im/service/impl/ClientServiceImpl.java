@@ -38,9 +38,9 @@ public class ClientServiceImpl implements ClientService {
     private Map<String, ClientUser> clientItems = new HashMap<String, ClientUser>();
 
     @Value("${mqtt.broker}")
-    private String broker = "tcp://127.0.0.1:1883";
+    private String broker;
     @Value("${mqtt.qos}")
-    private int qos = 2;
+    private int qos;
     private boolean clearSession = true;
 
     @Override

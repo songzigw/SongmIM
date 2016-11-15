@@ -163,4 +163,10 @@ public class Session implements Serializable {
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Session [sessionId=" + sessionId + ", tokenId=" + tokenId + ", uid=" + uid + ", created=" + created
+                + ", access=" + access + ", attribute=" + attribute + "]";
+    }
 }

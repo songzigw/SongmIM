@@ -22,8 +22,8 @@ import java.io.Serializable;
 /**
  * 客户端与服务端的通信协议
  *
- * @author  zhangsong
- * @since   0.1, 2016-7-29
+ * @author zhangsong
+ * @since 0.1, 2016-7-29
  * @version 0.1
  * 
  */
@@ -91,14 +91,7 @@ public class Protocol implements Serializable {
 
     @Override
     public String toString() {
-        String text;
-        if (body == null) {
-            text = "null";
-        } else {
-            text = new String(body);
-        }
-        return "Proto{" + "packetLen=" + packetLen + ", headerLen=" + headerLen
-                + ", version=" + version + ", operation=" + operation
-                + ", sequence=" + sequence + ", body=" + text + '}';
+        return String.format("Protocol [version=%d, headerLen=%d, packetLen=%d, sequence=%d, operation=%d, body=%s]",
+                version, headerLen, packetLen, sequence, operation, (body == null ? "null" : new String(body)));
     }
 }
