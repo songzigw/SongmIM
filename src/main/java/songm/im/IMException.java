@@ -66,7 +66,12 @@ public class IMException extends Exception {
         SESSION_DISABLED,
         
         // MQ异常
-        MQ_CONNECT, MQ_PUBLISH, MQ_DISCONNECT,
+        /** MQ连接异常 */
+        MQ_CONNECT,
+        /** MQ断开异常 */
+        MQ_DISCONNECT,
+        /** MQ发布异常 */
+        MQ_PUBLISH,
         
         /** 授权失败 */
         AUTH_FAILURE,

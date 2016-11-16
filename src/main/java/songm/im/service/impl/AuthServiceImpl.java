@@ -16,8 +16,6 @@
  */
 package songm.im.service.impl;
 
-import io.netty.channel.Channel;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,9 +24,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.netty.channel.Channel;
 import songm.im.Config;
 import songm.im.IMException;
-import songm.im.IMException.ErrorCode;
 import songm.im.entity.SessionCh;
 import songm.im.entity.Token;
 import songm.im.service.AuthService;
@@ -104,11 +102,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public SessionCh online(String tokenId, String sessionId, Channel ch) throws IMException {
-        Token token = tokenItems.get(tokenId);
-        if (token == null) {
-            throw new IMException(ErrorCode.TOKEN_INVALID, "Token invalid");
-        }
-        return sessionService.createSession(token, sessionId, ch);
+        return sessionService.createSession(tokenId, sessionId, ch);
     }
 
     @Override

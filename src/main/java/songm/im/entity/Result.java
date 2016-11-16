@@ -34,6 +34,8 @@ public class Result<T> implements Serializable {
     
     private String errorCode;
     
+    private String errorDesc;
+    
     private T data;
 
     public Result() {
@@ -67,8 +69,16 @@ public class Result<T> implements Serializable {
         this.data = data;
     }
 
+    public String getErrorDesc() {
+        return this.errorDesc;
+    }
+    
+    public void setErrorDesc(String errorDesc) {
+        this.errorDesc = errorDesc;
+    }
+    
     @Override
     public String toString() {
-        return "Result [succeed=" + succeed + ", errorCode=" + errorCode + ", data=" + data + "]";
+        return "Result [succeed=" + succeed + ", errorCode=" + errorCode + ", errorDesc=" + errorDesc + ", data=" + data + "]";
     }
 }

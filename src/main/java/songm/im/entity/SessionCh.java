@@ -39,10 +39,11 @@ public class SessionCh extends Session {
 
     private static final long serialVersionUID = -2720707956157888183L;
 
-    private Set<Channel> chSet = new HashSet<Channel>();
+    private Set<Channel> chSet;
 
     public SessionCh(String sessionId, String tokenId, String uid) {
         super(sessionId, tokenId, uid);
+        chSet = new HashSet<Channel>();
     }
 
     public void addCh(Channel ch) {
@@ -113,7 +114,7 @@ public class SessionCh extends Session {
         }
     }
 
-    public void clearChannel() {
+    public void clearChannels() {
         Iterator<Channel> iter = chSet.iterator();
         while (iter.hasNext()) {
             Channel ch = (Channel) iter.next();

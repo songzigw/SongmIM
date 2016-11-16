@@ -19,6 +19,8 @@ package songm.im.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -31,12 +33,15 @@ import songm.im.entity.SessionCh;
 import songm.im.mqtt.ClientUser;
 import songm.im.mqtt.MqttClientUser;
 import songm.im.service.ClientService;
+import songm.im.service.SessionService;
 
 @Service("clientService")
 public class ClientServiceImpl implements ClientService {
 
     private Map<String, ClientUser> clientItems = new HashMap<String, ClientUser>();
 
+    @Resource(name = "sessionService")
+    private SessionService sessionService;
     @Value("${mqtt.broker}")
     private String broker;
     @Value("${mqtt.qos}")
@@ -88,7 +93,10 @@ public class ClientServiceImpl implements ClientService {
             } catch (MqttException e) {
                 throw new IMException(ErrorCode.MQ_DISCONNECT, "MQ Disconnect", e);
             }
-            client.clearSessions();
+            SessionCh[] sess = client.clearSessions();
+            for (SessionCh ses : sess) {
+                sessionService.removeSession(ses.getSessionId());
+            }
             clientItems.remove(uid);
         }
     }

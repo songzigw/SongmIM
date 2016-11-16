@@ -68,7 +68,8 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
 
     public synchronized void addSession(SessionCh session) {
         for (SessionCh ses : sessions) {
-            if (ses.getSessionId().equals(session.getSessionId())) {
+            if (ses.getSessionId().equals(
+                    session.getSessionId())) {
                 return;
             }
         }
@@ -76,7 +77,7 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
     }
 
     public synchronized void removeSession(SessionCh session) {
-        session.clearChannel();
+        session.clearChannels();
         sessions.remove(session);
     }
 
@@ -92,12 +93,15 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
         return !sessions.isEmpty();
     }
     
-    public synchronized void clearSessions() {
-        Iterator<SessionCh> iter = sessions.iterator();
-        while (iter.hasNext()) {
-            SessionCh session = (SessionCh) iter.next();
-            session.clearChannel();
+    public synchronized SessionCh[] clearSessions() {
+        SessionCh[] sesArr = new SessionCh[sessions.size()];
+        int i = 0;
+        for (SessionCh ses : sessions) {
+            sesArr[i] = ses;
+            ses.clearChannels();
+            i++;
         }
         sessions.clear();
+        return sesArr;
     }
 }

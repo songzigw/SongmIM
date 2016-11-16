@@ -26,9 +26,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import songm.im.IMException;
+import songm.im.IMException.ErrorCode;
 import songm.im.entity.SessionCh;
 import songm.im.entity.Token;
 import songm.im.mqtt.ClientUser;
+import songm.im.service.AuthService;
 import songm.im.service.ClientService;
 import songm.im.service.SessionService;
 import songm.im.utils.Sequence;
@@ -36,13 +38,20 @@ import songm.im.utils.Sequence;
 @Service("sessionService")
 public class SessionServiceImpl implements SessionService {
 
-    private Map<String, SessionCh> sesItems = new HashMap<String, SessionCh>();
+    private Map<String, SessionCh> sessionItems = new HashMap<String, SessionCh>();
 
     @Resource(name = "clientService")
     private ClientService clientService;
+    @Resource(name = "authService")
+    private AuthService authService;
 
     @Override
-    public SessionCh createSession(Token token, String sessionId, Channel ch) throws IMException {
+    public SessionCh createSession(String tokenId, String sessionId, Channel ch) throws IMException {
+        Token token = authService.getTokenByTokenId(tokenId);
+        if (token == null) {
+            throw new IMException(ErrorCode.TOKEN_INVALID, "Token invalid");
+        }
+        
         SessionCh ses = getSession(sessionId);
         if (ses != null) {
             ses.addCh(ch);
@@ -52,10 +61,10 @@ public class SessionServiceImpl implements SessionService {
         sessionId = Sequence.getInstance().getSequence(28);
         ses = new SessionCh(sessionId, token.getTokenId(), token.getUid());
         ses.addCh(ch);
-   
+
         clientService.createClient(ses);
-        sesItems.put(sessionId, ses);
-   
+        sessionItems.put(sessionId, ses);
+
         return ses;
     }
 
@@ -64,7 +73,7 @@ public class SessionServiceImpl implements SessionService {
         if (sessionId == null) {
             return null;
         }
-        return sesItems.get(sessionId);
+        return sessionItems.get(sessionId);
     }
 
     @Override
@@ -74,16 +83,17 @@ public class SessionServiceImpl implements SessionService {
             return null;
         }
         // 将Session中所有管道连接清除
-        session.clearChannel();
+        session.clearChannels();
         
         // 将客户端用户中对应的Session删除
         ClientUser cUser = clientService.getClient(session.getUid());
         if (cUser != null) {
             cUser.removeSession(session);
-            if (!cUser.isSessions())
+            if (!cUser.isSessions()) {
                 clientService.removeClient(session.getUid());
+            }
         }
-        return sesItems.remove(sessionId);
+        return sessionItems.remove(sessionId);
     }
 
     @Override

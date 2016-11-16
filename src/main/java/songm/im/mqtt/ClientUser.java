@@ -39,6 +39,11 @@ public interface ClientUser {
      */
     public void removeSession(SessionCh session);
 
+    /**
+     * 触发消息事件
+     * @param payload
+     * @param out
+     */
     public void trigger(byte[] payload, Channel out);
     
     /**
@@ -50,5 +55,5 @@ public interface ClientUser {
     /**
      * 清除Session
      */
-    public void clearSessions();
+    public SessionCh[] clearSessions();
 }
