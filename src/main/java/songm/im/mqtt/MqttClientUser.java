@@ -67,11 +67,7 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
             @Override
             public void connectionLost(Throwable cause) {
                 if (clientService != null) {
-                    try {
-                        clientService.removeClient(token.getUid());
-                    } catch (IMException e) {
-                        e.printStackTrace();
-                    }
+                    clientService.removeClient(token.getUid());
                 }
             }
 

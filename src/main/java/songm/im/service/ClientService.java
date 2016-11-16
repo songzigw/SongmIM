@@ -48,6 +48,6 @@ public interface ClientService {
      * 
      * @param uid
      */
-    public void removeClient(String uid) throws IMException;
+    public void removeClient(String uid);
 
 }

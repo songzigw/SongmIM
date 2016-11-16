@@ -68,8 +68,6 @@ public class IMException extends Exception {
         // MQ异常
         /** MQ连接异常 */
         MQ_CONNECT,
-        /** MQ断开异常 */
-        MQ_DISCONNECT,
         /** MQ发布异常 */
         MQ_PUBLISH,
         

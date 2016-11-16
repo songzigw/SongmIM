@@ -78,7 +78,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public SessionCh removeSession(String sessionId) throws IMException {
+    public SessionCh removeSession(String sessionId) {
         SessionCh session = getSession(sessionId);
         if (session == null) {
             return null;

@@ -54,7 +54,7 @@ public interface SessionService {
      * @param sessionId
      * @return
      */
-    public SessionCh removeSession(String sessionId) throws IMException;
+    public SessionCh removeSession(String sessionId);
 
     /**
      * 移除管道

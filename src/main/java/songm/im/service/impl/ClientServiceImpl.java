@@ -76,13 +76,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void removeClient(String uid)  throws IMException {
+    public void removeClient(String uid) {
         MqttClientUser client = (MqttClientUser) getClient(uid);
         if (client != null) {
-            try {
-                client.disconnect();
-            } catch (MqttException e) {
-                throw new IMException(ErrorCode.MQ_DISCONNECT, "MQ Disconnect", e);
+            if (client.isConnected()) {
+                try {
+                    client.disconnect();
+                } catch (MqttException e) {}
             }
             SessionCh[] sess = client.clearSessions();
             for (SessionCh ses : sess) {
