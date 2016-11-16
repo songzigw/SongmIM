@@ -54,7 +54,7 @@ public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
                 op.action(ctx.channel(), pro);
             } catch (IMException e) {
                 Result<Object> res = new Result<Object>();
-                res.setErrorCode(e.getErrorCode().name());
+                res.setErrorCode(e.getErrorCode().name(), e.getDescription());
                 pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
                 ctx.writeAndFlush(pro);
                 // ctx.close().syncUninterruptibly();

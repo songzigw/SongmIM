@@ -73,6 +73,7 @@ public class SessionServiceImpl implements SessionService {
         if (sessionId == null) {
             return null;
         }
+        // ???
         return sessionItems.get(sessionId);
     }
 

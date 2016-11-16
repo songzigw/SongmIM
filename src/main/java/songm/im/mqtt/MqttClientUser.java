@@ -16,8 +16,6 @@
  */
 package songm.im.mqtt;
 
-import io.netty.channel.Channel;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -25,9 +23,15 @@ import java.util.Set;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 
+import io.netty.channel.Channel;
+import songm.im.IMException;
+import songm.im.IMException.ErrorCode;
+import songm.im.entity.Conversation;
 import songm.im.entity.SessionCh;
 
 /**
@@ -39,22 +43,31 @@ import songm.im.entity.SessionCh;
 public final class MqttClientUser extends MqttClient implements ClientUser {
 
     private final Set<SessionCh> sessions;
+    //private String userId;
 
-    public MqttClientUser(String serverURI, String userId) throws MqttException {
-        super(serverURI, userId);
+    public MqttClientUser(String broker, String userId,
+            MqttConnectOptions opts) throws MqttException {
+        super(broker, userId);
+        //this.userId = userId;
+        this.initCallback();
+        
+        String topic = "/appid/zhangsong/uid/" + userId;
+        this.connect(opts);
+        this.subscribe(topic);
+
         sessions = new HashSet<SessionCh>();
+    }
 
+    private void initCallback() {
         MqttClientUser client = this;
         super.setCallback(new MqttCallback() {
-
             @Override
             public void connectionLost(Throwable cause) {
 
             }
 
             @Override
-            public void messageArrived(String topic, MqttMessage message)
-                    throws Exception {
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
                 client.trigger(message.getPayload(), null);
             }
 
@@ -62,14 +75,12 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
             public void deliveryComplete(IMqttDeliveryToken token) {
 
             }
-
         });
     }
 
     public synchronized void addSession(SessionCh session) {
         for (SessionCh ses : sessions) {
-            if (ses.getSessionId().equals(
-                    session.getSessionId())) {
+            if (ses.getSessionId().equals(session.getSessionId())) {
                 return;
             }
         }
@@ -88,11 +99,11 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
             session.onReceived(payload, out);
         }
     }
-    
+
     public synchronized boolean isSessions() {
         return !sessions.isEmpty();
     }
-    
+
     public synchronized SessionCh[] clearSessions() {
         SessionCh[] sesArr = new SessionCh[sessions.size()];
         int i = 0;
@@ -103,5 +114,19 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
         }
         sessions.clear();
         return sesArr;
+    }
+
+    @Override
+    public void publish(Conversation.Type conv, String to, byte[] body) throws IMException {
+        String topic = "/appid/zhangsong/uid/" + to;
+        MqttMessage message = new MqttMessage(body);
+        message.setQos(2);
+        try {
+            this.publish(topic, message);
+        } catch (MqttPersistenceException e) {
+            throw new IMException(ErrorCode.MQ_PUBLISH, "MQ Publish", e);
+        } catch (MqttException e) {
+            throw new IMException(ErrorCode.MQ_PUBLISH, "MQ Publish", e);
+        }
     }
 }

@@ -8,12 +8,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import songm.im.IMException;
 import songm.im.IMException.ErrorCode;
+import songm.im.entity.Conversation;
 import songm.im.entity.Message;
 import songm.im.entity.Result;
 import songm.im.entity.Session;
 import songm.im.entity.SessionCh;
 import songm.im.message.MessageContent;
 import songm.im.message.TextMessage;
+import songm.im.mqtt.ClientUser;
 import songm.im.server.ChannelLongPolling;
 import songm.im.service.AuthService;
 import songm.im.service.ClientService;
@@ -64,7 +66,7 @@ public class PollingController {
             res.setData(ses);
         } catch (IMException e) {
             // 连接失败
-            res.setErrorCode(e.getErrorCode().name());
+            res.setErrorCode(e.getErrorCode().name(), e.getDescription());
             mv.addObject("data", callback + "("
                     + JsonUtils.toJson(res, res.getClass()) + ")");
             return mv;
@@ -107,7 +109,7 @@ public class PollingController {
         // Session是否正确
         SessionCh ses = getSession(session);
         if (ses == null) {
-            res.setErrorCode(ErrorCode.SESSION_DISABLED.name());
+            res.setErrorCode(ErrorCode.SESSION_DISABLED.name(), "Session失效");
             mv.addObject("data", callback + "("
                     + JsonUtils.toJson(res, res.getClass()) + ")");
             return mv;
@@ -123,11 +125,12 @@ public class PollingController {
         
         ChannelLongPolling ch = ses.getChannel(chId);
         byte[] bytes = JsonUtils.toJsonBytes(msg, Message.class);
-        clientService.getClient(msg.getFrom()).trigger(bytes, ch);
+        ClientUser cUser = clientService.getClient(msg.getFrom());
+        cUser.trigger(bytes, ch);
         try {
-            clientService.publish(msg.getFrom(), msg.getTo(), bytes);
+            cUser.publish(Conversation.Type.valueOf(msg.getConv()), msg.getTo(), bytes);
         } catch (IMException e) {
-            res.setErrorCode(e.getErrorCode().name());
+            res.setErrorCode(e.getErrorCode().name(), e.getDescription());
         }
         
         mv.addObject("data", callback + "("

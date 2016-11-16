@@ -24,5 +24,5 @@ package songm.im.message;
 public abstract class NotificationMessage extends MessageContent {
 
     /** 未读消息数通知 */
-    static final String UNREAD = "unread";
+    public static final String UNREAD = "unread";
 }

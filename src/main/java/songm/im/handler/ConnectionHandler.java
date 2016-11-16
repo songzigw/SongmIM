@@ -64,7 +64,7 @@ public class ConnectionHandler extends AbstractHandler {
             // 连接失败
             LOG.debug("Connection failure for tokenId={}, sessionId={}", ses.getTokenId(), ses.getSessionId());
 
-            res.setErrorCode(e.getErrorCode().name());
+            res.setErrorCode(e.getErrorCode().name(), e.getDescription());
             pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
             ch.writeAndFlush(pro);
 

@@ -23,7 +23,6 @@ import javax.annotation.Resource;
 
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -56,26 +55,17 @@ public class ClientServiceImpl implements ClientService {
             return client;
         }
 
-        MqttConnectOptions connOpts = new MqttConnectOptions();
-        connOpts.setCleanSession(clearSession);
+        MqttConnectOptions opts = new MqttConnectOptions();
+        opts.setCleanSession(clearSession);
 
         try {
-            client = new MqttClientUser(broker, session.getUid());
-            client.connect(connOpts);
+            client = new MqttClientUser(broker, session.getUid(), opts);
         } catch (MqttException e) {
             throw new IMException(ErrorCode.MQ_CONNECT, "MQ Connect", e);
         }
+        client.addSession(session);
 
         clientItems.put(session.getUid(), client);
-        String topic = "/appid/zhangsong/uid/" + session.getUid();
-        try {
-            client.subscribe(topic);
-        } catch (MqttException e) {
-            try {
-                client.close();
-            } catch (MqttException e1) {}
-            throw new IMException(ErrorCode.MQ_CONNECT, "MQ Connect", e);
-        }
         return client;
     }
 
@@ -100,20 +90,4 @@ public class ClientServiceImpl implements ClientService {
             clientItems.remove(uid);
         }
     }
-
-    @Override
-    public void publish(String uid, String topic, byte[] body)  throws IMException {
-        MqttClientUser client = (MqttClientUser) this.getClient(uid);
-        if (client == null) return;
-
-        topic = "/appid/zhangsong/uid/" + topic;
-        MqttMessage message = new MqttMessage(body);
-        message.setQos(qos);
-        try {
-            client.publish(topic, message);
-        } catch (MqttException e) {
-            throw new IMException(ErrorCode.MQ_PUBLISH, "MQ Publish", e);
-        }
-    }
-
 }

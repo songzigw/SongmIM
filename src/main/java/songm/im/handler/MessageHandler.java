@@ -23,9 +23,11 @@ import org.springframework.stereotype.Component;
 
 import io.netty.channel.Channel;
 import songm.im.IMException;
+import songm.im.entity.Conversation;
 import songm.im.entity.Message;
 import songm.im.entity.Protocol;
 import songm.im.entity.Result;
+import songm.im.mqtt.ClientUser;
 import songm.im.service.ClientService;
 import songm.im.utils.JsonUtils;
 
@@ -47,8 +49,9 @@ public class MessageHandler extends AbstractHandler {
         checkSession(ch);
 
         Message msg = JsonUtils.fromJson(pro.getBody(), Message.class);
-        clientService.getClient(msg.getFrom()).trigger(pro.getBody(), ch);
-        clientService.publish(msg.getFrom(), msg.getTo(), pro.getBody());
+        ClientUser cUser = clientService.getClient(msg.getFrom());
+        cUser.trigger(pro.getBody(), ch);
+        cUser.publish(Conversation.Type.instance(msg.getConv()), msg.getTo(), pro.getBody());
         LOG.debug("MessageHandler {}", pro.toString());
 
         Result<Message> res = new Result<Message>();

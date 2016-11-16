@@ -17,6 +17,8 @@
 package songm.im.mqtt;
 
 import io.netty.channel.Channel;
+import songm.im.IMException;
+import songm.im.entity.Conversation;
 import songm.im.entity.SessionCh;
 
 /**
@@ -29,25 +31,29 @@ public interface ClientUser {
 
     /**
      * 添加Session
+     * 
      * @param session
      */
     public void addSession(SessionCh session);
 
     /**
      * 移除Session
+     * 
      * @param session
      */
     public void removeSession(SessionCh session);
 
     /**
      * 触发消息事件
+     * 
      * @param payload
      * @param out
      */
     public void trigger(byte[] payload, Channel out);
-    
+
     /**
      * 是否包含Session
+     * 
      * @return
      */
     public boolean isSessions();
@@ -56,4 +62,16 @@ public interface ClientUser {
      * 清除Session
      */
     public SessionCh[] clearSessions();
+
+    /**
+     * 发布消息
+     * 
+     * @param conv
+     * @param to
+     * @param body
+     * @throws IMException
+     */
+    public void publish(Conversation.Type conv, String to, byte[] body) throws IMException;
+
+    // public void subscribe(String conv, String to);
 }

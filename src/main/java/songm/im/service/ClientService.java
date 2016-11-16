@@ -50,13 +50,4 @@ public interface ClientService {
      */
     public void removeClient(String uid) throws IMException;
 
-    /**
-     * 发布消息
-     * 
-     * @param uid
-     * @param topic
-     * @param body
-     * @throws IMException
-     */
-    public void publish(String uid, String topic, byte[] body) throws IMException;
 }

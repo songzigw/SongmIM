@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 /**
  * 会话
+ * 
  * @author zhangsong
  *
  */
@@ -27,10 +28,32 @@ public class Conversation implements Serializable {
 
     private static final long serialVersionUID = -6267677672827188664L;
 
-    /** 私聊 */
-    public static final String PRIVATE = "private";
-    /** 群聊 */
-    public static final String GROUP = "group";
-    /** 通知 */
-    public static final String NOTICE = "notice";
+    public static enum Type {
+        /** 私聊 */
+        PRIVATE("private"),
+        /** 群聊 */
+        GROUP("group"),
+        /** 通知 */
+        NOTICE("notice");
+
+        private String value;
+
+        private Type(String v) {
+            this.value = v;
+        }
+        
+        public String getValue() {
+            return this.value;
+        }
+        
+        public static Type instance(String v) {
+            for (Type t : Type.values()) {
+                if (t.getValue().equals(v)) {
+                    return t;
+                }
+            }
+            throw new RuntimeException();
+        }
+    }
+    
 }
