@@ -33,6 +33,7 @@ import songm.im.IMException;
 import songm.im.IMException.ErrorCode;
 import songm.im.entity.Conversation;
 import songm.im.entity.SessionCh;
+import songm.im.entity.Token;
 import songm.im.service.ClientService;
 
 /**
@@ -44,16 +45,16 @@ import songm.im.service.ClientService;
 public final class MqttClientUser extends MqttClient implements ClientUser {
 
     private final Set<SessionCh> sessions;
-    private final String userId;
+    private final Token token;
     private ClientService clientService;
 
-    public MqttClientUser(String broker, String userId,
+    public MqttClientUser(String broker, Token token,
             MqttConnectOptions opts) throws MqttException {
-        super(broker, userId);
-        this.userId = userId;
+        super(broker, token.getUid());
+        this.token = token;
         this.initCallback();
         
-        String topic = "/appid/zhangsong/uid/" + userId;
+        String topic = "/appid/zhangsong/uid/" + token.getUid();
         this.connect(opts);
         this.subscribe(topic);
 
@@ -67,7 +68,7 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
             public void connectionLost(Throwable cause) {
                 if (clientService != null) {
                     try {
-                        clientService.removeClient(userId);
+                        clientService.removeClient(token.getUid());
                     } catch (IMException e) {
                         e.printStackTrace();
                     }

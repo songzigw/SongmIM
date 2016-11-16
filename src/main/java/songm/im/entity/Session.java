@@ -45,6 +45,8 @@ public class Session implements Serializable {
     /** 用户UID */
     private String uid;
     
+    private Token token;
+    
     /** 会话创建时间 */
     private Date created;
 
@@ -58,11 +60,12 @@ public class Session implements Serializable {
         access = created;
     }
 
-    public Session(String sessionId, String tokenId, String uid) {
+    public Session(String sessionId, Token token) {
         this();
         this.sessionId = sessionId;
-        this.tokenId = tokenId;
-        this.uid = uid;
+        this.tokenId = token.getTokenId();
+        this.uid = token.getUid();
+        this.token = token;
     }
 
     public String getSessionId() {
@@ -129,6 +132,14 @@ public class Session implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
     }
 
     public boolean isTimeout() {

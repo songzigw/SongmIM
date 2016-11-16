@@ -59,7 +59,7 @@ public class ClientServiceImpl implements ClientService {
         opts.setCleanSession(clearSession);
 
         try {
-            client = new MqttClientUser(broker, session.getUid(), opts);
+            client = new MqttClientUser(broker, session.getToken(), opts);
         } catch (MqttException e) {
             throw new IMException(ErrorCode.MQ_CONNECT, "MQ Connect", e);
         }

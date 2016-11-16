@@ -41,8 +41,8 @@ public class SessionCh extends Session {
 
     private Set<Channel> chSet;
 
-    public SessionCh(String sessionId, String tokenId, String uid) {
-        super(sessionId, tokenId, uid);
+    public SessionCh(String sessionId, Token token) {
+        super(sessionId, token);
         chSet = new HashSet<Channel>();
     }
 
