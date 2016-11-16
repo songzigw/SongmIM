@@ -33,6 +33,7 @@ import songm.im.IMException;
 import songm.im.IMException.ErrorCode;
 import songm.im.entity.Conversation;
 import songm.im.entity.SessionCh;
+import songm.im.service.ClientService;
 
 /**
  * Mqtt客户端用户
@@ -43,12 +44,13 @@ import songm.im.entity.SessionCh;
 public final class MqttClientUser extends MqttClient implements ClientUser {
 
     private final Set<SessionCh> sessions;
-    //private String userId;
+    private final String userId;
+    private ClientService clientService;
 
     public MqttClientUser(String broker, String userId,
             MqttConnectOptions opts) throws MqttException {
         super(broker, userId);
-        //this.userId = userId;
+        this.userId = userId;
         this.initCallback();
         
         String topic = "/appid/zhangsong/uid/" + userId;
@@ -63,7 +65,13 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
         super.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
-
+                if (clientService != null) {
+                    try {
+                        clientService.removeClient(userId);
+                    } catch (IMException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
@@ -78,6 +86,10 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
         });
     }
 
+    public void setClientService(ClientService clientService) {
+        this.clientService = clientService;
+    }
+    
     public synchronized void addSession(SessionCh session) {
         for (SessionCh ses : sessions) {
             if (ses.getSessionId().equals(session.getSessionId())) {

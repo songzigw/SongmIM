@@ -63,6 +63,7 @@ public class ClientServiceImpl implements ClientService {
         } catch (MqttException e) {
             throw new IMException(ErrorCode.MQ_CONNECT, "MQ Connect", e);
         }
+        client.setClientService(this);
         client.addSession(session);
 
         clientItems.put(session.getUid(), client);
