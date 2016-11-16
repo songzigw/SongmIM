@@ -39,7 +39,8 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
         Result<Object> result = new Result<Object>();
-        result.setErrorCode(ErrorCode.AUTH_FAILURE.name(), "授权失败");
+        result.setErrorCode(ErrorCode.AUTH_FAILURE.name());
+        result.setErrorDesc("授权失败");
         response.setContentType("text/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
         out.print(JsonUtils.toJson(result, result.getClass()));

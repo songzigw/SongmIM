@@ -66,7 +66,8 @@ public class PollingController {
             res.setData(ses);
         } catch (IMException e) {
             // 连接失败
-            res.setErrorCode(e.getErrorCode().name(), e.getDescription());
+            res.setErrorCode(e.getErrorCode().name());
+            res.setErrorDesc( e.getDescription());
             mv.addObject("data", callback + "("
                     + JsonUtils.toJson(res, res.getClass()) + ")");
             return mv;
@@ -109,7 +110,8 @@ public class PollingController {
         // Session是否正确
         SessionCh ses = getSession(session);
         if (ses == null) {
-            res.setErrorCode(ErrorCode.SESSION_DISABLED.name(), "Session失效");
+            res.setErrorCode(ErrorCode.SESSION_DISABLED.name());
+            res.setErrorDesc("Session失效");
             mv.addObject("data", callback + "("
                     + JsonUtils.toJson(res, res.getClass()) + ")");
             return mv;
@@ -128,9 +130,10 @@ public class PollingController {
         ClientUser cUser = clientService.getClient(msg.getFrom());
         cUser.trigger(bytes, ch);
         try {
-            cUser.publish(Conversation.Type.valueOf(msg.getConv()), msg.getTo(), bytes);
+            cUser.publish(Conversation.Type.instance(msg.getConv()), msg.getTo(), bytes);
         } catch (IMException e) {
-            res.setErrorCode(e.getErrorCode().name(), e.getDescription());
+            res.setErrorCode(e.getErrorCode().name());
+            res.setErrorDesc(e.getDescription());
         }
         
         mv.addObject("data", callback + "("

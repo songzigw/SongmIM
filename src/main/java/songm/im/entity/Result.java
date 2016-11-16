@@ -54,14 +54,13 @@ public class Result<T> implements Serializable {
         return errorCode;
     }
 
-    public void setErrorCode(String errorCode, String errorDesc) {
+    public void setErrorCode(String errorCode) {
         if (errorCode != null) {
             this.succeed = false;
         }
         this.errorCode = errorCode;
-        this.errorDesc = errorDesc;
     }
-
+    
     public T getData() {
         return data;
     }
