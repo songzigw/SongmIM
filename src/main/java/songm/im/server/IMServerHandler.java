@@ -45,7 +45,8 @@ import songm.im.utils.JsonUtils;
 @ChannelHandler.Sharable
 public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IMServerHandler.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(IMServerHandler.class);
 
     @Autowired
     private HandlerManager operationManager;
@@ -53,7 +54,8 @@ public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
     private SessionService sessionService;
 
     @Override
-    protected void messageReceived(ChannelHandlerContext ctx, Protocol pro) throws Exception {
+    protected void messageReceived(ChannelHandlerContext ctx, Protocol pro)
+            throws Exception {
         Handler op = operationManager.find(pro.getOperation());
         if (op != null) {
             try {
@@ -79,7 +81,8 @@ public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+            throws Exception {
         LOG.error("ExceptionCaught {} {}", ctx.channel(), cause);
     }
 }

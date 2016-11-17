@@ -177,7 +177,8 @@ public class Session implements Serializable {
 
     @Override
     public String toString() {
-        return "Session [sessionId=" + sessionId + ", tokenId=" + tokenId + ", uid=" + uid + ", created=" + created
+        return "Session [sessionId=" + sessionId + ", tokenId=" + tokenId
+                + ", uid=" + uid + ", token=" + token + ", created=" + created
                 + ", access=" + access + ", attribute=" + attribute + "]";
     }
 }

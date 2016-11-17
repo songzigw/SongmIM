@@ -42,7 +42,8 @@ import songm.im.utils.Sequence;
 @Service("sessionService")
 public class SessionServiceImpl implements SessionService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SessionServiceImpl.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(SessionServiceImpl.class);
     private static final long DELAY = 60 * 1000;
     private static final long PERIOD = 60 * 1000;
     private Map<String, SessionCh> sessionItems = new HashMap<String, SessionCh>();
@@ -55,23 +56,24 @@ public class SessionServiceImpl implements SessionService {
     public SessionServiceImpl() {
         this.init();
     }
-    
+
     private void init() {
         SessionService _t = this;
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                LOG.debug("Check session timeout start...");
+                LOG.debug("Session timeout check start...");
                 for (Map.Entry<String, SessionCh> ent : sessionItems.entrySet()) {
                     if (ent.getValue().isTimeout()) {
                         try {
                             _t.removeSession(ent.getKey());
+                            LOG.debug("RemoveSession {}", ent.getValue());
                         } catch (Exception e) {
                             LOG.error("RemoveSession", e);
                         }
                     }
                 }
-                LOG.debug("Check session timeout end...");
+                LOG.debug("Session timeout check end...");
             }
         };
         // 守护线程
@@ -105,13 +107,11 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public SessionCh getSession(String sessionId) {
-        if (sessionId == null) {
-            return null;
-        }
+        if (sessionId == null) return null;
+
         SessionCh ses = sessionItems.get(sessionId);
-        if (ses == null) {
-            return null;
-        }
+        if (ses == null) return null;
+
         if (ses.isTimeout()) {
             this.removeSession(sessionId);
             return null;
@@ -122,19 +122,17 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public SessionCh removeSession(String sessionId) {
-        SessionCh session = getSession(sessionId);
-        if (session == null) {
-            return null;
-        }
+        SessionCh ses = sessionItems.get(sessionId);
+        if (ses == null) return null;
         // 将Session中所有管道连接清除
-        session.clearChannels();
+        ses.clearChannels();
 
         // 将客户端用户中对应的Session删除
-        ClientUser cUser = clientService.getClient(session.getUid());
+        ClientUser cUser = clientService.getClient(ses.getUid());
         if (cUser != null) {
-            cUser.removeSession(session);
+            cUser.removeSession(ses);
             if (!cUser.isSessions()) {
-                clientService.removeClient(session.getUid());
+                clientService.removeClient(ses.getUid());
             }
         }
         return sessionItems.remove(sessionId);
@@ -142,14 +140,13 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void removeChannel(String sessionId, Channel ch) throws IMException {
-        SessionCh session = getSession(sessionId);
-        if (session == null) {
-            return;
-        }
-        // 清除管道
-        session.removeChannel(ch);
+        SessionCh ses = getSession(sessionId);
+        if (ses == null) return;
 
-        if (!session.isChannels()) {
+        // 清除管道
+        ses.removeChannel(ch);
+
+        if (!ses.isChannels()) {
             removeSession(sessionId);
         }
     }
