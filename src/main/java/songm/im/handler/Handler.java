@@ -41,7 +41,10 @@ public interface Handler {
         /** 消息发送出去 */
         MESSAGE(3),
         /** 收到客户消息 */
-        MSG_SEND(4);
+        MSG_SEND(4),
+        
+        /** 心跳 */
+        HEARTBEAT(5);
 
         private final int value;
 

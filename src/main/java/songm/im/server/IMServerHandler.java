@@ -16,6 +16,8 @@
  */
 package songm.im.server;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,14 @@ import org.springframework.stereotype.Component;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import songm.im.Constants;
 import songm.im.IMException;
 import songm.im.entity.Protocol;
+import songm.im.entity.Result;
 import songm.im.handler.Handler;
 import songm.im.handler.HandlerManager;
+import songm.im.service.SessionService;
 import songm.im.utils.JsonUtils;
-import songm.im.entity.Result;
 
 /**
  * 服务器消息处理者
@@ -45,6 +49,8 @@ public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
 
     @Autowired
     private HandlerManager operationManager;
+    @Resource(name = "sessionService")
+    private SessionService sessionService;
 
     @Override
     protected void messageReceived(ChannelHandlerContext ctx, Protocol pro) throws Exception {
@@ -55,7 +61,7 @@ public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
             } catch (IMException e) {
                 Result<Object> res = new Result<Object>();
                 res.setErrorCode(e.getErrorCode().name());
-                res.setErrorDesc( e.getDescription());
+                res.setErrorDesc(e.getDescription());
                 pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
                 ctx.writeAndFlush(pro);
                 // ctx.close().syncUninterruptibly();
@@ -67,11 +73,13 @@ public class IMServerHandler extends SimpleChannelInboundHandler<Protocol> {
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-        LOG.debug("HandlerRemoved", ctx);
+        String sesId = ctx.channel().attr(Constants.KEY_SESSION_ID).get();
+        sessionService.removeChannel(sesId, ctx.channel());
+        LOG.debug("HandlerRemoved {}", ctx.channel());
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        LOG.error("ExceptionCaught", cause);
+        LOG.error("ExceptionCaught {} {}", ctx.channel(), cause);
     }
 }

@@ -16,7 +16,7 @@ import songm.im.utils.JsonUtils;
 
 public class AuthInterceptor implements HandlerInterceptor {
 
-    private static final String APPKEY = "SM-Server-Key";
+    public static final String APPKEY = "SM-Server-Key";
     private static final String NONCE = "SM-Nonce";
     private static final String TIMESTAMP = "SM-Timestamp";
     private static final String SIGNATURE = "SM-Signature";

@@ -54,9 +54,8 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
         this.token = token;
         this.initCallback();
         
-        String topic = "/appid/zhangsong/uid/" + token.getUid();
         this.connect(opts);
-        this.subscribe(topic);
+        this.subscribe(topic(Conversation.Type.PRIVATE, token.getAppKey(), token.getUid()));
 
         sessions = new HashSet<SessionCh>();
     }
@@ -127,15 +126,26 @@ public final class MqttClientUser extends MqttClient implements ClientUser {
 
     @Override
     public void publish(Conversation.Type conv, String to, byte[] body) throws IMException {
-        String topic = "/appid/zhangsong/uid/" + to;
         MqttMessage message = new MqttMessage(body);
         message.setQos(2);
         try {
-            this.publish(topic, message);
+            this.publish(topic(conv, token.getAppKey(), to), message);
         } catch (MqttPersistenceException e) {
             throw new IMException(ErrorCode.MQ_PUBLISH, "MQ Publish", e);
         } catch (MqttException e) {
             throw new IMException(ErrorCode.MQ_PUBLISH, "MQ Publish", e);
+        }
+    }
+    
+    public static String topic(Conversation.Type conv, String appKey, String id) {
+        if (Conversation.Type.PRIVATE.equals(conv)) {
+            return "/appkey/" + appKey + "/uid/" + id;
+        } else if (Conversation.Type.GROUP.equals(conv)) {
+            return "/appkey/" + appKey + "/gid/" + id;
+        } else if (Conversation.Type.NOTICE.equals(conv)) {
+            return "/appkey/" + appKey + "/nid/" + id;
+        } else {
+            throw new RuntimeException();
         }
     }
 }

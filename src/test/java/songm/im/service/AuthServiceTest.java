@@ -29,6 +29,14 @@ public class AuthServiceTest {
 
     private Token token;
     
+    public AuthServiceTest() {
+        token = new Token();
+        token.setUid("100");
+        token.setNick("zhangsong");
+        token.setAvatar("");
+        token.setAppKey("zhangsong");
+    }
+    
     @BeforeClass
     public static void beforeClass() {
 
@@ -41,9 +49,7 @@ public class AuthServiceTest {
 
     @Before
     public void setUp() {
-        token = new Token();
-        token.setUid("100");
-        token.setNick("zhangsong");
+        
     }
 
     @After
@@ -66,8 +72,8 @@ public class AuthServiceTest {
 
     @Test
     public void testCreateToken() {
-        Token t = authService.createToken(token.getUid(),
-                    token.getNick(), token.getAvatar());
+        Token t = authService.createToken(token.getAppKey(),
+                token.getUid(), token.getNick(), token.getAvatar());
 
         assertThat(t.getUid(), is(token.getUid()));
         assertThat(t.getNick(), is(token.getNick()));
@@ -78,12 +84,12 @@ public class AuthServiceTest {
     
     @Test
     public void testCreateTokeDontRepeat() {
-        Token t = authService.createToken(token.getUid(),
-                token.getNick(), token.getAvatar());
+        Token t = authService.createToken(token.getAppKey(),
+                token.getUid(), token.getNick(), token.getAvatar());
         String tId1 = t.getTokenId();
         
-        Token t2 = authService.createToken(token.getUid(),
-                token.getNick(), token.getAvatar());
+        Token t2 = authService.createToken(token.getAppKey(),
+                token.getUid(), token.getNick(), token.getAvatar());
         String tId2 = t2.getTokenId();
         
         assertThat(tId1.equals(tId2), is(true));
@@ -94,8 +100,8 @@ public class AuthServiceTest {
     
     @Test
     public void testGetTokenByTokenId() {
-        Token t = authService.createToken(token.getUid(),
-                token.getNick(), token.getAvatar());
+        Token t = authService.createToken(token.getAppKey(),
+                token.getUid(), token.getNick(), token.getAvatar());
         
         Token t2 = authService.getTokenByTokenId(t.getTokenId());
         
@@ -109,8 +115,8 @@ public class AuthServiceTest {
     
     @Test
     public void testDeleteToken() {
-        Token t = authService.createToken(token.getUid(),
-                token.getNick(), token.getAvatar());
+        Token t = authService.createToken(token.getAppKey(),
+                token.getUid(), token.getNick(), token.getAvatar());
         authService.deleteToken(t.getTokenId());
         
         Token t2 = authService.getTokenByTokenId(t.getTokenId());
@@ -120,8 +126,8 @@ public class AuthServiceTest {
     
     @Test
     public void testOnlineSuccess() throws IMException {
-        Token t = authService.createToken(token.getUid(),
-                token.getNick(), token.getAvatar());
+        Token t = authService.createToken(token.getAppKey(),
+                token.getUid(), token.getNick(), token.getAvatar());
         
         boolean isOnline = true;
         Session ses = null;

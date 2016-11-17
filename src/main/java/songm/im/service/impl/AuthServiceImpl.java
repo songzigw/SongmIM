@@ -68,11 +68,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Token createToken(String uid, String nick, String avatar) {
+    public Token createToken(String appKey, String uid, String nick, String avatar) {
         Token token = new Token();
         token.setUid(uid);
         token.setNick(nick);
         token.setAvatar(avatar);
+        token.setAppKey(appKey);
         
         if (tokenItems.containsValue(token)) {
             Set<Entry<String, Token>> set = tokenItems.entrySet();

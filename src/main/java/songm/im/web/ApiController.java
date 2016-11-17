@@ -1,9 +1,13 @@
 package songm.im.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import songm.im.entity.Result;
@@ -34,10 +38,13 @@ public class ApiController {
      */
     @RequestMapping(value = "/token", method = RequestMethod.GET)
     public ModelAndView getToken(String uid, String nick, String avatar) {
-        Token token = authService.createToken(uid, nick, avatar);
+        HttpServletRequest req = ((ServletRequestAttributes)
+                RequestContextHolder.getRequestAttributes()).getRequest();
+        String appKey = req.getHeader(AuthInterceptor.APPKEY);
+        Token token = authService.createToken(appKey, uid, nick, avatar);
         Result<Token> res = new Result<Token>();
         res.setData(token);
-        
+
         ModelAndView mv = new ModelAndView("/data");
         mv.addObject("data", JsonUtils.toJson(res, res.getClass()));
         return mv;

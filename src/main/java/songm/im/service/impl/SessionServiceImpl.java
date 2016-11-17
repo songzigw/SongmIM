@@ -73,8 +73,16 @@ public class SessionServiceImpl implements SessionService {
         if (sessionId == null) {
             return null;
         }
-        // ???
-        return sessionItems.get(sessionId);
+        SessionCh ses = sessionItems.get(sessionId);
+        if (ses == null) {
+            return null;
+        }
+        if (ses.isTimeout()) {
+            this.removeSession(sessionId);
+            return null;
+        }
+        ses.updateAccess();
+        return ses;
     }
 
     @Override

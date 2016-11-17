@@ -34,7 +34,7 @@ public class Session implements Serializable {
     private static final long serialVersionUID = 1689305158269907021L;
 
     /** 默认超时间 */
-    public static final long TIME_OUT = 1000 * 24 * 60 * 60;
+    public static final long TIME_OUT =  60 * 1000;
 
     /** 会话唯一标示 */
     private String sessionId;
@@ -102,12 +102,12 @@ public class Session implements Serializable {
         this.created = created;
     }
 
-    public void setAccess(Date access) {
-        this.access = access;
-    }
-
     public long getCreated() {
         return created.getTime();
+    }
+    
+    public void setAccess(Date access) {
+        this.access = access;
     }
 
     public long getAccess() {
@@ -143,7 +143,7 @@ public class Session implements Serializable {
     }
 
     public boolean isTimeout() {
-        if (new Date().getTime() - access.getTime() > TIME_OUT) {
+        if (System.currentTimeMillis() - access.getTime() > TIME_OUT) {
             return true;
         }
         return false;

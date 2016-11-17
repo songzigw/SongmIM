@@ -49,12 +49,13 @@ public interface AuthService {
     /**
      * 第三方应用后台服务发起请求，给用户分配一个通信令牌
      * 
+     * @param appKey
      * @param uid
      * @param nick
      * @param avatar
      * @return
      */
-    public Token createToken(String uid, String nick, String avatar);
+    public Token createToken(String appKey, String uid, String nick, String avatar);
 
     /**
      * 删除Token

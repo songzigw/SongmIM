@@ -35,6 +35,7 @@ public class Token implements Serializable {
     private String uid;
     private String nick;
     private String avatar;
+    private String appKey;
 
     public String getTokenId() {
         return tokenId;
@@ -68,6 +69,14 @@ public class Token implements Serializable {
         this.avatar = avatar;
     }
 
+    public String getAppKey() {
+        return appKey;
+    }
+
+    public void setAppKey(String appKey) {
+        this.appKey = appKey;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -95,8 +104,8 @@ public class Token implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Token [tokenId=%s, uid=%s, nick=%s, avatar=%s]",
-                tokenId, uid, nick, avatar);
+        return String.format("Token [tokenId=%s, uid=%s, nick=%s, avatar=%s, appKey=%s]",
+                tokenId, uid, nick, avatar, appKey);
     }
 
 }
