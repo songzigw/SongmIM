@@ -21,8 +21,6 @@ package songm.im.message;
  * @author zhangsong
  *
  */
-public abstract class NotificationMessage extends MessageContent {
+public abstract class NoticeMessage extends MessageContent {
 
-    /** 未读消息数通知 */
-    public static final String UNREAD = "unread";
 }

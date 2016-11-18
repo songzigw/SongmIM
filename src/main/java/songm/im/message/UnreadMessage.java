@@ -1,6 +1,6 @@
 package songm.im.message;
 
-public class UnreadMessage extends NotificationMessage {
+public class UnreadMessage extends NoticeMessage {
 
     @Override
     public String getJsonString() {

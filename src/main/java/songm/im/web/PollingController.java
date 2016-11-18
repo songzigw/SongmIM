@@ -13,8 +13,6 @@ import songm.im.entity.Message;
 import songm.im.entity.Result;
 import songm.im.entity.Session;
 import songm.im.entity.SessionCh;
-import songm.im.message.MessageContent;
-import songm.im.message.TextMessage;
 import songm.im.mqtt.ClientUser;
 import songm.im.server.ChannelLongPolling;
 import songm.im.service.AuthService;
@@ -31,7 +29,7 @@ import songm.im.utils.JsonUtils;
 @Controller
 @RequestMapping("/polling")
 public class PollingController {
-    
+
     private static final long TIME_OUT = 30 * 1000;
 
     @Autowired
@@ -54,10 +52,11 @@ public class PollingController {
      * @return
      */
     @RequestMapping(value = "/long", method = RequestMethod.GET)
-    public ModelAndView longPolling(String token, String session, String chId, String callback) {
+    public ModelAndView longPolling(String token, String session, String chId,
+            String callback) {
         ModelAndView mv = new ModelAndView("/data");
         Result<Session> res = new Result<Session>();
-        
+
         SessionCh ses = null;
         ChannelLongPolling clp = new ChannelLongPolling(chId);
         try {
@@ -67,12 +66,12 @@ public class PollingController {
         } catch (IMException e) {
             // 连接失败
             res.setErrorCode(e.getErrorCode().name());
-            res.setErrorDesc( e.getDescription());
+            res.setErrorDesc(e.getDescription());
             mv.addObject("data", callback + "("
                     + JsonUtils.toJson(res, res.getClass()) + ")");
             return mv;
         }
-        
+
         // 第一次连接成功
         if (ses.isFirstConn(chId)) {
             ses.setAttribute("ch_id", clp.getChId());
@@ -80,7 +79,7 @@ public class PollingController {
                     + JsonUtils.toJson(res, res.getClass()) + ")");
             return mv;
         }
-        
+
         // 获取消息
         long start = System.currentTimeMillis();
         ChannelLongPolling ch = ses.getChannel(chId);
@@ -97,13 +96,14 @@ public class PollingController {
                 break;
             }
         } while (true);
-        
+
         mv.addObject("data", callback + "(" + new String(resMsg) + ")");
         return mv;
     }
-    
+
     @RequestMapping(value = "/message", method = RequestMethod.GET)
-    public ModelAndView sendMessage(String session, String chId, String from, String to, String text, String callback) {
+    public ModelAndView sendMessage(String session, String chId, String conv,
+            String type, String from, String to, String body, String callback) {
         ModelAndView mv = new ModelAndView("/data");
         Result<Object> res = new Result<Object>();
 
@@ -116,28 +116,28 @@ public class PollingController {
                     + JsonUtils.toJson(res, res.getClass()) + ")");
             return mv;
         }
-        
-        TextMessage tm = new TextMessage();
-        tm.setText(text);
+
         Message msg = new Message();
-        msg.setType(MessageContent.TEXT);
+        msg.setConv(conv);
+        msg.setType(type);
         msg.setFrom(from);
         msg.setTo(to);
-        msg.setBody(tm.getJsonString());
-        
+        msg.setBody(body);
+
         ChannelLongPolling ch = ses.getChannel(chId);
         byte[] bytes = JsonUtils.toJsonBytes(msg, Message.class);
         ClientUser cUser = clientService.getClient(msg.getFrom());
         cUser.trigger(bytes, ch);
         try {
-            cUser.publish(Conversation.Type.instance(msg.getConv()), msg.getTo(), bytes);
+            cUser.publish(Conversation.Type.instance(msg.getConv()),
+                    msg.getTo(), bytes);
         } catch (IMException e) {
             res.setErrorCode(e.getErrorCode().name());
             res.setErrorDesc(e.getDescription());
         }
-        
-        mv.addObject("data", callback + "("
-                + JsonUtils.toJson(res, res.getClass()) + ")");
+
+        mv.addObject("data",
+                callback + "(" + JsonUtils.toJson(res, res.getClass()) + ")");
         return mv;
     }
 }

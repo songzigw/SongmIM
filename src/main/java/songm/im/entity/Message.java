@@ -32,6 +32,8 @@ public class Message implements Serializable {
 
     private static final long serialVersionUID = 3649240217021961002L;
 
+    /** 消息ID */
+    private Integer msgId;
     /** 会话类型 */
     private String conv;
     /** 消息类型 */
@@ -103,10 +105,50 @@ public class Message implements Serializable {
         this.conv = conv;
     }
 
-    @Override
-    public String toString() {
-        return "Message [conv=" + conv + ", type=" + type + ", from=" + from + ", to=" + to + ", created=" + created
-                + ", updated=" + updated + ", body=" + body + "]";
+    public Integer getMsgId() {
+        return msgId;
     }
 
+    public void setMsgId(Integer msgId) {
+        this.msgId = msgId;
+    }
+
+    @Override
+    public String toString() {
+        return "Message [conv=" + conv + ", type=" + type + ", from=" + from
+                + ", to=" + to + ", created=" + created + ", updated=" + updated
+                + ", body=" + body + "]";
+    }
+
+    public static enum Type {
+        /** 文本消息 */
+        TEXT("text"),
+        /** 图片消息 */
+        IMAGE("image"),
+
+        /** 未读消息数 */
+        UNREAD("unread"),
+
+        /** 正在输入状态 */
+        WRITING("writing");
+
+        private String value;
+
+        private Type(String v) {
+            this.value = v;
+        }
+        
+        public String getValue() {
+            return this.value;
+        }
+        
+        public static Type instance(String v) {
+            for (Type t : Type.values()) {
+                if (t.getValue().equals(v)) {
+                    return t;
+                }
+            }
+            throw new RuntimeException();
+        }
+    }
 }
