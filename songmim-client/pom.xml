@@ -8,7 +8,7 @@
 		<artifactId>SongmIM</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>songmim-backstage</artifactId>
+	<artifactId>songmim-client</artifactId>
 	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
 

@@ -1,4 +1,4 @@
-package cn.songm.im.backstage;
+package cn.songm.im.client;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

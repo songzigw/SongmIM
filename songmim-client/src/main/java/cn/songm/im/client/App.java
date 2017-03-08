@@ -1,4 +1,4 @@
-package cn.songm.im.backstage;
+package cn.songm.im.client;
 
 /**
  * Hello world!
