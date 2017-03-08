@@ -4,8 +4,19 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd"
+	default-autowire="byName" default-lazy-init="false">
 
 	<context:component-scan base-package="cn.songm.im" />
+
+	<bean id="mqContext" class="cn.songm.songmq.server.MQContext">
+		<property name="mqServers">
+			<list>
+				<ref bean="tcpIMServer" />
+				<ref bean="wsIMServer" />
+				<ref bean="httpServer" />
+			</list>
+		</property>
+	</bean>
 
 </beans>

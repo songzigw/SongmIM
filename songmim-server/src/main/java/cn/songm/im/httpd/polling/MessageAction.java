@@ -11,7 +11,6 @@ import cn.songm.im.model.Conversation;
 import cn.songm.im.model.Result;
 import cn.songm.im.model.SessionCh;
 import cn.songm.im.model.message.Message;
-import cn.songm.im.model.message.TextMessage;
 import cn.songm.im.mqueue.ClientUser;
 import cn.songm.im.service.ClientService;
 import io.netty.channel.Channel;
@@ -56,9 +55,7 @@ public class MessageAction extends PollingAction {
         msg.setType(type);
         msg.setFrom(from);
         msg.setTo(to);
-        TextMessage tm = new TextMessage();
-        tm.setText(body);
-        msg.setBody(tm);
+        msg.setBody(body);
 
         ChLongPolling chLp = ses.getChannel(chId);
         byte[] bytes = JsonUtils.toJsonBytes(msg, Message.class);

@@ -14,7 +14,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderUtil;
-import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
@@ -50,7 +49,7 @@ public class HttpMsgHandler extends ChannelHandlerAdapter {
                     HttpResponseStatus.CONTINUE));
         }
 
-        HttpAction action = actionManager.find(req.uri());
+        HttpAction action = actionManager.find(req.uri().split("\\?")[0]);
         if (action != null) {
             byte[] bytes = null;
             try {
@@ -74,9 +73,9 @@ public class HttpMsgHandler extends ChannelHandlerAdapter {
         if (!HttpHeaderUtil.isKeepAlive(req)) {
             ctx.write(response).addListener(ChannelFutureListener.CLOSE);
         } else {
-            response.headers().set(HttpHeaderNames.CONNECTION,
-                    HttpHeaderValues.KEEP_ALIVE);
-            ctx.write(response);
+            //response.headers().set(HttpHeaderNames.CONNECTION,
+            //        HttpHeaderValues.KEEP_ALIVE);
+            ctx.write(response).addListener(ChannelFutureListener.CLOSE);
         }
     }
 

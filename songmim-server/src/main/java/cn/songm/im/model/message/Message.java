@@ -18,7 +18,6 @@ package cn.songm.im.model.message;
 
 import java.util.Date;
 
-import cn.songm.im.model.message.MessageContent;
 import cn.songm.songmq.core.president.MQMessage;
 
 /**
@@ -49,7 +48,7 @@ public class Message implements MQMessage {
     /** 修改时间 */
     private Date updated;
     /** 具体消息内容 */
-    private MessageContent body;
+    private String body;
 
     public Date getCreated() {
         return created;
@@ -83,11 +82,11 @@ public class Message implements MQMessage {
         this.to = to;
     }
 
-    public MessageContent getBody() {
+    public String getBody() {
         return body;
     }
 
-    public void setBody(MessageContent body) {
+    public void setBody(String body) {
         this.body = body;
     }
 

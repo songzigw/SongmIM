@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 
 import cn.songm.common.utils.JsonUtils;
 import cn.songm.im.IMException;
-import cn.songm.im.model.Conversation;
+import cn.songm.im.model.Conversation.Type;
 import cn.songm.im.model.Protocol;
 import cn.songm.im.model.Result;
 import cn.songm.im.model.message.Message;
@@ -51,8 +51,8 @@ public class PublishMsgHandler extends AbstractHandler {
         Message msg = JsonUtils.fromJson(pro.getBody(), Message.class);
         ClientUser cUser = clientService.getClient(msg.getFrom());
         cUser.trigger(pro.getBody(), ch);
-        cUser.publish(Conversation.Type.instance(msg.getConv()), msg.getTo(), pro.getBody());
-        LOG.debug("MessageHandler {}", pro.toString());
+        cUser.publish(Type.instance(msg.getConv()), msg.getTo(), pro.getBody());
+        LOG.debug("PublishMsgHand {}", pro.toString());
 
         Result<Message> res = new Result<Message>();
         res.setData(msg);

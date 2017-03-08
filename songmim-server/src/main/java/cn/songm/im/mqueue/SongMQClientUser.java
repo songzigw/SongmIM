@@ -44,14 +44,28 @@ public final class SongMQClientUser implements ClientUser, MessageListener {
     private final Token token;
     private final Set<SessionCh> sessions;
 
+    public static String topic(Conversation.Type convType, String appKey,
+            String id) {
+        String topic = null;
+        switch (convType) {
+        case PRIVATE:
+            topic = "/appkey/" + appKey + "/uid/" + id;
+            break;
+        case GROUP:
+            topic = "/appkey/" + appKey + "/gid/" + id;
+            break;
+        case NOTICE:
+            topic = "/appkey/" + appKey + "/nid/" + id;
+            break;
+        default:
+            throw new IllegalArgumentException("convType");
+        }
+        return topic;
+    }
+    
     public SongMQClientUser(Token token) {
         this.token = token;
         sessions = Collections.synchronizedSet(new HashSet<SessionCh>());
-        this.initCallback();
-    }
-
-    private void initCallback() {
-
     }
 
     public void addSession(SessionCh session) {
@@ -107,32 +121,13 @@ public final class SongMQClientUser implements ClientUser, MessageListener {
         topic.setName(topic(convType, this.token.getAppKey(), id));
         MessageEventManager.getInstance().subscribe(topic, this);
     }
-    
+
     @Override
     public void unsubscribe(Type convType, String id) {
         Topic topic = new Topic();
         topic.setModel(MQueueModel.BROADCAST);
         topic.setName(topic(convType, this.token.getAppKey(), id));
         MessageEventManager.getInstance().unsubscribe(topic, this);
-    }
-    
-    public static String topic(Conversation.Type convType, String appKey,
-            String id) {
-        String topic = null;
-        switch (convType) {
-        case PRIVATE:
-            topic = "/appkey/" + appKey + "/uid/" + id;
-            break;
-        case GROUP:
-            topic = "/appkey/" + appKey + "/gid/" + id;
-            break;
-        case NOTICE:
-            topic = "/appkey/" + appKey + "/nid/" + id;
-            break;
-        default:
-            throw new IllegalArgumentException("convType");
-        }
-        return topic;
     }
 
     @Override
