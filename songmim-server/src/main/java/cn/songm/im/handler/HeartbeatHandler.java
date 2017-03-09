@@ -38,7 +38,10 @@ public class HeartbeatHandler extends AbstractHandler {
     public void action(Channel ch, Protocol pro) throws IMException {
         checkSession(ch);
 
-        LOG.debug("HeartbeatHandler {}", pro.toString());
+        LOG.debug("[HeartbeatHandler: {}]", pro.toString());
+        
+        pro.setBody("[\"pong\"]".getBytes());
+        ch.writeAndFlush(pro);
     }
 
 }

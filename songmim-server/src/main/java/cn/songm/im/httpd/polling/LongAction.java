@@ -9,6 +9,7 @@ import cn.songm.im.model.ChLongPolling;
 import cn.songm.im.model.Result;
 import cn.songm.im.model.Session;
 import cn.songm.im.model.SessionCh;
+import cn.songm.im.model.message.Message;
 import cn.songm.im.service.TokenService;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.HttpRequest;
@@ -60,21 +61,22 @@ public class LongAction extends PollingAction {
         // 获取消息
         long start = System.currentTimeMillis();
         ChLongPolling chLp = ses.getChannel(chId);
-        byte[] resMsg = null;
+        Result<Message> resMsg = new Result<Message>();
+        byte[] message = null;
         do {
-            resMsg = chLp.getResMsg();
-            if (resMsg != null) {
+            message = chLp.getMessage();
+            if (message != null) {
+                Message msg = JsonUtils.fromJson(message, Message.class);
+                resMsg.setData(msg);
                 break;
             }
             if (System.currentTimeMillis() - start > TIME_OUT) {
-                Result<Object> m = new Result<Object>();
-                // 返回空消息，客户端不做任何处理
-                resMsg = JsonUtils.toJsonBytes(m, m.getClass());
                 break;
             }
         } while (true);
 
-        return (callback + "(" + new String(resMsg) + ")").getBytes();
+        return (callback + "(" + JsonUtils.toJson(resMsg, resMsg.getClass())
+                + ")").getBytes();
     }
 
 }

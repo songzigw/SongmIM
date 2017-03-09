@@ -45,18 +45,18 @@ public class ChLongPolling extends IMChannel {
         this.chId = chId;
     }
 
-    public void addResMsg(byte[] msg) {
+    public void addMessage(byte[] msg) {
         queue.add(msg);
     }
 
-    public byte[] getResMsg() {
+    public byte[] getMessage() {
         if (queue.size() == 0) {
             return null;
         }
         return queue.remove(0);
     }
 
-    public void clearResMsg() {
+    public void clearMessage() {
         queue.clear();
     }
 }

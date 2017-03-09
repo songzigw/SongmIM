@@ -20,11 +20,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import cn.songm.common.utils.JsonUtils;
 import cn.songm.common.utils.Sequence;
 import cn.songm.common.utils.StringUtils;
 import cn.songm.im.handler.Handler.Operation;
-import cn.songm.im.model.message.Message;
 import io.netty.channel.Channel;
 
 /**
@@ -71,7 +69,7 @@ public class SessionCh extends Session {
     public void removeChannel(Channel ch) {
         if (ch instanceof ChLongPolling) {
             ChLongPolling clp = (ChLongPolling) ch;
-            clp.clearResMsg();
+            clp.clearMessage();
         } else {
             ch.close().syncUninterruptibly();
         }
@@ -93,10 +91,6 @@ public class SessionCh extends Session {
     }
 
     public void onReceived(byte[] payload, Channel out) {
-        Message msg = JsonUtils.fromJson(payload, Message.class);
-        Result<Message> res = new Result<Message>();
-        res.setData(msg);
-        
         Iterator<Channel> iter = chSet.iterator();
         while (iter.hasNext()) {
             Channel ch = iter.next();
@@ -104,11 +98,11 @@ public class SessionCh extends Session {
                 continue;
             if (ch instanceof ChLongPolling) {
                 ChLongPolling clp = (ChLongPolling) ch;
-                clp.addResMsg(JsonUtils.toJsonBytes(res, res.getClass()));
+                clp.addMessage(payload);
             } else {
                 Protocol pro = new Protocol();
                 pro.setOperation(Operation.BROKER_MSG.getValue());
-                pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
+                pro.setBody(payload);
                 ch.writeAndFlush(pro);
             }
         }
@@ -120,7 +114,7 @@ public class SessionCh extends Session {
             Channel ch = (Channel) iter.next();
             if (ch instanceof ChLongPolling) {
                 ChLongPolling clp = (ChLongPolling) ch;
-                clp.clearResMsg();
+                clp.clearMessage();
             } else {
                 ch.close().syncUninterruptibly();
             }
