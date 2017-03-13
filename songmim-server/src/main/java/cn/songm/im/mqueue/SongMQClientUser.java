@@ -66,6 +66,7 @@ public final class SongMQClientUser implements ClientUser, MessageListener {
     public SongMQClientUser(Token token) {
         this.token = token;
         sessions = Collections.synchronizedSet(new HashSet<SessionCh>());
+        this.subscribe(Type.PRIVATE, token.getUid());
     }
 
     public void addSession(SessionCh session) {

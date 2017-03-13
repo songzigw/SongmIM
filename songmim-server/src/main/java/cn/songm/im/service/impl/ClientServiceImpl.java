@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cn.songm.im.IMException;
+import cn.songm.im.model.Conversation;
 import cn.songm.im.model.SessionCh;
 import cn.songm.im.mqueue.ClientUser;
 import cn.songm.im.mqueue.SongMQClientUser;
@@ -67,6 +68,7 @@ public class ClientServiceImpl implements ClientService {
             for (SessionCh ses : sess) {
                 sessionService.removeSession(ses.getSessionId());
             }
+            client.unsubscribe(Conversation.Type.PRIVATE, uid);
             clientItems.remove(uid);
         }
     }

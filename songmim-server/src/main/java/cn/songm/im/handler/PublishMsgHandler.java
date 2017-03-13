@@ -52,7 +52,7 @@ public class PublishMsgHandler extends AbstractHandler {
         ClientUser cUser = clientService.getClient(msg.getFrom());
         cUser.trigger(pro.getBody(), ch);
         cUser.publish(Type.instance(msg.getConv()), msg.getTo(), pro.getBody());
-        LOG.debug("PublishMsgHand {}", pro.toString());
+        LOG.debug("[PublishMsgHand: {}]", pro.toString());
 
         Result<Message> res = new Result<Message>();
         res.setData(msg);
