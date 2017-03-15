@@ -18,11 +18,11 @@ package cn.songm.im.model.message;
 
 import java.util.Date;
 
+import cn.songm.common.utils.JsonUtils;
 import cn.songm.songmq.core.president.MQMessage;
 
 /**
- * 消息实体，用来容纳和存储到客户端收到的消息，
- * 以及服务端生成的消息经过这个消息实体包装，传递到客户端。
+ * 消息实体，用来容纳和存储到客户端收到的消息， 以及服务端生成的消息经过这个消息实体包装，传递到客户端。
  * 
  * @author zhangsong
  * @since 0.1, 2016-8-23
@@ -48,7 +48,7 @@ public class Message implements MQMessage {
     /** 修改时间 */
     private Date updated;
     /** 具体消息内容 */
-    private String body;
+    private String jbody;
 
     public Date getCreated() {
         return created;
@@ -82,12 +82,12 @@ public class Message implements MQMessage {
         this.to = to;
     }
 
-    public String getBody() {
-        return body;
+    public String getJbody() {
+        return jbody;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setJbody(String jbody) {
+        this.jbody = jbody;
     }
 
     public String getType() {
@@ -118,16 +118,16 @@ public class Message implements MQMessage {
     public String toString() {
         return "Message [conv=" + conv + ", type=" + type + ", from=" + from
                 + ", to=" + to + ", created=" + created + ", updated=" + updated
-                + ", body=" + body + "]";
+                + ", jbody=" + jbody + "]";
     }
 
-    public static enum Type {
+    public static enum Mtype {
         /** 文本消息 */
         TEXT("text"),
         /** 图片消息 */
         IMAGE("image"),
 
-        /** 未读消息数 */
+        /** 未读数消息 */
         UNREAD("unread"),
 
         /** 正在输入状态 */
@@ -135,16 +135,16 @@ public class Message implements MQMessage {
 
         private String value;
 
-        private Type(String v) {
+        private Mtype(String v) {
             this.value = v;
         }
-        
+
         public String getValue() {
             return this.value;
         }
-        
-        public static Type instance(String v) {
-            for (Type t : Type.values()) {
+
+        public static Mtype instance(String v) {
+            for (Mtype t : Mtype.values()) {
                 if (t.getValue().equals(v)) {
                     return t;
                 }
@@ -152,4 +152,23 @@ public class Message implements MQMessage {
             throw new RuntimeException();
         }
     }
+
+    public MessageContent factory(Mtype msgType) {
+        MessageContent content = null;
+        switch (msgType) {
+        case TEXT:
+            content = JsonUtils.fromJson(jbody, TextMessage.class);
+            break;
+        case IMAGE:
+            content = JsonUtils.fromJson(jbody, ImageMessage.class);
+            break;
+        case UNREAD:
+            content = JsonUtils.fromJson(jbody, UnreadMessage.class);
+            break;
+        default:
+            throw new RuntimeException("msgType out");
+        }
+        return content;
+    }
+
 }

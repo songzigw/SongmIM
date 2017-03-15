@@ -16,8 +16,6 @@
  */
 package cn.songm.im.model.message;
 
-import cn.songm.common.utils.JsonUtils;
-
 /**
  * 图片消息
  * 
@@ -26,9 +24,19 @@ import cn.songm.common.utils.JsonUtils;
  */
 public class ImageMessage extends MessageContent {
 
+    private String path;
+    
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     @Override
-    public String getJsonString() {
-        return JsonUtils.toJson(this, ImageMessage.class);
+    public String toString() {
+        return "ImageMessage [path=" + path + "]";
     }
 
 }

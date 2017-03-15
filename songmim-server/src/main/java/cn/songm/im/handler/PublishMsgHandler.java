@@ -26,6 +26,7 @@ import cn.songm.im.IMException;
 import cn.songm.im.model.Conversation.Type;
 import cn.songm.im.model.Protocol;
 import cn.songm.im.model.Result;
+import cn.songm.im.model.Session;
 import cn.songm.im.model.message.Message;
 import cn.songm.im.mqueue.ClientUser;
 import cn.songm.im.service.ClientService;
@@ -49,8 +50,9 @@ public class PublishMsgHandler extends AbstractHandler {
         checkSession(ch);
 
         Message msg = JsonUtils.fromJson(pro.getBody(), Message.class);
-        ClientUser cUser = clientService.getClient(msg.getFrom());
-        cUser.trigger(pro.getBody(), ch);
+        Session session = this.getSession(ch);
+        ClientUser cUser = clientService.getClient(session.getUid());
+        cUser.publish(Type.instance(msg.getConv()), msg.getFrom(), pro.getBody());
         cUser.publish(Type.instance(msg.getConv()), msg.getTo(), pro.getBody());
         LOG.debug("[PublishMsgHand: {}]", pro.toString());
 

@@ -51,7 +51,7 @@ public class DisconnectHandler extends AbstractHandler {
         }
 
         authService.offline(session.getSessionId());
-        LOG.debug("DisconnectHandler tokenId={}, sessionId={}",
+        LOG.debug("DisconnectHandler [tokenId={}, sessionId={}]",
                 session.getTokenId(), session.getSessionId());
     }
 }

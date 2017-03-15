@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import cn.songm.common.utils.JsonUtils;
 import cn.songm.im.IMException;
+import cn.songm.im.httpd.HttpAction;
 import cn.songm.im.model.ChLongPolling;
 import cn.songm.im.model.Result;
 import cn.songm.im.model.Session;
@@ -29,7 +30,7 @@ public class LongAction extends PollingAction {
     }
 
     @Override
-    public byte[] active(Channel ch, HttpRequest req) throws IMException {
+    public byte[] active(Channel ch, HttpRequest req) throws PollingException {
         QueryStringDecoder decoder = new QueryStringDecoder(req.uri());
         String chId = getParamValue(decoder, "chId");
         String token = getParamValue(decoder, "token");
@@ -45,17 +46,14 @@ public class LongAction extends PollingAction {
             res.setData(ses);
         } catch (IMException e) {
             // 连接失败
-            res.setErrorCode(e.getErrorCode().name());
-            res.setErrorDesc(e.getDescription());
-            return (callback + "(" + JsonUtils.toJson(res, res.getClass())
-                    + ")").getBytes();
+            throw new PollingException(e.getErrorCode(),
+                    e.getDescription(), callback);
         }
 
         // 第一次连接成功
         if (ses.isFirstConn(chId)) {
             ses.setAttribute("ch_id", clp.getChId());
-            return (callback + "(" + JsonUtils.toJson(res, res.getClass())
-                    + ")").getBytes();
+            return HttpAction.callback(callback, res);
         }
 
         // 获取消息
@@ -75,8 +73,7 @@ public class LongAction extends PollingAction {
             }
         } while (true);
 
-        return (callback + "(" + JsonUtils.toJson(resMsg, resMsg.getClass())
-                + ")").getBytes();
+        return HttpAction.callback(callback, resMsg);
     }
 
 }

@@ -1,6 +1,8 @@
 package cn.songm.im.httpd;
 
+import cn.songm.common.utils.JsonUtils;
 import cn.songm.im.IMException;
+import cn.songm.im.model.Result;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.QueryStringDecoder;
@@ -9,7 +11,8 @@ public abstract class HttpAction {
 
     public abstract String uri();
 
-    public abstract byte[] active(Channel ch, HttpRequest req) throws IMException;
+    public abstract byte[] active(Channel ch, HttpRequest req)
+            throws IMException;
 
     public String getParamValue(QueryStringDecoder decoder, String param) {
         if (decoder.parameters().get(param) != null
@@ -18,12 +21,10 @@ public abstract class HttpAction {
         }
         return null;
     }
-    
+
     public static enum Uri {
-        BACKSTAGE_TOKEN("/backstage/token"),
-        POLLING_LONG("/polling/long"),
-        POLLING_MESSAGE("/polling/message"),
-        ;
+        BACKSTAGE_TOKEN("/backstage/token"), POLLING_LONG(
+                "/polling/long"), POLLING_MESSAGE("/polling/message"),;
 
         private final String value;
 
@@ -43,5 +44,10 @@ public abstract class HttpAction {
             }
             return null;
         }
+    }
+
+    public static <T> byte[] callback(String callback, Result<T> result) {
+        return (callback + "(" + JsonUtils.toJson(result, result.getClass())
+                + ")").getBytes();
     }
 }

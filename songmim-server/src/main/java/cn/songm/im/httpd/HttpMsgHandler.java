@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import cn.songm.common.utils.JsonUtils;
 import cn.songm.im.IMException;
+import cn.songm.im.httpd.polling.PollingException;
 import cn.songm.im.model.Result;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -54,6 +55,11 @@ public class HttpMsgHandler extends ChannelHandlerAdapter {
             byte[] bytes = null;
             try {
                 bytes = action.active(ctx.channel(), req);
+            } catch (PollingException e) {
+                Result<Object> result = new Result<Object>();
+                result.setErrorCode(e.getErrorCode().name());
+                result.setErrorDesc(e.getDescription());
+                bytes = HttpAction.callback(e.getCallback(), result);
             } catch (IMException e) {
                 Result<Object> result = new Result<Object>();
                 result.setErrorCode(e.getErrorCode().name());
@@ -73,8 +79,8 @@ public class HttpMsgHandler extends ChannelHandlerAdapter {
         if (!HttpHeaderUtil.isKeepAlive(req)) {
             ctx.write(response).addListener(ChannelFutureListener.CLOSE);
         } else {
-            //response.headers().set(HttpHeaderNames.CONNECTION,
-            //        HttpHeaderValues.KEEP_ALIVE);
+            // response.headers().set(HttpHeaderNames.CONNECTION,
+            // HttpHeaderValues.KEEP_ALIVE);
             ctx.write(response).addListener(ChannelFutureListener.CLOSE);
         }
     }

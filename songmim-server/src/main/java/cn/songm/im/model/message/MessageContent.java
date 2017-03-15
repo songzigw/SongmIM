@@ -23,5 +23,4 @@ package cn.songm.im.model.message;
  */
 public abstract class MessageContent {
 
-    public abstract String getJsonString();
 }

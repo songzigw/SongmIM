@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.songm.common.utils.JsonUtils;
-import cn.songm.im.IMException;
-import cn.songm.im.IMException.ErrorCode;
-import cn.songm.im.model.ChLongPolling;
+import cn.songm.im.httpd.HttpAction;
 import cn.songm.im.model.Conversation;
 import cn.songm.im.model.Result;
 import cn.songm.im.model.SessionCh;
@@ -29,10 +27,12 @@ public class MessageAction extends PollingAction {
     }
 
     @Override
-    public byte[] active(Channel ch, HttpRequest req) throws IMException {
+    public byte[] active(Channel ch, HttpRequest req) throws PollingException {
+        checkSession(req);
+        
         QueryStringDecoder decoder = new QueryStringDecoder(req.uri());
-        String chId = getParamValue(decoder, "chId");
         String session = getParamValue(decoder, "session");
+        String chId = getParamValue(decoder, "chId");
         String callback = getParamValue(decoder, "callback");
         String conv = getParamValue(decoder, "conv");
         String type = getParamValue(decoder, "type");
@@ -41,36 +41,24 @@ public class MessageAction extends PollingAction {
         String body = getParamValue(decoder, "body");
 
         Result<Object> res = new Result<Object>();
-        // Session是否正确
         SessionCh ses = sessionService.getSession(session);
-        if (ses == null) {
-            res.setErrorCode(ErrorCode.SESSION_DISABLED.name());
-            res.setErrorDesc("Session失效");
-            return (callback + "(" + JsonUtils.toJson(res, res.getClass())
-                    + ")").getBytes();
-        }
 
         Message msg = new Message();
         msg.setConv(conv);
         msg.setType(type);
+        msg.setChId(chId);
         msg.setFrom(from);
         msg.setTo(to);
         msg.setBody(body);
 
-        ChLongPolling chLp = ses.getChannel(chId);
         byte[] bytes = JsonUtils.toJsonBytes(msg, Message.class);
-        ClientUser cUser = clientService.getClient(msg.getFrom());
-        cUser.trigger(bytes, chLp);
-        try {
-            cUser.publish(Conversation.Type.instance(msg.getConv()),
-                    msg.getTo(), bytes);
-        } catch (IMException e) {
-            res.setErrorCode(e.getErrorCode().name());
-            res.setErrorDesc(e.getDescription());
-        }
+        ClientUser cUser = clientService.getClient(ses.getUid());
+        cUser.publish(Conversation.Type.instance(msg.getConv()),
+                msg.getFrom(), bytes);
+        cUser.publish(Conversation.Type.instance(msg.getConv()),
+                msg.getTo(), bytes);
 
-        return (callback + "(" + JsonUtils.toJson(res, res.getClass()) + ")")
-                .getBytes();
+        return HttpAction.callback(callback, res);
     }
 
 }

@@ -45,8 +45,6 @@ public class Session implements Serializable {
     /** 用户UID */
     private String uid;
     
-    private Token token;
-    
     /** 会话创建时间 */
     private Date created;
 
@@ -54,6 +52,8 @@ public class Session implements Serializable {
     private Date access;
 
     private Map<String, Object> attribute;
+    
+    private Token token;
 
     public Session() {
         created = new Date();

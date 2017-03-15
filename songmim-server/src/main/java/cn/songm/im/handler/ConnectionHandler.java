@@ -54,14 +54,15 @@ public class ConnectionHandler extends AbstractHandler {
             // 连接成功
             SessionCh sesch = authService.online(ses.getTokenId(), ses.getSessionId(), ch);
             saveSessionId(ch, sesch.getSessionId());
-            LOG.debug("Connection succeed for tokenId={}, sessionId={}", sesch.getTokenId(), sesch.getSessionId());
+            LOG.debug("Connection succeed [tokenId={}, sessionId={}]", sesch.getTokenId(), sesch.getSessionId());
 
             BeanUtils.copyProperties(sesch, ses);
+            ses.setAttribute("ch_id", ch.id().asLongText());
             pro.setBody(JsonUtils.toJsonBytes(res, res.getClass()));
             ch.writeAndFlush(pro);
         } catch (IMException e) {
             // 连接失败
-            LOG.debug("Connection failure for tokenId={}, sessionId={}", ses.getTokenId(), ses.getSessionId());
+            LOG.debug("Connection failure [tokenId={}, sessionId={}]", ses.getTokenId(), ses.getSessionId());
 
             res.setErrorCode(e.getErrorCode().name());
             res.setErrorDesc(e.getDescription());
