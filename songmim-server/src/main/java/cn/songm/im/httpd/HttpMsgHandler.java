@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import cn.songm.common.utils.JsonUtils;
 import cn.songm.im.IMException;
-import cn.songm.im.httpd.polling.PollingException;
+import cn.songm.im.httpd.jsonp.JsonpException;
 import cn.songm.im.model.Result;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -55,7 +55,7 @@ public class HttpMsgHandler extends ChannelHandlerAdapter {
             byte[] bytes = null;
             try {
                 bytes = action.active(ctx.channel(), req);
-            } catch (PollingException e) {
+            } catch (JsonpException e) {
                 Result<Object> result = new Result<Object>();
                 result.setErrorCode(e.getErrorCode().name());
                 result.setErrorDesc(e.getDescription());

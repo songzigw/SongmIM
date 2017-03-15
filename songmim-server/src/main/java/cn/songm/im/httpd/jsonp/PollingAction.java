@@ -1,4 +1,4 @@
-package cn.songm.im.httpd.polling;
+package cn.songm.im.httpd.jsonp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.QueryStringDecoder;
 
 @Component
-public class LongAction extends PollingAction {
+public class PollingAction extends JsonpAction {
 
     private static final long TIME_OUT = 30 * 1000;
 
@@ -30,7 +30,7 @@ public class LongAction extends PollingAction {
     }
 
     @Override
-    public byte[] active(Channel ch, HttpRequest req) throws PollingException {
+    public byte[] active(Channel ch, HttpRequest req) throws JsonpException {
         QueryStringDecoder decoder = new QueryStringDecoder(req.uri());
         String chId = getParamValue(decoder, "chId");
         String token = getParamValue(decoder, "token");
@@ -46,7 +46,7 @@ public class LongAction extends PollingAction {
             res.setData(ses);
         } catch (IMException e) {
             // 连接失败
-            throw new PollingException(e.getErrorCode(),
+            throw new JsonpException(e.getErrorCode(),
                     e.getDescription(), callback);
         }
 

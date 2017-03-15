@@ -1,4 +1,4 @@
-package cn.songm.im.httpd.polling;
+package cn.songm.im.httpd.jsonp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.QueryStringDecoder;
 
 @Component
-public class MessageAction extends PollingAction {
+public class MessageAction extends JsonpAction {
 
     @Autowired
     private ClientService clientService;
@@ -27,7 +27,7 @@ public class MessageAction extends PollingAction {
     }
 
     @Override
-    public byte[] active(Channel ch, HttpRequest req) throws PollingException {
+    public byte[] active(Channel ch, HttpRequest req) throws JsonpException {
         checkSession(req);
         
         QueryStringDecoder decoder = new QueryStringDecoder(req.uri());

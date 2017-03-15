@@ -1,14 +1,14 @@
-package cn.songm.im.httpd.polling;
+package cn.songm.im.httpd.jsonp;
 
 import cn.songm.im.IMException;
 
-public class PollingException extends IMException {
+public class JsonpException extends IMException {
 
     private static final long serialVersionUID = 4216978718845306202L;
 
     private String callback;
 
-    public PollingException(ErrorCode errorCode, String description,
+    public JsonpException(ErrorCode errorCode, String description,
             String callback) {
         super(errorCode, description);
         this.callback = callback;
