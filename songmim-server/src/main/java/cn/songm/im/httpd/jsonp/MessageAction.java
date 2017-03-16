@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.songm.common.utils.JsonUtils;
+import cn.songm.im.IMException;
 import cn.songm.im.httpd.HttpAction;
 import cn.songm.im.model.Conversation;
 import cn.songm.im.model.Result;
@@ -27,7 +28,7 @@ public class MessageAction extends JsonpAction {
     }
 
     @Override
-    public byte[] active(Channel ch, HttpRequest req) throws JsonpException {
+    public byte[] active(Channel ch, HttpRequest req) throws IMException {
         checkSession(req);
         
         QueryStringDecoder decoder = new QueryStringDecoder(req.uri());
@@ -49,9 +50,9 @@ public class MessageAction extends JsonpAction {
         msg.setChId(chId);
         msg.setFrom(from);
         msg.setTo(to);
-        msg.setBody(body);
+        msg.setJbody(body);
 
-        byte[] bytes = JsonUtils.toJsonBytes(msg, Message.class);
+        byte[] bytes = JsonUtils.toJsonBytes(msg);
         ClientUser cUser = clientService.getClient(ses.getUid());
         cUser.publish(Conversation.Type.instance(msg.getConv()),
                 msg.getFrom(), bytes);

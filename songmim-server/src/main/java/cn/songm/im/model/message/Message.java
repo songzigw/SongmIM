@@ -39,6 +39,8 @@ public class Message implements MQMessage {
     private String conv;
     /** 消息类型 */
     private String type;
+    /** 通道id */
+    private String chId;
     /** 发送方 */
     private String from;
     /** 接收方 */
@@ -64,6 +66,14 @@ public class Message implements MQMessage {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public String getChId() {
+        return chId;
+    }
+
+    public void setChId(String chId) {
+        this.chId = chId;
     }
 
     public String getFrom() {
@@ -116,9 +126,9 @@ public class Message implements MQMessage {
 
     @Override
     public String toString() {
-        return "Message [conv=" + conv + ", type=" + type + ", from=" + from
-                + ", to=" + to + ", created=" + created + ", updated=" + updated
-                + ", jbody=" + jbody + "]";
+        return "Message [conv=" + conv + ", type=" + type + ", chId=" + chId
+                + ", from=" + from + ", to=" + to + ", created=" + created
+                + ", updated=" + updated + ", jbody=" + jbody + "]";
     }
 
     public static enum Mtype {
@@ -153,7 +163,8 @@ public class Message implements MQMessage {
         }
     }
 
-    public MessageContent factory(Mtype msgType) {
+    public MessageContent factory() {
+        Mtype msgType = Mtype.instance(type);
         MessageContent content = null;
         switch (msgType) {
         case TEXT:

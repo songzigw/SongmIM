@@ -30,7 +30,7 @@ public class PollingAction extends JsonpAction {
     }
 
     @Override
-    public byte[] active(Channel ch, HttpRequest req) throws JsonpException {
+    public byte[] active(Channel ch, HttpRequest req) throws IMException {
         QueryStringDecoder decoder = new QueryStringDecoder(req.uri());
         String chId = getParamValue(decoder, "chId");
         String token = getParamValue(decoder, "token");
@@ -40,15 +40,9 @@ public class PollingAction extends JsonpAction {
         Result<Session> res = new Result<Session>();
         SessionCh ses = null;
         ChLongPolling clp = new ChLongPolling(chId);
-        try {
-            // 连接成功
-            ses = tokenService.online(token, session, clp);
-            res.setData(ses);
-        } catch (IMException e) {
-            // 连接失败
-            throw new JsonpException(e.getErrorCode(),
-                    e.getDescription(), callback);
-        }
+        // 连接成功
+        ses = tokenService.online(token, session, clp);
+        res.setData(ses);
 
         // 第一次连接成功
         if (ses.isFirstConn(chId)) {

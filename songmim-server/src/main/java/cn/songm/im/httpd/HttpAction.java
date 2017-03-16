@@ -23,8 +23,9 @@ public abstract class HttpAction {
     }
 
     public static enum Uri {
-        BACKSTAGE_TOKEN("/backstage/token"), POLLING_LONG(
-                "/polling/long"), POLLING_MESSAGE("/polling/message"),;
+        BACKSTAGE_TOKEN("/backstage/token"),
+        POLLING_LONG("/jsonp/polling"),
+        POLLING_MESSAGE("/jsonp/message"),;
 
         private final String value;
 

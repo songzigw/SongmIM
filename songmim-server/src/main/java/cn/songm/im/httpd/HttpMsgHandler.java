@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import cn.songm.common.utils.JsonUtils;
 import cn.songm.im.IMException;
-import cn.songm.im.httpd.jsonp.JsonpException;
 import cn.songm.im.model.Result;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -18,6 +17,7 @@ import io.netty.handler.codec.http.HttpHeaderUtil;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.QueryStringDecoder;
 
 @Component
 @ChannelHandler.Sharable
@@ -55,16 +55,24 @@ public class HttpMsgHandler extends ChannelHandlerAdapter {
             byte[] bytes = null;
             try {
                 bytes = action.active(ctx.channel(), req);
-            } catch (JsonpException e) {
-                Result<Object> result = new Result<Object>();
-                result.setErrorCode(e.getErrorCode().name());
-                result.setErrorDesc(e.getDescription());
-                bytes = HttpAction.callback(e.getCallback(), result);
             } catch (IMException e) {
                 Result<Object> result = new Result<Object>();
                 result.setErrorCode(e.getErrorCode().name());
                 result.setErrorDesc(e.getDescription());
-                bytes = JsonUtils.toJsonBytes(result, result.getClass());
+                String callback = null;
+                if (req.uri().startsWith("/jsonp/")) {
+                    String param = "callback";
+                    QueryStringDecoder decoder = new QueryStringDecoder(req.uri());
+                    if (decoder.parameters().get(param) != null
+                            && !decoder.parameters().get(param).isEmpty()) {
+                         callback = decoder.parameters().get(param).get(0);
+                    }
+                }
+                if (callback != null) {
+                    bytes = HttpAction.callback(callback, result);
+                } else {
+                    bytes = JsonUtils.toJsonBytes(result);
+                }
             }
             response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                     HttpResponseStatus.OK, Unpooled.wrappedBuffer(bytes));
