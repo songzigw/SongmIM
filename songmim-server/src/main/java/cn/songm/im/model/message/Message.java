@@ -16,7 +16,19 @@
  */
 package cn.songm.im.model.message;
 
+import java.lang.reflect.Type;
 import java.util.Date;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.Expose;
 
 import cn.songm.common.utils.JsonUtils;
 import cn.songm.songmq.core.president.MQMessage;
@@ -182,4 +194,64 @@ public class Message implements MQMessage {
         return content;
     }
 
+    public class Transverter implements JsonSerializer<Mtype>, JsonDeserializer<Mtype> {
+
+        @Override
+        public Mtype deserialize(JsonElement json, Type typeOfT,
+                JsonDeserializationContext context) throws JsonParseException {
+            return Mtype.instance(json.getAsString());
+        }
+
+        @Override
+        public JsonElement serialize(Mtype src, Type typeOfSrc,
+                JsonSerializationContext context) {
+            return new JsonPrimitive(src.getValue());
+        }
+
+    }
+    
+    static class Abc {
+        private String a;
+        @Expose
+        private String b;
+        private Message.Mtype mt;
+        private Date date;
+        public String getA() {
+            return a;
+        }
+        public void setA(String a) {
+            this.a = a;
+        }
+        public String getB() {
+            return b;
+        }
+        public void setB(String b) {
+            this.b = b;
+        }
+        public Message.Mtype getMt() {
+            return mt;
+        }
+        public void setMt(Message.Mtype mt) {
+            this.mt = mt;
+        }
+        public Date getDate() {
+            return date;
+        }
+        public void setDate(Date date) {
+            this.date = date;
+        }
+    }
+    
+    public static void main(String[] args) {
+        Abc abc = new Abc();
+        abc.setA("zhang1");
+        abc.setB("zhang2");
+        abc.setMt(Message.Mtype.TEXT);
+        abc.setDate(new Date());
+        GsonBuilder gb = new GsonBuilder();
+        gb.excludeFieldsWithoutExposeAnnotation();
+        Gson gson = gb.create();
+        
+        System.out.println(gson.toJson(abc));
+    }
 }
