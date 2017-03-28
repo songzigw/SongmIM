@@ -13,7 +13,7 @@ JDK8
 
 ## 使用指南
 
-以war包的形式放入Web容器下既可运行
+java cn.songm.im.server.Main
 
 ## 开发指南
 
