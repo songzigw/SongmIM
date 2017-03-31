@@ -62,12 +62,12 @@ avatar | string | false | 用户头像
 
 ```json
 {
-    "succeed": true,            // 获取Token成功
+    "succeed": true,          // 获取Token成功
     "data"   : {
-        "tokenId": 'TokenId', // 消息服务分的配通信令牌
-        "uid"    : 'Uid',
-        "nick"   : 'Nick',
-        "avatar" : 'vatar'
+        "tokenId": "TokenId", // 消息服务分的配通信令牌
+        "uid"    : "Uid",
+        "nick"   : "Nick",
+        "avatar" : "Avatar"
     }
 }
 ```
@@ -76,8 +76,8 @@ avatar | string | false | 用户头像
 
 ```json
 {
-    "succeed"  : false,    // 获取Token失败
-    "errorCode": '错误码' // 返回失败的原因
+    "succeed"  : false,  // 获取Token失败
+    "errorCode": "错误码" // 返回失败的原因
 }
 ```
 
@@ -145,8 +145,8 @@ body | Session数据 | 举例如下：
 
 ```json
 {
-    "sessionId": 'SessionID', // 当前客户端保存的会话，如果没有，值为null
-    "tokenId"  : 'TokenId'    // 第三方应用，请求消息服务器获取的通信令牌
+    "sessionId": "SessionID", // 当前客户端保存的会话，如果没有，值为null
+    "tokenId"  : "TokenId"    // 第三方应用，请求消息服务器获取的通信令牌
 }
 ```
 
@@ -165,9 +165,9 @@ body | Result对象 | 举例如下：
 
 ```json
 {
-    "succeed"  : true,          // 连接服务器并且授权访问客户端访问成功
-    "sessionId": 'SessionID', // 返回服务器分配的会话ID
-    "tokenId"  : 'TokenId'    // 返回之前传递通信令牌
+    "succeed"  : true,        // 连接服务器并且授权访问客户端访问成功
+    "sessionId": "SessionID", // 返回服务器分配的会话ID
+    "tokenId"  : "TokenId"    // 返回之前传递通信令牌
 }
 ```
 
@@ -175,8 +175,8 @@ body | Result对象 | 举例如下：
 
 ```json
 {
-    "succeed"  : false,     // 连接服务器并且授权失败
-    "errorCode": '错误码'  // 返回失败的原因
+    "succeed"  : false,   // 连接服务器并且授权失败
+    "errorCode": "错误码"  // 返回失败的原因
 }
 ```
 
@@ -195,8 +195,8 @@ body | Message对象 | 举例如下：
 
 ```json
 {
-    "sessionId": 'SessionID', // 当前客户端保存的会话，如果没有，id: null
-    "tokenId"  : 'TokenId'    // 第三方应用，请求消息服务器获取的通信令牌
+    "sessionId": "SessionID", // 当前客户端保存的会话，如果没有，id: null
+    "tokenId"  : "TokenId"    // 第三方应用，请求消息服务器获取的通信令牌
 }
 ```
 
@@ -223,8 +223,8 @@ body | Result对象 | 举例如下：
 
 ```json
 {
-    "succeed"  : false,     // 聊天消息发送失败
-    "errorCode": '错误码'  // 返回失败的原因
+    "succeed"  : false,   // 聊天消息发送失败
+    "errorCode": "错误码"  // 返回失败的原因
 }
 ```
 
@@ -244,10 +244,10 @@ body | Result对象 | 举例如下：
 ```json
 {
     "succeed": true, // 返回成功，接收到的消息都是成功的没有失败
-    "created": '产生的时间戳',
-    "from"   : '发送者',
-    "to"     : '接收者',
-    "body"   : '聊天内容'
+    "created": "产生的时间戳",
+    "from"   : "发送者",
+    "to"     : "接收者",
+    "body"   : "聊天内容"
 }
 ```
 
@@ -269,10 +269,10 @@ chId | string | false | 连接成功后分配的管道ID
 {
     "succeed": true,
     "data"   : {
-        "sessionId": 'sessionId',
-        "attribute": {"ch_id": 'chId'},
-        "tokenId"  : 'TokenId',
-        "uid"      : 'uid'
+        "sessionId": "sessionId",
+        "attribute": {"ch_id": "chId"},
+        "tokenId"  : "TokenId",
+        "uid"      : "Uid"
     }
 }
 ```
@@ -292,8 +292,8 @@ chId | string | false | 连接成功后分配的管道ID
 
 ```json
 {
-    "succeed"  : false,    // 连接失败
-    "errorCode": '错误码' // 失败的原因
+    "succeed"  : false,  // 连接失败
+    "errorCode": "错误码" // 失败的原因
 }
 ```
 
@@ -324,7 +324,7 @@ text | string | true | 消息内容
 ```json
 {
     "succeed"  : false,
-    "errorCode": '错误码'
+    "errorCode": "错误码"
 }
 ```
 
