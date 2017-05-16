@@ -8,7 +8,6 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>songmim-server</module>
-		<module>songmim-client</module>
 	</modules>
 
 	<properties>
