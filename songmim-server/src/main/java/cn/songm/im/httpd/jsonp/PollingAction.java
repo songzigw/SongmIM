@@ -3,7 +3,6 @@ package cn.songm.im.httpd.jsonp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.songm.common.utils.JsonUtils;
 import cn.songm.im.IMException;
 import cn.songm.im.httpd.HttpAction;
 import cn.songm.im.model.ChLongPolling;
@@ -38,10 +37,9 @@ public class PollingAction extends JsonpAction {
         String callback = getParamValue(decoder, "callback");
 
         Result<Session> res = new Result<Session>();
-        SessionCh ses = null;
         ChLongPolling clp = new ChLongPolling(chId);
         // 连接成功
-        ses = tokenService.online(token, session, clp);
+        SessionCh ses = tokenService.online(token, session, clp);
         res.setData(ses);
 
         // 第一次连接成功
@@ -53,13 +51,11 @@ public class PollingAction extends JsonpAction {
         // 获取消息
         long start = System.currentTimeMillis();
         ChLongPolling chLp = ses.getChannel(chId);
+        Message message = (Message) chLp.getMessage();
         Result<Message> resMsg = new Result<Message>();
-        byte[] message = null;
         do {
-            message = chLp.getMessage();
             if (message != null) {
-                Message msg = JsonUtils.fromJson(message, Message.class);
-                resMsg.setData(msg);
+                resMsg.setData(message);
                 break;
             }
             if (System.currentTimeMillis() - start > TIME_OUT) {

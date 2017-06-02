@@ -38,14 +38,14 @@ public interface Handler {
         /** 连接关闭 */
         CONN_CLOSE(2),
         
-        /** 心跳 */
+        /** 客户端发起心跳 */
         HEARTBEAT(3),
         
         /** 发布消息到服务端 */
         PUBLISH_MSG(4),
 
         /** 转发消息到客户端 */
-        BROKER_MSG(5),        
+        BROKER_MSG(5),
         
         ;
 

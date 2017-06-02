@@ -17,8 +17,9 @@
 package cn.songm.im.mqueue;
 
 import cn.songm.im.IMException;
-import cn.songm.im.model.Conversation;
+import cn.songm.im.model.Conversation.Ctype;
 import cn.songm.im.model.SessionCh;
+import cn.songm.im.model.message.Message;
 import io.netty.channel.Channel;
 
 /**
@@ -27,66 +28,66 @@ import io.netty.channel.Channel;
  * @author zhangsong
  *
  */
-public interface ClientUser {
+public abstract class ClientUser {
 
     /**
      * 添加Session
      * 
      * @param session
      */
-    public void addSession(SessionCh session);
+    public abstract void addSession(SessionCh session);
 
     /**
      * 移除Session
      * 
      * @param session
      */
-    public void removeSession(SessionCh session);
-
-    /**
-     * 触发消息事件
-     * 
-     * @param payload
-     * @param out
-     */
-    public void trigger(byte[] payload, Channel out);
+    public abstract void removeSession(SessionCh session);
 
     /**
      * 是否包含Session
      * 
      * @return
      */
-    public boolean isSessions();
+    public abstract boolean isSessions();
 
     /**
      * 清除Session
      */
-    public SessionCh[] clearSessions();
+    public abstract SessionCh[] clearSessions();
 
     /**
      * 发布消息
      * 
-     * @param conv
-     * @param to
-     * @param body
+     * @param convType
+     * @param target
+     * @param message
      * @throws IMException
      */
-    public void publish(Conversation.Type convType, String id, byte[] body)
-            throws IMException;
+    public abstract void publish(Ctype convType, String target,
+            Message message) throws IMException;
+
+    /**
+     * 接收消息
+     * 
+     * @param message
+     * @param out
+     */
+    public abstract void receive(Message message, Channel out);
 
     /**
      * 订阅主题
      * 
      * @param convType
-     * @param id
+     * @param target
      */
-    public void subscribe(Conversation.Type convType, String id);
-    
+    public abstract void subscribe(Ctype convType, String target);
+
     /**
      * 取消订阅
      * 
      * @param convType
-     * @param id
+     * @param target
      */
-    public void unsubscribe(Conversation.Type convType, String id);
+    public abstract void unsubscribe(Ctype convType, String target);
 }

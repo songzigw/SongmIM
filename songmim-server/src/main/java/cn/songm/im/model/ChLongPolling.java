@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import cn.songm.im.model.message.Message;
+
 /**
  * 长轮询管道
  * 
@@ -28,13 +30,13 @@ import java.util.List;
  */
 public class ChLongPolling extends IMChannel {
 
-    private List<byte[]> queue;
+    private List<Message> queue;
 
     private String chId;
 
     public ChLongPolling(String chId) {
         this.chId = chId;
-        queue = Collections.synchronizedList(new LinkedList<byte[]>());
+        queue = Collections.synchronizedList(new LinkedList<Message>());
     }
 
     public String getChId() {
@@ -45,11 +47,11 @@ public class ChLongPolling extends IMChannel {
         this.chId = chId;
     }
 
-    public void addMessage(byte[] msg) {
-        queue.add(msg);
+    public void addMessage(Message message) {
+        queue.add(message);
     }
 
-    public byte[] getMessage() {
+    public Message getMessage() {
         if (queue.size() == 0) {
             return null;
         }

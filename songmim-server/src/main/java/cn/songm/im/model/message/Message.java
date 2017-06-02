@@ -53,10 +53,16 @@ public class Message implements MQMessage {
     private String type;
     /** 通道id */
     private String chId;
+    /** 会话方向 */
+    private String direction;
     /** 发送方 */
     private String from;
+    private String fNick;
+    private String fAvatar;
     /** 接收方 */
     private String to;
+    private String tNick;
+    private String tAvatar;
     /** 创建时间 */
     private Date created;
     /** 修改时间 */
@@ -136,6 +142,46 @@ public class Message implements MQMessage {
         this.msgId = msgId;
     }
 
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public String getfNick() {
+        return fNick;
+    }
+
+    public void setfNick(String fNick) {
+        this.fNick = fNick;
+    }
+
+    public String getfAvatar() {
+        return fAvatar;
+    }
+
+    public void setfAvatar(String fAvatar) {
+        this.fAvatar = fAvatar;
+    }
+
+    public String gettNick() {
+        return tNick;
+    }
+
+    public void settNick(String tNick) {
+        this.tNick = tNick;
+    }
+
+    public String gettAvatar() {
+        return tAvatar;
+    }
+
+    public void settAvatar(String tAvatar) {
+        this.tAvatar = tAvatar;
+    }
+
     @Override
     public String toString() {
         return "Message [conv=" + conv + ", type=" + type + ", chId=" + chId
@@ -143,6 +189,30 @@ public class Message implements MQMessage {
                 + ", updated=" + updated + ", jbody=" + jbody + "]";
     }
 
+    public static enum Direction {
+        SEND("text"),
+        RECEIVE("receive");
+        
+        private String value;
+        
+        private Direction(String v) {
+            this.value = v;
+        }
+        
+        public String getValue() {
+            return this.value;
+        }
+        
+        public static Direction instance(String v) {
+            for (Direction t : Direction.values()) {
+                if (t.getValue().equals(v)) {
+                    return t;
+                }
+            }
+            throw new RuntimeException();
+        }
+    }
+    
     public static enum Mtype {
         /** 文本消息 */
         TEXT("text"),

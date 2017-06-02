@@ -23,7 +23,8 @@ import org.springframework.stereotype.Component;
 
 import cn.songm.common.utils.JsonUtils;
 import cn.songm.im.IMException;
-import cn.songm.im.model.Conversation.Type;
+import cn.songm.im.IMException.ErrorCode;
+import cn.songm.im.model.Conversation.Ctype;
 import cn.songm.im.model.Protocol;
 import cn.songm.im.model.Result;
 import cn.songm.im.model.Session;
@@ -51,9 +52,12 @@ public class PublishMsgHandler extends AbstractHandler {
 
         Message msg = JsonUtils.fromJson(pro.getBody(), Message.class);
         Session session = this.getSession(ch);
-        ClientUser cUser = clientService.getClient(session.getUid());
-        cUser.publish(Type.instance(msg.getConv()), msg.getFrom(), pro.getBody());
-        cUser.publish(Type.instance(msg.getConv()), msg.getTo(), pro.getBody());
+        if (!msg.getFrom().equals(session.getUid())) {
+            throw new IMException(ErrorCode.MSG_SOURCE_INVALID, "消息来源无效");
+        }
+        ClientUser cUser = clientService.getClient(msg.getFrom());
+        cUser.publish(Ctype.instance(msg.getConv()), msg.getFrom(), msg);
+        cUser.publish(Ctype.instance(msg.getConv()), msg.getTo(), msg);
         LOG.debug("[PublishMsgHand: {}]", pro.toString());
 
         Result<Message> res = new Result<Message>();

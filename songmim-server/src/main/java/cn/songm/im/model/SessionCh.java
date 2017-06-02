@@ -16,13 +16,16 @@
  */
 package cn.songm.im.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import cn.songm.common.utils.JsonUtils;
 import cn.songm.common.utils.Sequence;
 import cn.songm.common.utils.StringUtils;
 import cn.songm.im.handler.Handler.Operation;
+import cn.songm.im.model.message.Message;
 import io.netty.channel.Channel;
 
 /**
@@ -90,19 +93,19 @@ public class SessionCh extends Session {
         return null;
     }
 
-    public void onReceived(byte[] payload, Channel out) {
+    public void onReceived(Message message, Channel out) {
         Iterator<Channel> iter = chSet.iterator();
         while (iter.hasNext()) {
             Channel ch = iter.next();
-            if (ch == out)
-                continue;
+            if (ch == out) continue;
             if (ch instanceof ChLongPolling) {
                 ChLongPolling clp = (ChLongPolling) ch;
-                clp.addMessage(payload);
+                clp.addMessage(message);
             } else {
                 Protocol pro = new Protocol();
+                pro.setSequence(new Date().getTime());
                 pro.setOperation(Operation.BROKER_MSG.getValue());
-                pro.setBody(payload);
+                pro.setBody(JsonUtils.toJsonBytes(message));
                 ch.writeAndFlush(pro);
             }
         }

@@ -3,10 +3,9 @@ package cn.songm.im.httpd.jsonp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.songm.common.utils.JsonUtils;
 import cn.songm.im.IMException;
 import cn.songm.im.httpd.HttpAction;
-import cn.songm.im.model.Conversation;
+import cn.songm.im.model.Conversation.Ctype;
 import cn.songm.im.model.Result;
 import cn.songm.im.model.SessionCh;
 import cn.songm.im.model.message.Message;
@@ -30,7 +29,7 @@ public class MessageAction extends JsonpAction {
     @Override
     public byte[] active(Channel ch, HttpRequest req) throws IMException {
         checkSession(req);
-        
+
         QueryStringDecoder decoder = new QueryStringDecoder(req.uri());
         String session = getParamValue(decoder, "session");
         String chId = getParamValue(decoder, "chId");
@@ -52,12 +51,11 @@ public class MessageAction extends JsonpAction {
         msg.setTo(to);
         msg.setJbody(body);
 
-        byte[] bytes = JsonUtils.toJsonBytes(msg);
         ClientUser cUser = clientService.getClient(ses.getUid());
-        cUser.publish(Conversation.Type.instance(msg.getConv()),
-                msg.getFrom(), bytes);
-        cUser.publish(Conversation.Type.instance(msg.getConv()),
-                msg.getTo(), bytes);
+        cUser.publish(Ctype.instance(msg.getConv()),
+                msg.getFrom(), msg);
+        cUser.publish(Ctype.instance(msg.getConv()),
+                msg.getTo(), msg);
 
         return HttpAction.callback(callback, res);
     }

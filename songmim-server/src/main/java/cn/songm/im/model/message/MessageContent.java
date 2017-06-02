@@ -17,7 +17,7 @@
 package cn.songm.im.model.message;
 
 /**
- * 消息内容
+ * 会话内容
  * @author zhangsong
  *
  */

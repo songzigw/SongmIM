@@ -53,23 +53,20 @@ public class IMException extends Exception {
     }
 
     public static enum ErrorCode {
-        // Token异常--------------
         /** Token无效 */
         TOKEN_INVALID,
         
-        // Session异常------------
         /** Session失效 */
         SESSION_DISABLED,
-        
-        // MQ异常
-        /** MQ连接异常 */
-        MQ_CONNECT,
         
         /** 签名失败 */
         SIGN_FAILURE,
         
         /** 请求超时 */
         // TIMEOUT,
+        
+        /** 消息来源无效 */
+        MSG_SOURCE_INVALID
     }
 
 }

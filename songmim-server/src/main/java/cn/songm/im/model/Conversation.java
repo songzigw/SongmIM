@@ -30,26 +30,130 @@ public class Conversation implements Serializable {
 
     private static final long serialVersionUID = -6267677672827188664L;
 
-    public static enum Type {
+    private String id;
+
+    private String type;
+    private String subjectum;
+    private String subNick;
+    private String subAvatar;
+    private String objectum;
+    private String objNick;
+    private String objAvatar;
+    private Long timestamp;
+    private String body;
+    private Integer unreadCount;
+
+    public Conversation() {
+        this.unreadCount = 0;
+    }
+    
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getSubjectum() {
+        return subjectum;
+    }
+
+    public void setSubjectum(String subjectum) {
+        this.subjectum = subjectum;
+    }
+
+    public String getSubNick() {
+        return subNick;
+    }
+
+    public void setSubNick(String subNick) {
+        this.subNick = subNick;
+    }
+
+    public String getSubAvatar() {
+        return subAvatar;
+    }
+
+    public void setSubAvatar(String subAvatar) {
+        this.subAvatar = subAvatar;
+    }
+
+    public String getObjectum() {
+        return objectum;
+    }
+
+    public void setObjectum(String objectum) {
+        this.objectum = objectum;
+    }
+
+    public String getObjNick() {
+        return objNick;
+    }
+
+    public void setObjNick(String objNick) {
+        this.objNick = objNick;
+    }
+
+    public String getObjAvatar() {
+        return objAvatar;
+    }
+
+    public void setObjAvatar(String objAvatar) {
+        this.objAvatar = objAvatar;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public Integer getUnreadCount() {
+        return unreadCount;
+    }
+
+    public void setUnreadCount(Integer unreadCount) {
+        this.unreadCount = unreadCount;
+    }
+
+    public static enum Ctype {
         /** 私聊 */
         PRIVATE("private"),
         /** 群聊 */
         GROUP("group"),
-        /** 通知 */
-        NOTICE("notice");
+        ;
 
         private String value;
 
-        private Type(String v) {
+        private Ctype(String v) {
             this.value = v;
         }
-        
+
         public String getValue() {
             return this.value;
         }
-        
-        public static Type instance(String v) {
-            for (Type t : Type.values()) {
+
+        public static Ctype instance(String v) {
+            for (Ctype t : Ctype.values()) {
                 if (t.getValue().equals(v)) {
                     return t;
                 }
@@ -57,5 +161,5 @@ public class Conversation implements Serializable {
             throw new RuntimeException();
         }
     }
-    
+
 }

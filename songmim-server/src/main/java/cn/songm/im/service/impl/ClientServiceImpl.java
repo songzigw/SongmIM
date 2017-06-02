@@ -25,10 +25,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cn.songm.im.IMException;
-import cn.songm.im.model.Conversation;
+import cn.songm.im.model.Conversation.Ctype;
 import cn.songm.im.model.SessionCh;
 import cn.songm.im.mqueue.ClientUser;
-import cn.songm.im.mqueue.SongMQClientUser;
+import cn.songm.im.mqueue.SongMQClient;
 import cn.songm.im.service.ClientService;
 import cn.songm.im.service.SessionService;
 
@@ -49,7 +49,7 @@ public class ClientServiceImpl implements ClientService {
             return client;
         }
 
-        client = new SongMQClientUser(session.getToken());
+        client = new SongMQClient(session.getToken());
         client.addSession(session);
 
         return clientItems.put(session.getUid(), client);
@@ -68,7 +68,7 @@ public class ClientServiceImpl implements ClientService {
             for (SessionCh ses : sess) {
                 sessionService.removeSession(ses.getSessionId());
             }
-            client.unsubscribe(Conversation.Type.PRIVATE, uid);
+            client.unsubscribe(Ctype.PRIVATE, uid);
             clientItems.remove(uid);
         }
     }
