@@ -1446,3 +1446,234 @@
 [INFO ][2017-06-01 18:33:45,593][Slf4JLogger:101] [id: 0x44a54b94, /127.0.0.1:17182] RECEIVED: [id: 0xf2ed8866, /127.0.0.1:52779 => /127.0.0.1:17182]
 [INFO ][2017-06-01 18:34:07,343][Slf4JLogger:101] [id: 0x44a54b94, /127.0.0.1:17182] RECEIVED: [id: 0x084a7e32, /127.0.0.1:52865 => /127.0.0.1:17182]
 [INFO ][2017-06-01 18:34:21,695][SessionServiceImpl:80] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-06 10:40:43,718][MessageTest:50] {"msgId":10000,"conv":"PRIVATE","type":"TEXT","direction":"RECEIVE","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":"Jun 6, 2017 10:40:43 AM","updated":"Jun 6, 2017 10:40:43 AM","jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 10:41:40,127][MessageTest:50] {"msgId":10000,"conv":"PRIVATE","type":"TEXT","direction":"RECEIVE","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496716900111,"updated":1496716900111,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 10:42:01,216][MessageTest:50] {"msgId":10000,"conv":"PRIVATE","type":"TEXT","direction":"RECEIVE","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496716921204,"updated":1496716921204,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 10:57:08,382][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"RECEIVE","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496717828366,"updated":1496717828366,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 10:59:20,567][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496717960553,"updated":1496717960553,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:02:54,374][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496718174359,"updated":1496718174359,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:02:54,391][MessageTest:57] Message [msgId=null, conv=null, type=null, chId=null, direction=null, from=null, fNick=null, fAvatar=null, to=null, tNick=null, tAvatar=null, created=null, updated=null, jbody=null]
+[INFO ][2017-06-06 11:05:18,808][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496718318793,"updated":1496718318793,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:06:49,576][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496718409560,"updated":1496718409560,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:06:49,597][MessageTest:57] Message [msgId=10000, conv=PRIVATE, type=TEXT, chId=null, direction=RECEIVE, from=10001, fNick=1001_nick, fAvatar=1001_avatar, to=1002, tNick=1002_nick, tAvatar=1002_avatar, created=Tue Jun 06 10:59:20 CST 2017, updated=Tue Jun 06 10:59:20 CST 2017, jbody=cn.songm.im.model.message.MessageContent@48140564]
+[INFO ][2017-06-06 11:08:54,975][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496718534961,"updated":1496718534961,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:08:54,993][MessageTest:57] Message [msgId=null, conv=null, type=null, chId=null, direction=null, from=null, fNick=null, fAvatar=null, to=null, tNick=null, tAvatar=null, created=null, updated=null, jbody=null]
+[INFO ][2017-06-06 11:11:33,760][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496718693744,"updated":1496718693744,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:11:33,776][MessageTest:57] Message [msgId=null, conv=null, type=null, chId=null, direction=null, from=null, fNick=null, fAvatar=null, to=null, tNick=null, tAvatar=null, created=null, updated=null, jbody=null]
+[INFO ][2017-06-06 11:12:17,884][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496718737871,"updated":1496718737871,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:12:17,904][MessageTest:57] Message [msgId=null, conv=null, type=null, chId=null, direction=null, from=null, fNick=null, fAvatar=null, to=null, tNick=null, tAvatar=null, created=null, updated=null, jbody=null]
+[INFO ][2017-06-06 11:13:03,222][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496718783211,"updated":1496718783211,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:13:03,238][MessageTest:57] Message [msgId=null, conv=null, type=null, chId=null, direction=null, from=null, fNick=null, fAvatar=null, to=null, tNick=null, tAvatar=null, created=null, updated=null, jbody=null]
+[INFO ][2017-06-06 11:14:18,035][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496718858021,"updated":1496718858021,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:14:18,050][MessageTest:57] Message [msgId=10000, conv=null, type=null, chId=null, direction=null, from=null, fNick=null, fAvatar=null, to=null, tNick=null, tAvatar=null, created=null, updated=null, jbody=null]
+[INFO ][2017-06-06 11:14:38,653][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496718878642,"updated":1496718878642,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:14:38,672][MessageTest:57] Message [msgId=10000, conv=PRIVATE, type=TEXT, chId=null, direction=RECEIVE, from=10001, fNick=1001_nick, fAvatar=1001_avatar, to=1002, tNick=1002_nick, tAvatar=1002_avatar, created=Tue Jun 06 10:59:20 CST 2017, updated=Tue Jun 06 10:59:20 CST 2017, jbody=null]
+[INFO ][2017-06-06 11:20:18,420][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496719218408,"updated":1496719218408,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:21:17,632][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1496719277620,"updated":1496719277620,"jbody":{"text":"这是一个文本消息"}}
+[INFO ][2017-06-06 11:21:17,650][MessageTest:57] Message [msgId=10000, conv=PRIVATE, type=TEXT, chId=null, direction=RECEIVE, from=10001, fNick=1001_nick, fAvatar=1001_avatar, to=1002, tNick=1002_nick, tAvatar=1002_avatar, created=Tue Jun 06 10:59:20 CST 2017, updated=Tue Jun 06 10:59:20 CST 2017, jbody=TextMessage [text=这是一个文本消息]]
+[INFO ][2017-06-14 07:46:22,429][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1497397582411,"updated":1497397582411,"jbody":{"text":"这是一个文本消息","mtype":"text"}}
+[INFO ][2017-06-14 07:46:22,451][MessageTest:57] Message [msgId=10000, conv=PRIVATE, type=TEXT, chId=null, direction=RECEIVE, from=10001, fNick=1001_nick, fAvatar=1001_avatar, to=1002, tNick=1002_nick, tAvatar=1002_avatar, created=Tue Jun 06 10:59:20 CST 2017, updated=Tue Jun 06 10:59:20 CST 2017, jbody=TextMessage [text=这是一个文本消息, toString()=MessageContent [mtype=null]]]
+[INFO ][2017-06-14 07:52:43,795][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1497397963781,"updated":1497397963781,"jbody":{"text":"这是一个文本消息","mtype":"text"}}
+[INFO ][2017-06-14 07:52:43,812][MessageTest:57] Message [msgId=10000, conv=PRIVATE, type=TEXT, chId=null, direction=RECEIVE, from=10001, fNick=1001_nick, fAvatar=1001_avatar, to=1002, tNick=1002_nick, tAvatar=1002_avatar, created=Tue Jun 06 10:59:20 CST 2017, updated=Tue Jun 06 10:59:20 CST 2017, jbody=TextMessage [text=这是一个文本消息,MessageContent [mtype=TEXT]]]
+[INFO ][2017-06-14 07:53:51,746][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1497398031731,"updated":1497398031731,"jbody":{"text":"这是一个文本消息","mtype":"text"}}
+[INFO ][2017-06-14 07:53:51,766][MessageTest:57] Message [msgId=10000, conv=PRIVATE, type=TEXT, chId=null, direction=RECEIVE, from=10001, fNick=1001_nick, fAvatar=1001_avatar, to=1002, tNick=1002_nick, tAvatar=1002_avatar, created=Tue Jun 06 10:59:20 CST 2017, updated=Tue Jun 06 10:59:20 CST 2017, jbody=TextMessage [text=这是一个文本消息, MessageContent [mtype=TEXT]]]
+[INFO ][2017-06-14 07:54:49,705][AbstractApplicationContext:578] Refreshing cn.songm.songmq.server.MQContext@50cbc42f: startup date [Wed Jun 14 07:54:49 CST 2017]; root of context hierarchy
+[INFO ][2017-06-14 07:54:49,780][XmlBeanDefinitionReader:317] Loading XML bean definitions from class path resource [config/songmim-application.xml]
+[INFO ][2017-06-14 07:54:50,702][HttpServer:72] SongmIM httpd start: 127.0.0.1:17183
+[INFO ][2017-06-14 07:54:50,702][WsIMServer:67] SongmIM server Ws start: 127.0.0.1:17182
+[INFO ][2017-06-14 07:54:50,702][TcpIMServer:67] SongmIM server TCP start: 127.0.0.1:17181
+[INFO ][2017-06-14 07:54:51,084][Slf4JLogger:101] [id: 0x7da77024] REGISTERED
+[INFO ][2017-06-14 07:54:51,084][Slf4JLogger:101] [id: 0xed989caf] REGISTERED
+[INFO ][2017-06-14 07:54:51,084][Slf4JLogger:101] [id: 0x09ca00ec] REGISTERED
+[INFO ][2017-06-14 07:54:51,086][Slf4JLogger:101] [id: 0x7da77024] BIND: /127.0.0.1:17181
+[INFO ][2017-06-14 07:54:51,087][Slf4JLogger:101] [id: 0x09ca00ec] BIND: /127.0.0.1:17182
+[INFO ][2017-06-14 07:54:51,086][Slf4JLogger:101] [id: 0xed989caf] BIND: /127.0.0.1:17183
+[INFO ][2017-06-14 07:54:51,093][Slf4JLogger:101] [id: 0x09ca00ec, /127.0.0.1:17182] ACTIVE
+[INFO ][2017-06-14 07:54:51,093][Slf4JLogger:101] [id: 0xed989caf, /127.0.0.1:17183] ACTIVE
+[INFO ][2017-06-14 07:54:51,093][Slf4JLogger:101] [id: 0x7da77024, /127.0.0.1:17181] ACTIVE
+[INFO ][2017-06-14 07:55:36,375][Slf4JLogger:101] [id: 0xed989caf, /127.0.0.1:17183] RECEIVED: [id: 0x9c4a8f68, /127.0.0.1:63115 => /127.0.0.1:17183]
+[INFO ][2017-06-14 07:55:36,578][Slf4JLogger:101] [id: 0xed989caf, /127.0.0.1:17183] RECEIVED: [id: 0x070f1a49, /127.0.0.1:63116 => /127.0.0.1:17183]
+[INFO ][2017-06-14 07:55:50,365][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 07:56:50,373][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 07:57:50,380][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:46:01,542][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:47:01,546][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:48:01,553][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:49:01,560][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:50:01,566][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:51:01,574][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:52:01,581][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:53:01,591][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:54:01,602][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:55:01,613][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:56:01,622][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:57:01,631][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:58:01,634][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 08:59:01,641][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:00:01,648][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:01:01,653][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:02:01,655][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:03:01,665][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:04:01,677][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:05:01,689][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:06:01,692][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:07:01,703][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:08:01,705][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:09:01,710][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:10:01,714][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:11:01,717][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:12:01,725][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:13:01,728][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:14:01,731][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:15:01,737][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:16:01,744][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:17:01,747][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:18:01,754][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:19:01,762][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:20:01,769][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:21:01,777][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:22:01,781][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:23:01,788][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:24:01,795][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:25:01,798][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:26:01,804][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:27:01,810][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:28:01,813][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:29:01,818][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:30:01,823][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:31:01,830][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:32:01,837][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:33:01,843][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:34:01,847][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:35:01,853][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:36:01,860][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:37:01,863][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:38:01,866][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:39:01,873][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:40:01,879][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:41:01,883][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:42:01,888][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:43:01,894][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:44:01,900][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:45:01,907][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:46:01,914][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:47:01,920][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:48:01,927][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:49:01,932][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:50:01,940][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:51:01,946][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:52:01,951][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:53:01,955][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:54:01,962][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:55:01,966][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:56:01,973][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:57:01,980][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:58:01,985][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 09:59:01,989][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:00:01,995][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:01:02,002][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:02:02,007][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:03:02,013][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:04:02,016][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:05:02,023][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:06:02,030][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:07:02,042][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:08:02,054][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:09:02,067][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:10:09,437][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:11:09,441][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:12:09,449][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:13:09,455][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:14:09,463][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:15:09,469][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:16:09,479][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:17:09,483][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:18:09,493][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:19:09,504][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:20:09,511][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:21:09,516][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:22:09,523][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:23:09,529][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:24:09,533][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:25:09,539][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:26:09,548][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:27:09,557][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:28:09,567][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:29:09,578][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:30:09,585][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:31:09,592][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:32:09,597][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:33:09,600][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:34:09,606][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:35:09,613][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:36:09,619][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:37:09,623][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:38:09,630][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:39:09,632][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:40:09,636][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 10:41:09,638][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-14 15:34:33,916][MessageTest:50] {"msgId":10000,"conv":"private","type":"text","direction":"receive","from":"10001","fNick":"1001_nick","fAvatar":"1001_avatar","to":"1002","tNick":"1002_nick","tAvatar":"1002_avatar","created":1497425673901,"updated":1497425673901,"jbody":{"text":"这是一个文本消息","mtype":"text"}}
+[INFO ][2017-06-14 15:34:33,930][MessageTest:57] Message [msgId=10000, conv=PRIVATE, type=TEXT, chId=null, direction=RECEIVE, from=10001, fNick=1001_nick, fAvatar=1001_avatar, to=1002, tNick=1002_nick, tAvatar=1002_avatar, created=Tue Jun 06 10:59:20 CST 2017, updated=Tue Jun 06 10:59:20 CST 2017, jbody=TextMessage [text=这是一个文本消息, MessageContent [mtype=TEXT]]]
+[INFO ][2017-06-16 17:14:25,018][AbstractApplicationContext:578] Refreshing cn.songm.songmq.server.MQContext@50cbc42f: startup date [Fri Jun 16 17:14:25 CST 2017]; root of context hierarchy
+[INFO ][2017-06-16 17:14:25,075][XmlBeanDefinitionReader:317] Loading XML bean definitions from class path resource [config/songmim-application.xml]
+[INFO ][2017-06-16 17:14:25,979][HttpServer:72] SongmIM httpd start: 127.0.0.1:17183
+[INFO ][2017-06-16 17:14:25,979][WsIMServer:67] SongmIM server Ws start: 127.0.0.1:17182
+[INFO ][2017-06-16 17:14:25,979][TcpIMServer:67] SongmIM server TCP start: 127.0.0.1:17181
+[INFO ][2017-06-16 17:14:26,090][Slf4JLogger:101] [id: 0xde49a8fd] REGISTERED
+[INFO ][2017-06-16 17:14:26,093][Slf4JLogger:101] [id: 0xde49a8fd] BIND: /127.0.0.1:17183
+[INFO ][2017-06-16 17:14:26,090][Slf4JLogger:101] [id: 0xb6d1a737] REGISTERED
+[INFO ][2017-06-16 17:14:26,094][Slf4JLogger:101] [id: 0xb6d1a737] BIND: /127.0.0.1:17182
+[INFO ][2017-06-16 17:14:26,090][Slf4JLogger:101] [id: 0x25c4bc8a] REGISTERED
+[INFO ][2017-06-16 17:14:26,096][Slf4JLogger:101] [id: 0x25c4bc8a] BIND: /127.0.0.1:17181
+[INFO ][2017-06-16 17:14:26,104][Slf4JLogger:101] [id: 0x25c4bc8a, /127.0.0.1:17181] ACTIVE
+[INFO ][2017-06-16 17:14:26,104][Slf4JLogger:101] [id: 0xb6d1a737, /127.0.0.1:17182] ACTIVE
+[INFO ][2017-06-16 17:14:26,104][Slf4JLogger:101] [id: 0xde49a8fd, /127.0.0.1:17183] ACTIVE
+[INFO ][2017-06-16 17:15:25,625][SessionServiceImpl:79] [StartNumber: 0, EndNumber: 0] SessionTimeoutCheck
+[INFO ][2017-06-16 17:15:26,704][Slf4JLogger:101] [id: 0xde49a8fd, /127.0.0.1:17183] RECEIVED: [id: 0x69437f20, /127.0.0.1:58585 => /127.0.0.1:17183]
+[INFO ][2017-06-16 17:15:26,933][Slf4JLogger:101] [id: 0xde49a8fd, /127.0.0.1:17183] RECEIVED: [id: 0x45fd352d, /127.0.0.1:58590 => /127.0.0.1:17183]
+[INFO ][2017-06-16 17:15:52,622][Slf4JLogger:101] [id: 0xb6d1a737, /127.0.0.1:17182] RECEIVED: [id: 0xa23844fa, /127.0.0.1:58670 => /127.0.0.1:17182]
+[INFO ][2017-06-16 17:16:25,629][SessionServiceImpl:79] [StartNumber: 1, EndNumber: 1] SessionTimeoutCheck
+[INFO ][2017-06-16 17:17:25,634][SessionServiceImpl:79] [StartNumber: 1, EndNumber: 1] SessionTimeoutCheck
+[INFO ][2017-06-16 17:18:25,641][SessionServiceImpl:79] [StartNumber: 1, EndNumber: 1] SessionTimeoutCheck
+[INFO ][2017-06-16 17:19:25,646][SessionServiceImpl:79] [StartNumber: 1, EndNumber: 1] SessionTimeoutCheck
+[INFO ][2017-06-16 17:20:25,653][SessionServiceImpl:79] [StartNumber: 1, EndNumber: 1] SessionTimeoutCheck
+[INFO ][2017-06-16 17:21:25,660][SessionServiceImpl:79] [StartNumber: 1, EndNumber: 1] SessionTimeoutCheck
+[INFO ][2017-06-16 17:22:25,664][SessionServiceImpl:79] [StartNumber: 1, EndNumber: 1] SessionTimeoutCheck
+[INFO ][2017-06-16 17:23:25,671][SessionServiceImpl:79] [StartNumber: 1, EndNumber: 1] SessionTimeoutCheck
+[INFO ][2017-06-16 17:23:31,396][Slf4JLogger:101] [id: 0xb6d1a737, /127.0.0.1:17182] RECEIVED: [id: 0x7c01e85a, /127.0.0.1:59774 => /127.0.0.1:17182]
+[INFO ][2017-06-16 17:24:25,677][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:25:25,684][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:26:25,690][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:27:25,693][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:28:25,696][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:29:25,701][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:30:25,708][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:31:25,719][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:32:25,729][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:33:25,733][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:34:25,745][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:35:25,752][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:36:25,758][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:37:25,762][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:38:25,768][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:39:25,774][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:40:25,781][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:41:25,787][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:42:25,794][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:43:25,801][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:44:25,806][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:45:25,813][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:46:25,819][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:47:25,826][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:48:25,832][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:49:25,836][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:50:25,841][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:51:25,848][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:52:25,853][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:53:25,857][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:54:25,865][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:55:25,871][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:56:25,878][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:57:25,883][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:58:25,890][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck
+[INFO ][2017-06-16 17:59:25,896][SessionServiceImpl:79] [StartNumber: 2, EndNumber: 2] SessionTimeoutCheck

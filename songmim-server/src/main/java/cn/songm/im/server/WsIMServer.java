@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.songm.im.IMConfig;
-import cn.songm.im.handler.MessageDispatcher;
-import cn.songm.im.handler.WsIMChInitializer;
+import cn.songm.im.business.IMConfig;
+import cn.songm.im.server.handler.MessageDispatcher;
+import cn.songm.im.server.handler.WsIMChInitializer;
 import cn.songm.songmq.core.president.AbstractMQServer;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
