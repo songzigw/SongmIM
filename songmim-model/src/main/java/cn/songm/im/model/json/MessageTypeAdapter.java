@@ -32,8 +32,12 @@ public class MessageTypeAdapter implements JsonDeserializer<Message> {
                 if (f.getModifiers() == 2) {
                     f.setAccessible(true);
                     if (!f.getName().equals("jbody")) {
-                        f.set(message, JsonUtils.getInstance().fromJson(
+                        if (f.getType() == String.class) {
+                            f.set(message, entry.getValue().getAsString());
+                        } else {
+                            f.set(message, JsonUtils.getInstance().fromJson(
                                 entry.getValue().getAsString(), f.getType()));
+                        }
                     }
                 }
             }
@@ -52,6 +56,7 @@ public class MessageTypeAdapter implements JsonDeserializer<Message> {
     }
 
     public static MessageContent factory(JsonElement contJson, Mtype mtype) {
+        if (contJson == null) return null;
         String jbody = contJson.toString();
         MessageContent content = null;
         switch (mtype) {

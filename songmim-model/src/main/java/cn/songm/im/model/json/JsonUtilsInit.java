@@ -20,6 +20,7 @@ public class JsonUtilsInit {
                 .registerTypeAdapter(Ctype.class, new GsonEnumTypeAdapter<>(Ctype.PRIVATE))
                 .registerTypeAdapter(Mtype.class, new GsonEnumTypeAdapter<>(Mtype.TEXT))
                 .registerTypeAdapter(Direction.class, new GsonEnumTypeAdapter<>(Direction.SEND))
-                .registerTypeAdapter(Message.class, new MessageTypeAdapter()));
+                .registerTypeAdapter(Message.class, new MessageTypeAdapter())
+                );
     }
 }

@@ -95,6 +95,7 @@ public class SessionServiceImpl extends TimerTask implements SessionService {
         }
 
         ses = new SessionCh(token.getUid(), token.getTokenId());
+        ses.setToken(token);
         ses.addCh(ch);
 
         clientService.createClient(ses);

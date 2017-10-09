@@ -55,6 +55,8 @@ public class Session implements Serializable {
 
     private Map<String, Object> attribute;
 
+    private Token token;
+    
     public Session() {
         created = new Date();
         access = created;
@@ -141,6 +143,14 @@ public class Session implements Serializable {
         this.uid = uid;
     }
 
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
+
     public boolean isTimeout() {
         if (System.currentTimeMillis() - access.getTime() > TIME_OUT) {
             return true;
@@ -172,12 +182,13 @@ public class Session implements Serializable {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder("Session [");
-        str.append("sessionId=").append(sessionId).append(", ");
-        str.append("tokenId=").append(tokenId).append(", ");
-        str.append("uid=").append(uid).append(", ");
-        str.append("created=").append(created).append(", ");
-        str.append("access=").append(access).append(", ");
-        str.append("attribute=").append(attribute);
+        str.append(", sessionId=").append(sessionId);
+        str.append(", tokenId=").append(tokenId);
+        str.append(", uid=").append(uid);
+        str.append(", created=").append(created);
+        str.append(", access=").append(access);
+        str.append(", attribute=").append(attribute);
+        str.append(", token=").append(token);
         str.append("]");
         return str.toString();
     }

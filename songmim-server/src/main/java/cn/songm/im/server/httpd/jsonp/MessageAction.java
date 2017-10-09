@@ -39,7 +39,7 @@ public class MessageAction extends JsonpAction {
         String type = getParamValue(decoder, "type");
         String from = getParamValue(decoder, "from");
         String to = getParamValue(decoder, "to");
-        String body = getParamValue(decoder, "body");
+        // String body = getParamValue(decoder, "body");
 
         Result<Object> res = new Result<Object>();
         SessionCh ses = sessionService.getSession(session);
