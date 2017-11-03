@@ -56,7 +56,7 @@ public class PublishMsgHandler extends AbstractHandler {
             throw new IMException(ErrorCode.MSG_SOURCE_INVALID, "消息来源无效");
         }
         ClientUser fromUser = clientService.getClient(msg.getFrom());
-        fromUser.publish(msg.getConv(), msg.getTo(), msg);
+        fromUser.publish(msg.getTo(), msg);
         LOG.debug("PublishMsgHand: {}", pro.toString());
 
         Result<Message> res = new Result<Message>();

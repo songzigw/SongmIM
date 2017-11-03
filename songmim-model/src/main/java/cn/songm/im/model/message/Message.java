@@ -59,6 +59,10 @@ public class Message implements MQMessage, Cloneable {
     /** 具体消息内容 */
     private MessageContent jbody;
 
+    public Message() {
+        this.created = new Date();
+    }
+    
     public Date getCreated() {
         return created;
     }
@@ -186,6 +190,12 @@ public class Message implements MQMessage, Cloneable {
                 + jbody + "]";
     }
 
+    /**
+     * 消息方向
+     * 
+     * @author zhangsong
+     *
+     */
     public static enum Direction implements GsonEnum<Direction> {
         SEND("send"), RECEIVE("receive");
 
@@ -219,6 +229,12 @@ public class Message implements MQMessage, Cloneable {
         }
     }
 
+    /**
+     * 消息类型
+     * 
+     * @author zhangsong
+     *
+     */
     public static enum Mtype implements GsonEnum<Mtype> {
         /** 文本消息 */
         TEXT("text"),

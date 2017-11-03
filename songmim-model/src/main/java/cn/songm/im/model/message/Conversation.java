@@ -187,6 +187,11 @@ public class Conversation implements Serializable {
         return str.toString();
     }
     
+    /**
+     * 聊天类型
+     * @author zhangsong
+     *
+     */
     public static enum Ctype implements GsonEnum<Ctype> {
         /** 私聊 */
         PRIVATE("private"),

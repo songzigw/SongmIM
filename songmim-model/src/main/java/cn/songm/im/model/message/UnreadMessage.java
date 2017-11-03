@@ -31,7 +31,7 @@ public class UnreadMessage extends NoticeMessage {
     @Override
     public String toString() {
         return "UnreadMessage [number=" + number + ", total=" + total
-                + ", toString()=" + super.toString() + "]";
+                + ", " + super.toString() + "]";
     }
 
 }

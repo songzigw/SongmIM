@@ -96,13 +96,10 @@ public class SessionCh extends Session {
     }
 
     public void onReceived(Message message, Channel out) {
-        Iterator<Channel> iter = chSet.iterator();
-        while (iter.hasNext()) {
-            Channel ch = iter.next();
+        for (Channel ch : chSet) {
             if (ch == out) continue;
             if (ch instanceof LongPollingCh) {
-                LongPollingCh clp = (LongPollingCh) ch;
-                clp.addMessage(message);
+                ((LongPollingCh) ch).addMessage(message);
             } else {
                 Protocol pro = new Protocol();
                 pro.setSequence(new Date().getTime());
@@ -114,12 +111,9 @@ public class SessionCh extends Session {
     }
 
     public void clearChannels() {
-        Iterator<Channel> iter = chSet.iterator();
-        while (iter.hasNext()) {
-            Channel ch = (Channel) iter.next();
+        for (Channel ch : chSet) {
             if (ch instanceof LongPollingCh) {
-                LongPollingCh clp = (LongPollingCh) ch;
-                clp.clearMessage();
+                ((LongPollingCh) ch).clearMessage();
             } else {
                 ch.close().syncUninterruptibly();
             }

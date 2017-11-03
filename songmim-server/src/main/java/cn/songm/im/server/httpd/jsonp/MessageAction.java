@@ -53,8 +53,8 @@ public class MessageAction extends JsonpAction {
         // msg.setJbody(body);
 
         ClientUser cUser = clientService.getClient(ses.getUid());
-        cUser.publish(msg.getConv(), msg.getFrom(), msg);
-        cUser.publish(msg.getConv(), msg.getTo(), msg);
+        cUser.publish(msg.getFrom(), msg);
+        cUser.publish(msg.getTo(), msg);
 
         return HttpAction.callback(callback, res);
     }

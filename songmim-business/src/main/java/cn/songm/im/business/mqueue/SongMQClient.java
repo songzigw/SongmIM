@@ -29,8 +29,8 @@ import cn.songm.im.business.SessionCh;
 import cn.songm.im.model.Token;
 import cn.songm.im.model.message.Conversation;
 import cn.songm.im.model.message.Conversation.Ctype;
-import cn.songm.im.model.message.Message.Direction;
 import cn.songm.im.model.message.Message;
+import cn.songm.im.model.message.Message.Direction;
 import cn.songm.im.model.message.UnreadMessage;
 import cn.songm.songmq.core.MQueueManager;
 import cn.songm.songmq.core.MQueueModel;
@@ -38,7 +38,6 @@ import cn.songm.songmq.core.MessageEvent;
 import cn.songm.songmq.core.MessageEventManager;
 import cn.songm.songmq.core.MessageListener;
 import cn.songm.songmq.core.Topic;
-import io.netty.channel.Channel;
 
 /**
  * SongMQ客户端
@@ -46,7 +45,7 @@ import io.netty.channel.Channel;
  * @author zhangsong
  *
  */
-public final class SongMQClient extends ClientUser implements MessageListener {
+public class SongMQClient extends ClientUser implements MessageListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(SongMQClient.class);
     
@@ -84,10 +83,8 @@ public final class SongMQClient extends ClientUser implements MessageListener {
 
     @Override
     public void addSession(SessionCh session) {
-        for (SessionCh ses : sessions) {
-            if (ses.getSessionId().equals(session.getSessionId())) {
-                return;
-            }
+        if (sessions.contains(session)) {
+            return;
         }
         sessions.add(session);
     }
@@ -117,8 +114,9 @@ public final class SongMQClient extends ClientUser implements MessageListener {
     }
 
     @Override
-    public void publish(Ctype convType, String target, Message message) {
+    public void publish(String target, Message message) {
         message.setDirection(Message.Direction.SEND);
+        Ctype convType = message.getConv();
         // 发送给对方
         Topic topic = new Topic();
         topic.setModel(MQueueModel.PUB_SUB);
@@ -146,7 +144,7 @@ public final class SongMQClient extends ClientUser implements MessageListener {
     
     private Conversation createConv(Message message) {
         Conversation conv = null;
-        String convId = this.getConvId(message);
+        String convId = this.jointConvId(message);
         for (Conversation c : this.convs) {
             if (c.getId().equals(convId)) {
                 conv = c;
@@ -188,28 +186,36 @@ public final class SongMQClient extends ClientUser implements MessageListener {
         LOG.debug(conv.toString());
         return conv;
     }
-    
-    private String getConvId(Message message) {
+
+    /**
+     * 拼接业务会话ID
+     * @param message
+     * @return
+     */
+    private String jointConvId(Message message) {
+        StringBuilder str = new StringBuilder();
         Ctype convType = message.getConv();
+        str.append(convType.getValue()).append("_")
+                .append(token.getUid()).append("_");
         switch (convType) {
         case PRIVATE:
-            if (message.getDirection().equals(Direction.SEND)) {
-                return convType.getValue() + "_" + token.getUid() + "_"
-                        + message.getTo();
-            } else if (message.getDirection().equals(Direction.RECEIVE)) {
-                return convType.getValue() + "_" + token.getUid() + "_"
-                        + message.getFrom();
+            if (Direction.SEND.equals(message.getDirection())) {
+                str.append(message.getTo());
+            } else if (Direction.RECEIVE.equals(message.getDirection())) {
+                str.append(message.getFrom());
             }
+            break;
         case GROUP:
-            return convType.getValue() + "_" + token.getUid() + "_"
-                    + message.getTo();
+            str.append(message.getTo());
+            break;
         default:
             throw new IllegalArgumentException("convType");
         }
+        return str.toString();
     }
     
     @Override
-    public void receive(Message message, Channel out) {
+    public void receive(Message message) {
         if (message.getFrom().equals(this.token.getUid())) {
             message.setDirection(Direction.SEND);
         } else {
@@ -218,7 +224,7 @@ public final class SongMQClient extends ClientUser implements MessageListener {
         Iterator<SessionCh> iter = sessions.iterator();
         while (iter.hasNext()) {
             SessionCh session = (SessionCh) iter.next();
-            session.onReceived(message, out);
+            session.onReceived(message, null);
         }
 
         if (message.getFrom().equals(this.token.getUid())) {
@@ -227,14 +233,21 @@ public final class SongMQClient extends ClientUser implements MessageListener {
         if (message.getType().equals(Message.Mtype.UNREAD)) {
             return;
         }
-        // 创建会话信息
-        this.incUnreadMsg(createConv(message));
+        // 创建会话信息并增加未读消息数
+        this.setUnreadMsg(createConv(message), true);
     }
     
-    private void incUnreadMsg(Conversation conv) {
-        // 未读消息数增加
-        conv.setUnreadCount(conv.getUnreadCount() + 1);
-        unreadMsg++;
+    private void setUnreadMsg(Conversation conv, boolean flag) {
+        if (flag) {
+            // 未读消息数增加
+            conv.setUnreadCount(conv.getUnreadCount() + 1);
+            unreadMsg++;
+        } else {
+            // 未读消息数减少
+            unreadMsg -= conv.getUnreadCount();
+            conv.setUnreadCount(0);
+            if (unreadMsg < 0) unreadMsg = 0;
+        }
         
         Message msg = new Message();
         msg.setConv(conv.getType());
@@ -272,58 +285,15 @@ public final class SongMQClient extends ClientUser implements MessageListener {
         MQueueManager.getInstance().createMQ(topic).pushMessage(msg);
     }
 
-    public void decUnreadMsg(Ctype ctype, String subjectum, String objectum) {
+    // 清除未读消息数
+    public void clearUnreadMsg(Ctype ctype, String subjectum, String objectum) {
         String convId = ctype.getValue() + "_" + subjectum + "_" + objectum;
-        Conversation conv = null;
         for (Conversation c : this.convs) {
             if (c.getId().equals(convId)) {
-                conv = c; break;
+                setUnreadMsg(c, false);
+                break;
             }
         }
-        if (conv == null) {
-            return;
-        }
-        // 未读消息数减少
-        unreadMsg -= conv.getUnreadCount();
-        conv.setUnreadCount(0);
-        if (unreadMsg < 0) {
-            unreadMsg = 0;
-        }
-        
-        Message msg = new Message();
-        msg.setConv(conv.getType());
-        msg.setType(Message.Mtype.UNREAD);
-        switch (conv.getType()) {
-        case PRIVATE:
-            msg.setFrom(conv.getObjectum());
-            msg.setfNick(conv.getObjNick());
-            msg.setfAvatar(conv.getObjAvatar());
-            msg.setTo(conv.getSubjectum());
-            msg.settNick(conv.getSubNick());
-            msg.settAvatar(conv.getSubAvatar());
-            break;
-        case GROUP:
-            msg.setFrom(conv.getSubjectum());
-            msg.setfNick(conv.getSubNick());
-            msg.setfAvatar(conv.getSubAvatar());
-            msg.setTo(conv.getObjectum());
-            msg.settNick(conv.getObjNick());
-            msg.settAvatar(conv.getObjAvatar());
-            break;
-        default:
-            throw new IllegalArgumentException("ctype");
-        }
-        msg.setDirection(Message.Direction.SEND);
-        UnreadMessage unread = new UnreadMessage();
-        unread.setNumber(conv.getUnreadCount());
-        unread.setTotal(unreadMsg);
-        msg.setJbody(unread);
-        
-        Topic topic = new Topic();
-        topic.setModel(MQueueModel.PUB_SUB);
-        topic.setName(topic(Ctype.PRIVATE,
-                this.token.getAppKey(), this.token.getUid()));
-        MQueueManager.getInstance().createMQ(topic).pushMessage(msg);
     }
     
     @Override
@@ -344,6 +314,6 @@ public final class SongMQClient extends ClientUser implements MessageListener {
 
     @Override
     public void onMessage(MessageEvent event) {
-        this.receive((Message) event.getPayload(), null);
+        this.receive((Message) event.getPayload());
     }
 }

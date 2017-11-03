@@ -16,10 +16,10 @@
  */
 package cn.songm.im.business.mqueue;
 
+import cn.songm.im.business.IMException;
 import cn.songm.im.business.SessionCh;
 import cn.songm.im.model.message.Conversation.Ctype;
 import cn.songm.im.model.message.Message;
-import io.netty.channel.Channel;
 
 /**
  * 客户端用户
@@ -58,21 +58,18 @@ public abstract class ClientUser {
     /**
      * 发布消息
      * 
-     * @param convType
      * @param target
      * @param message
      * @throws IMException
      */
-    public abstract void publish(Ctype convType, String target,
-            Message message);
+    public abstract void publish(String target, Message message);
 
     /**
      * 接收消息
      * 
      * @param message
-     * @param out
      */
-    public abstract void receive(Message message, Channel out);
+    public abstract void receive(Message message);
 
     /**
      * 订阅主题
