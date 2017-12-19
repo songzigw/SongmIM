@@ -1,57 +1,25 @@
-/*
- * Copyright [2016] [zhangsong <songm.cn>].
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- */
 package cn.songm.im.server.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.songm.im.business.IMException;
-import cn.songm.im.business.service.TokenService;
-import cn.songm.im.model.Protocol;
-import cn.songm.im.model.Protocol.Operation;
-import cn.songm.im.model.Session;
-import io.netty.channel.Channel;
+import cn.songm.im.codec.Protocol;
+import cn.songm.im.codec.Protocol.Operation;
+import cn.songm.songmq.core.president.MQProtocol;
+import io.netty.channel.ChannelHandlerContext;
 
 @Component
-public class DisconnectHandler extends AbstractHandler {
-
-    private final Logger LOG = LoggerFactory.getLogger(DisconnectHandler.class);
-
-    @Autowired
-    private TokenService authService;
-
+public class DisconnectHandler extends AbstractActioner {
+    
     @Override
-    public int operation() {
-        return Operation.CONN_CLOSE.getValue();
-    }
-
-    @Override
-    public void action(Channel ch, Protocol pro) throws IMException {
-        // 关闭连接
-        ch.close().syncUninterruptibly();
-
-        Session session = this.getSession(ch);
-        if (session == null) {
+    protected void messageReceived(ChannelHandlerContext ctx, MQProtocol msg)
+            throws Exception {
+        Protocol pro = (Protocol) msg;
+        if (!Operation.DISCONNECT.equals(pro.getOperation())) {
+            ctx.fireChannelRead(msg);
             return;
         }
-
-        authService.offline(session.getSessionId());
-        LOG.debug("DisconnectHandler sessionId={}", session);
+        log.debug("request: {}, {}", pro.getOperation(), ctx.channel());
+        closeConnection(ctx.channel());
     }
+    
 }

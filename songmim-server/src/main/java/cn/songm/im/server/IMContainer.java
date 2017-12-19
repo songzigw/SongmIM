@@ -2,19 +2,19 @@ package cn.songm.im.server;
 
 import java.util.Map;
 
+import cn.songm.im.codec.json.JsonUtilsInit;
 import cn.songm.songmq.core.president.MQServer;
 import cn.songm.songmq.server.Container;
 import cn.songm.songmq.server.MQContext;
 
 public class IMContainer implements Container {
 
-    // private static final Logger LOG = LoggerFactory
-    // .getLogger(MQContainer.class);
-    private static final String CONFIG = "classpath:config/songmim-application.xml";
+    private static final String CONFIG = "classpath:songmim-application.xml";
 
     private MQContext context;
 
     public IMContainer() {
+        JsonUtilsInit.initialization();
         context = new MQContext(CONFIG);
         context.start();
     }
@@ -23,7 +23,7 @@ public class IMContainer implements Container {
     public void start() {
         Map<String, MQServer> beans = context.getBeansOfType(MQServer.class);
         for (MQServer ser : beans.values()) {
-            ser.start();
+            ser.startup();
         }
     }
 

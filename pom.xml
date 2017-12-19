@@ -6,75 +6,29 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <distributionManagement>
-        <site>
-            <id>website</id>
-            <url>scp://webhost.company.com/www/website</url>
-        </site>
-        <repository>
-            <id>nexus-releases</id>
-            <name>Nexus Release Repository</name>
-            <url>http://192.168.188.177:8081/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <name>Nexus Snapshot Repository</name>
-            <url>http://192.168.188.177:8081/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <modules>
+        <module>songmim-codec</module>
         <module>songmim-server</module>
-        <module>songmim-business</module>
-    <module>songmim-model</module>
-  </modules>
+    </modules>
 
     <properties>
-        <file.encoding>UTF-8</file.encoding>
-        <project.build.sourceEncoding>${file.encoding}</project.build.sourceEncoding>
-        <logback.version>1.1.7</logback.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <slf4j-log4j12>1.7.2</slf4j-log4j12>
         <junit.version>4.10</junit.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>cn.songm.common</groupId>
-                <artifactId>songm-common-utils</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.songm.common</groupId>
-                <artifactId>songm-common-beans</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.songm.common</groupId>
-                <artifactId>songm-common-service</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.songm.songmq</groupId>
-                <artifactId>songmq-broker</artifactId>
+                <groupId>cn.songm.im</groupId>
+                <artifactId>songmim-codec</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             
             <dependency>
-                <groupId>cn.songm.im</groupId>
-                <artifactId>songmim-model</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.songm.im</groupId>
-                <artifactId>songmim-business</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j-log4j12}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -83,13 +37,19 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>cn.songm.songmq</groupId>
+                <artifactId>songmq-broker</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

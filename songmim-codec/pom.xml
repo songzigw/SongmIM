@@ -8,16 +8,14 @@
         <artifactId>SongmIM</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>songmim-server</artifactId>
+    <artifactId>songmim-codec</artifactId>
     <name>${project.artifactId}</name>
     <url>http://maven.apache.org</url>
 
     <dependencies>
         <dependency>
-            <groupId>cn.songm.im</groupId>
-            <artifactId>songmim-codec</artifactId>
+            <groupId>cn.songm.songmq</groupId>
+            <artifactId>songmq-broker</artifactId>
         </dependency>
     </dependencies>
-
-    
 </project>
