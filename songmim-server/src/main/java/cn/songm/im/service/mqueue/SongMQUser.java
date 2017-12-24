@@ -16,9 +16,10 @@
  */
 package cn.songm.im.service.mqueue;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,8 +79,8 @@ public class SongMQUser extends ClientUser implements MessageListener {
             throw new IllegalArgumentException("token is null");
         }
         this.token = token;
-        sessions = new ConcurrentSkipListSet<>();
-        convs = new ConcurrentSkipListSet<>();
+        sessions = Collections.synchronizedSet(new HashSet<>());
+        convs = Collections.synchronizedSet(new HashSet<>());
         sessionService = sservice;
         this.subscribe(Ctype.PRIVATE, token.getUid());
         LOG.debug(token.toString());

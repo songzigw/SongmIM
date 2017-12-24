@@ -9,6 +9,8 @@ import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.JsonObject;
+
 import cn.songm.im.codec.json.JsonUtilsInit;
 import cn.songm.im.codec.model.Conversation.Ctype;
 import cn.songm.im.codec.model.Message;
@@ -54,7 +56,24 @@ public class MessageTest {
     
     @Test
     public void testJsonToTextMessage() {
-        String s = "{\"msgId\":10000,\"conv\":\"private\",\"type\":\"text\",\"direction\":\"receive\",\"from\":\"10001\",\"fNick\":\"1001_nick\",\"fAvatar\":\"1001_avatar\",\"to\":\"1002\",\"tNick\":\"1002_nick\",\"tAvatar\":\"1002_avatar\",\"created\":1496717960553,\"updated\":1496717960553,\"jbody\":{\"text\":\"这是一个文本消息\"}}";
+        JsonObject jobj = new JsonObject();
+        jobj.addProperty("msgId", 1000);
+        jobj.addProperty("conv", Ctype.PRIVATE.getValue());
+        jobj.addProperty("type", Mtype.TEXT.getValue());
+        jobj.addProperty("direction", Direction.RECEIVE.getValue());
+        jobj.addProperty("from", "10001");
+        jobj.addProperty("fNick", "1001_nick");
+        jobj.addProperty("fAvatar", "1001_avatar");
+        jobj.addProperty("to", "1002");
+        jobj.addProperty("tNick", "1002_nick");
+        jobj.addProperty("tAvatar", "1002_avatar");
+        jobj.addProperty("created", 1496717960553l);
+        jobj.addProperty("updated", 1496717960553l);
+        JsonObject body = new JsonObject();
+        body.addProperty("text", "这是一个文本消息");
+        jobj.add("jbody", body);
+        String s = jobj.toString();
+        System.out.println(s);
         Message msg = JsonUtils.getInstance().fromJson(s, Message.class);
         LOG.info(msg.toString());
     }
