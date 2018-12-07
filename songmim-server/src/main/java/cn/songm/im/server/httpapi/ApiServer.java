@@ -1,4 +1,4 @@
-package cn.songm.im.server.api;
+package cn.songm.im.server.httpapi;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

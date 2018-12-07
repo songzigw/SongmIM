@@ -30,26 +30,26 @@ public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = 7055382336733429251L;
 
-    private int errorCode;
+    private int errCode;
     
-    private String message;
+    private String errDesc;
     
     private T data;
 
-    public int getErrorCode() {
-        return errorCode;
+    public int getErrCode() {
+        return errCode;
     }
 
-    public void setErrorCode(int errorCode) {
-        this.errorCode = errorCode;
+    public void setErrCode(int errCode) {
+        this.errCode = errCode;
     }
 
-    public String getMessage() {
-        return message;
+    public String getErrDesc() {
+        return errDesc;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setErrDesc(String errDesc) {
+        this.errDesc = errDesc;
     }
 
     public T getData() {

@@ -1,4 +1,4 @@
-package cn.songm.im.server.api;
+package cn.songm.im.server.httpapi;
 
 import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;

@@ -1,4 +1,4 @@
-package cn.songm.im.server.api;
+package cn.songm.im.server.httpapi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,6 @@ import cn.songm.songmq.core.util.JsonUtils;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.QueryStringDecoder;
 
 public abstract class ApiAction {
 
@@ -47,14 +46,6 @@ public abstract class ApiAction {
 
     public abstract byte[] active(Channel ch, HttpRequest req)
             throws IMException;
-
-    public String getParamValue(QueryStringDecoder decoder, String param) {
-        if (decoder.parameters().get(param) != null
-                && !decoder.parameters().get(param).isEmpty()) {
-            return decoder.parameters().get(param).get(0);
-        }
-        return null;
-    }
 
     public static enum Uri {
         BACKSTAGE_TOKEN("/token");

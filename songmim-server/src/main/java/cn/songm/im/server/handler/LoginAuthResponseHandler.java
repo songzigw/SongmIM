@@ -20,8 +20,8 @@ public class LoginAuthResponseHandler extends AbstractActioner {
         pro.setOperation(Operation.LOGIN_RESP);
         pro.setSequence(req.getSequence());
         Result<Session> result = new Result<>();
-        result.setErrorCode(errCode.getCode());
-        result.setMessage(message);
+        result.setErrCode(errCode.getCode());
+        result.setErrDesc(message);
         result.setData(session);
         pro.setBody(JsonUtils.getInstance().toJsonBytes(result));
         return pro;

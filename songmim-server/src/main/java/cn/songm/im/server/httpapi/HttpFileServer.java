@@ -1,4 +1,4 @@
-package cn.songm.im.server.api;
+package cn.songm.im.server.httpapi;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

@@ -1,4 +1,4 @@
-package cn.songm.im.server.api.action;
+package cn.songm.im.server.httpapi.action;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import cn.songm.im.server.api.ApiAction;
+import cn.songm.im.server.httpapi.ApiAction;
 
 @Component
 public class ApiActionContainer implements ApplicationContextAware {

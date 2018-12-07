@@ -58,8 +58,8 @@ public class JsonpDispatcherHandler extends ChannelHandlerAdapter {
                 bytes = action.active(ctx.channel(), req);
             } catch (IMException e) {
                 Result<Object> result = new Result<Object>();
-                result.setErrorCode(e.getErrorCode().getCode());
-                result.setMessage(e.getErrorDesc());
+                result.setErrCode(e.getErrorCode().getCode());
+                result.setErrDesc(e.getErrorDesc());
                 String callback = null;
                 if (req.uri().startsWith("/jsonp/")) {
                     String param = "callback";

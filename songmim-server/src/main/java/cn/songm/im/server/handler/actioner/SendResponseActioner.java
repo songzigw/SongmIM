@@ -40,8 +40,8 @@ public class SendResponseActioner implements Actioner {
         resp.setOperation(Operation.SEND_RESP);
 
         if (!msg.getFrom().equals(ses.getUid())) {
-            res.setErrorCode(ErrorCode.SOURCE_INVALID.getCode());
-            res.setMessage("消息来源无效");
+            res.setErrCode(ErrorCode.SOURCE_INVALID.getCode());
+            res.setErrDesc("消息来源无效");
             ch.writeAndFlush(resp);
             return;
         }
