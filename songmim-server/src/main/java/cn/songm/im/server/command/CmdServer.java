@@ -1,4 +1,4 @@
-package cn.songm.im.server;
+package cn.songm.im.server.command;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import cn.songm.im.codec.Codec;
-import cn.songm.im.server.handler.ActionDispatcherHandler;
-import cn.songm.im.server.handler.DisconnectHandler;
+import cn.songm.im.server.command.codec.Codec;
 import cn.songm.im.server.handler.HeartbeatResponseHandler;
-import cn.songm.im.server.handler.LoginAuthResponseHandler;
 import cn.songm.songmq.core.president.AbstractMQServer;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -20,28 +17,24 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
+/**
+ * 命令行服务器
+ * @author zhangsong
+ *
+ */
 @Component
-public class IMServer extends AbstractMQServer {
+public class CmdServer extends AbstractMQServer {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public IMServer(@Value("${songmim.server.ip}") String ip,
-            @Value("${songmim.server.tcp.port}") int port) {
+    public CmdServer(
+	    @Value("${songmim.server.ip}") String ip,
+            @Value("${songmim.server.cli.port}") int port) {
         super(ip, port);
         this.init();
     }
 
-    @Autowired
-    private LoginAuthResponseHandler loginAuthResponseHandler;
-    @Autowired
-    private DisconnectHandler disconnectHandler;
-    @Autowired
-    private HeartbeatResponseHandler heartbeatResponseHandler;
-    @Autowired
-    private ActionDispatcherHandler actionDispatcherHandler;
-    
-    
     private void init() {
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class);
@@ -53,15 +46,22 @@ public class IMServer extends AbstractMQServer {
 
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast("codec", new Codec());
-                ch.pipeline().addLast("readTimeoutHandler",
+        	// 编码解码器
+        	ch.pipeline().addLast("codec", new Codec());
+                // 超时处理器
+        	ch.pipeline().addLast("readTimeoutHandler",
                         new ReadTimeoutHandler(50));
-                // 登入授权验证
-                ch.pipeline().addLast("loginAuthResponseHandler", loginAuthResponseHandler);
-                ch.pipeline().addLast("disconnectHandler", disconnectHandler);
+                // 连接授权验证
+                ch.pipeline().addLast("cmdConnectionHandler",
+                        new CmdConnectionHandler());
+                // 链接断开处理
+                ch.pipeline().addLast("cmdDisconnectHandler",
+                        new CmdDisconnectHandler());
                 // 心跳检测机制
-                ch.pipeline().addLast("heartbeatResponseHandler", heartbeatResponseHandler);
-                ch.pipeline().addLast("actionDispatcherHandler", actionDispatcherHandler);
+                ch.pipeline().addLast("heartbeatResponseHandler",
+                        new HeartbeatResponseHandler());
+                // 业务分发处理
+                ch.pipeline().addLast("cmsDispatcherHandler", new CmsDispatcherHandler());
                 // eExecutorGroup
             }
 
@@ -70,7 +70,7 @@ public class IMServer extends AbstractMQServer {
 
     @Override
     public void startup() {
-        new Thread(this, "songmIMServerTCP").start();
+        new Thread(this, "songmIMServerCMD").start();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package cn.songm.im.server.httpapi;
+package cn.songm.im.server.httpapi.actioner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,7 @@ import io.netty.channel.Channel;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 
-public abstract class ApiAction {
+public abstract class ApiActioner {
 
     public static final String APPKEY = "SM-Server-Key";
     private static final String NONCE = "SM-Nonce";

@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 
 import cn.songm.im.codec.IMException;
 import cn.songm.im.codec.Result;
-import cn.songm.im.server.httpapi.action.ApiActionContainer;
+import cn.songm.im.server.httpapi.actioner.ApiActioner;
+import cn.songm.im.server.httpapi.actioner.ApiActionContainer;
 import cn.songm.songmq.core.util.JsonUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -98,7 +99,7 @@ public class ApiDispatcherHandler extends ChannelHandlerAdapter {
             return;
         }
         
-        ApiAction action = actionManager.find(request.uri().split("\\?")[0]);
+        ApiActioner action = actionManager.find(request.uri().split("\\?")[0]);
         if (action == null) {
             sendError(ctx, HttpResponseStatus.NOT_FOUND);
             return;

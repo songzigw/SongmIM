@@ -16,7 +16,7 @@ public class FormattingPrintWriter extends PrintWriter {
             81 };
     private boolean _autoFlush;
     private int[] _tabs = STD_TABS;
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     private Stack _stack = new Stack();
     private int _indent;
     private int _pos;
