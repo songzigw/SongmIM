@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import cn.songm.im.server.command.codec.Codec;
-import cn.songm.im.server.handler.HeartbeatResponseHandler;
 import cn.songm.songmq.core.president.AbstractMQServer;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -58,10 +57,8 @@ public class CmdServer extends AbstractMQServer {
                 ch.pipeline().addLast("cmdDisconnectHandler",
                         new CmdDisconnectHandler());
                 // 心跳检测机制
-                ch.pipeline().addLast("heartbeatResponseHandler",
-                        new HeartbeatResponseHandler());
-                // 业务分发处理
-                ch.pipeline().addLast("cmsDispatcherHandler", new CmsDispatcherHandler());
+                ch.pipeline().addLast("cmdHeartbeatHandler",
+                        new CmdHeartbeatHandler());
                 // eExecutorGroup
             }
 

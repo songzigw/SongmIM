@@ -37,7 +37,7 @@ public class Codec extends MessageToMessageCodec<ByteBuf, Protocol> {
 	}
 
 	out.add(byteBuf);
-	LOG.debug("Command encode: {}", msg);
+	LOG.debug("encode: {}", msg);
     }
 
     /**
@@ -56,7 +56,7 @@ public class Codec extends MessageToMessageCodec<ByteBuf, Protocol> {
 	    pro.setBody(bs);
 	}
 	out.add(pro);
-	LOG.debug("Command decode: {}", pro);
+	LOG.debug("decode: {}", pro);
     }
 
 }

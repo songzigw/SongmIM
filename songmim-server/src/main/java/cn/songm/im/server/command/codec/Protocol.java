@@ -1,11 +1,12 @@
 package cn.songm.im.server.command.codec;
 
-import java.io.Serializable;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
-public class Protocol implements Serializable {
+import cn.songm.songmq.core.president.MQProtocol;
+
+public class Protocol implements MQProtocol {
 
     private static final long serialVersionUID = 4633085203462490782L;
 
