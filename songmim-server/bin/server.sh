@@ -153,7 +153,7 @@ start() {
     echo "warn: $APP_MAINCLASS already started! (pid=$psid)"
     echo "================================"
   else
-    echo "Starting $APP_MAINCLASS ..."
+    echo -n "Starting $APP_MAINCLASS ..."
     nohup "$JAVA_HOME/bin/java" $JAVA_OPTS -classpath $CLASSPATH $APP_MAINCLASS >/dev/null 2>&1 &
     checkpid
     if [ $psid -ne 0 ]; then
