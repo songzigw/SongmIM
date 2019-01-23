@@ -4,8 +4,6 @@ import java.util.Map;
 
 import cn.songm.im.codec.json.JsonUtilsInit;
 import cn.songm.songmq.core.president.MQServer;
-import cn.songm.songmq.server.Container;
-import cn.songm.songmq.server.MQContext;
 
 public class IMContainer implements Container {
 
