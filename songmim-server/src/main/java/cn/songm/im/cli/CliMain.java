@@ -3,6 +3,11 @@ package cn.songm.im.cli;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
+
+import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***
  * 命令行客户端主程序入口
@@ -14,10 +19,15 @@ import java.io.InputStreamReader;
  */
 public class CliMain {
 
+	private final Logger log = LoggerFactory.getLogger(getClass());
     private static final String TITLE = "SongmIM命令行程序";
     
     private FormattingPrintWriter _stdout;
     private BufferedReader _stdin;
+    
+    static {
+    	PropertyConfigurator.configure(CliMain.class.getResourceAsStream("/log4j_cli.properties"));
+    }
     
     public CliMain() {
 	_stdin = new BufferedReader(new InputStreamReader(System.in));
